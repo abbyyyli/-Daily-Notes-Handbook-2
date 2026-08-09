@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#111827">
+<title>Daily Notes Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&amp;family=Noto+Sans+Thai:wght@400;500;600&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#101725;
+  --night-2:#182236;
+  --night-3:#202c43;
+  --paper:#f8f5ee;
+  --white:#fffdfa;
+  --ink:#182033;
+  --muted:#6f7683;
+  --line:#dedbd2;
+  --gold:#e3b45a;
+  --teal:#63b7ae;
+  --blue:#7397c9;
+  --orange:#d88956;
+  --violet:#8e83b7;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--paper);
+  font-family:'Noto Sans TC',-apple-system,BlinkMacSystemFont,sans-serif;
+  line-height:1.65;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(99,183,174,.13), transparent 28rem),
+    radial-gradient(circle at 90% 10%, rgba(227,180,90,.12), transparent 24rem),
+    linear-gradient(150deg, var(--night) 0%, #121b2c 52%, #0d1421 100%);
+  min-height:100vh;
+}
+button,input{font:inherit}
+.shell{width:min(1060px,calc(100% - 36px));margin:0 auto;padding:56px 0 72px}
+.hero{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:28px;
+  padding:48px 52px 42px;
+  background:linear-gradient(135deg,rgba(255,255,255,.065),rgba(255,255,255,.02));
+  box-shadow:0 24px 70px rgba(0,0,0,.24);
+}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+.hero::before{width:250px;height:250px;right:-95px;top:-110px;border:1px solid rgba(227,180,90,.28);box-shadow:0 0 0 32px rgba(227,180,90,.035),0 0 0 64px rgba(227,180,90,.025)}
+.hero::after{width:150px;height:150px;right:110px;bottom:-115px;background:rgba(99,183,174,.07)}
+.eyebrow{display:flex;align-items:center;gap:10px;margin:0 0 20px;color:var(--gold);font:500 11px/1 'DM Mono',monospace;letter-spacing:.18em;text-transform:uppercase}
+.eyebrow::before{content:"";width:30px;height:1px;background:currentColor}
+h1{max-width:660px;margin:0;font-size:clamp(33px,5vw,57px);line-height:1.13;letter-spacing:-.035em;font-weight:700}
+.hero-copy{max-width:580px;margin:20px 0 0;color:#b9c1cf;font-size:15px}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.stat{display:flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid rgba(255,255,255,.12);border-radius:999px;color:#d8dde6;font:500 12px/1.2 'DM Mono','Noto Sans TC',monospace;background:rgba(6,10,18,.22)}
+.stat i{display:block;width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal)}
+.toolbar{display:flex;align-items:center;gap:14px;margin:30px 0 40px}
+.search-wrap{position:relative;flex:1}
+.search-wrap::before{content:"⌕";position:absolute;left:18px;top:50%;transform:translateY(-54%);color:#798398;font-size:23px;pointer-events:none}
+.search{
+  width:100%;height:54px;padding:0 48px;
+  color:#e9edf4;background:rgba(255,255,255,.065);
+  border:1px solid rgba(255,255,255,.14);border-radius:16px;outline:none;
+  transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;
+}
+.search::placeholder{color:#7f899c}
+.search:focus{border-color:rgba(227,180,90,.72);background:rgba(255,255,255,.085);box-shadow:0 0 0 4px rgba(227,180,90,.08)}
+.result-count{flex:none;color:#929caf;font:500 12px 'DM Mono',monospace;white-space:nowrap}
+.month{display:grid;grid-template-columns:112px 1fr;gap:28px;margin-top:42px}
+.month-head{position:sticky;top:22px;align-self:start;padding-top:5px}
+.month-number{color:var(--gold);font:500 38px/1 'DM Mono',monospace;letter-spacing:-.06em}
+.month-name{display:block;margin-top:9px;color:#8e98aa;font-size:12px;letter-spacing:.16em}
+.month-line{width:34px;height:2px;margin-top:17px;background:var(--month-accent,var(--gold))}
+.list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.item{
+  --accent:var(--gold);
+  position:relative;display:flex;min-height:154px;flex-direction:column;
+  padding:20px 21px 18px;overflow:hidden;
+  color:var(--ink);text-decoration:none;background:var(--paper);
+  border:1px solid rgba(255,255,255,.22);border-radius:18px;
+  box-shadow:0 10px 28px rgba(0,0,0,.17);
+  transition:transform .2s ease,box-shadow .2s ease,background .2s ease;
+}
+.item::before{content:"";position:absolute;left:0;top:0;width:100%;height:4px;background:var(--accent)}
+.item::after{content:"";position:absolute;width:90px;height:90px;right:-48px;bottom:-52px;border-radius:50%;background:var(--accent);opacity:.09;transition:transform .25s ease,opacity .25s ease}
+.item:hover,.item:focus-visible{transform:translateY(-4px);background:var(--white);box-shadow:0 18px 38px rgba(0,0,0,.25);outline:none}
+.item[hidden],.month[hidden]{display:none}
+.item:hover::after,.item:focus-visible::after{transform:scale(1.35);opacity:.14}
+.item-meta{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.item time{color:#777f8c;font:500 11px/1 'DM Mono',monospace;letter-spacing:.045em}
+.latest{padding:5px 8px;border-radius:999px;color:#745515;background:#f3dfac;font-size:10px;font-weight:700;letter-spacing:.08em}
+.item-title{margin:15px 0 6px;color:var(--ink);font:600 19px/1.45 'Noto Sans Thai','Noto Sans TC',sans-serif;letter-spacing:.005em}
+.item-desc{color:var(--muted);font-size:12.25px;line-height:1.55;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.item-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:16px;color:#8b9099;font-size:11px}
+.open{display:inline-grid;place-items:center;width:27px;height:27px;border-radius:50%;color:#fff;background:var(--accent);font-size:14px;line-height:1;transition:transform .2s ease}
+.item:hover .open,.item:focus-visible .open{transform:translateX(2px)}
+.empty{display:none;margin:48px 0 0;padding:46px 24px;border:1px dashed rgba(255,255,255,.18);border-radius:20px;text-align:center;color:#929caf}
+.empty strong{display:block;margin-bottom:6px;color:#d8dde6;font-size:16px}
+footer{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-top:62px;padding-top:24px;border-top:1px solid rgba(255,255,255,.1);color:#747f92;font-size:11.5px}
+.footer-copy span{display:block}.footer-copy span:last-child{margin-top:4px;font-family:'DM Mono',monospace}
+.footer-links{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:7px}
+.footer-link{color:#AAB4C7;text-decoration:none;font-size:11px;font-weight:600;padding:6px 10px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(255,255,255,.045);transition:color .18s ease,border-color .18s ease,background .18s ease}
+.footer-link:hover{color:#F2D28F;border-color:rgba(227,180,90,.45);background:rgba(227,180,90,.08)}
+@media(max-width:760px){
+  .shell{width:min(100% - 26px,620px);padding:22px 0 44px}
+  .hero{padding:34px 25px 31px;border-radius:22px}
+  .hero-copy{font-size:14px}
+  .toolbar{margin:22px 0 34px;align-items:flex-end}
+  .search{height:50px}
+  .month{display:block;margin-top:38px}
+  .month-head{position:static;display:flex;align-items:baseline;gap:10px;margin-bottom:15px;padding:0}
+  .month-number{font-size:28px}
+  .month-name{margin:0}
+  .month-line{flex:1;width:auto;margin:0 0 5px}
+  .list{grid-template-columns:1fr}
+  .item{min-height:145px}
+  footer{display:block;text-align:center}.footer-copy span{margin-top:5px}
+  .footer-links{justify-content:center;margin-top:16px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <header class="hero">
+    <p class="eyebrow">Thai Daily Notes · Handbook</p>
+    <h1>Thai Notes Handbook</h1>
+    <p class="hero-copy">從生活用語、句型到曼谷口語情境，依日期慢慢累積。每一本都能搜尋、收藏並標記學習進度。</p>
+    <div class="stats" aria-label="手冊摘要">
+      <span class="stat"><i></i>15 本筆記</span>
+      <span class="stat"><i></i>2026.05—08</span>
+      <span class="stat"><i></i>四語對照</span>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <label class="search-wrap">
+      <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">搜尋手冊</span>
+      <input class="search" id="search" type="search" placeholder="搜尋日期、泰文或英文…" autocomplete="off">
+    </label>
+    <span class="result-count" id="resultCount">15 NOTES</span>
+  </div>
+
+  <div id="collection">
+    <section class="month" style="--month-accent:var(--orange)">
+      <div class="month-head"><span class="month-number">05</span><span class="month-name">五月 · MAY</span><span class="month-line"></span></div>
+      <div class="list">
+        <a class="item" href="Daily Notes 2026-05-20 Handbook.html" style="--accent:var(--orange)" data-search="2026-05-20 ก่อน แล้ว ปากซอย before first already then alley entrance">
+          <div class="item-meta"><time>2026.05.20</time></div>
+          <div class="item-title">ก่อน ・ แล้ว ・ ปากซอย</div>
+          <div class="item-desc">before / first ・ already / then ・ alley entrance</div>
+          <div class="item-foot"><span>Daily Handbook</span><span class="open">→</span></div>
+        </a>
+        <a class="item" href="Daily Notes 2026-05-21 Handbook.html" style="--accent:var(--teal)" data-search="2026-05-21 แค่ เท่านั้น ต้องการ just only merely need want">
+          <div class="item-meta"><time>2026.05.21</time></div>
+          <div class="item-title">แค่ ・ เท่านั้น ・ ต้องการ</div>
+          <div class="item-desc">just / only ・ only / merely ・ need / want</div>
+          <div class="item-foot"><span>Daily Handbook</span><span class="open">→</span></div>
+        </a>
+        <a class="item" href="Daily Notes 2026-05-22 Handbook.html" style="--accent:var(--gold)" data-search="2026-05-22 ตัวเอง เค้า ว่าไง oneself yourself babe intimate speech what do you think whats up">
+          <div class="item-meta"><time>2026.05.22</time></div>
+          <div class="item-title">ตัวเอง ・ เค้า ・ ว่าไง</div>
+          <div class="item-desc">oneself / yourself / babe ・ I / me, intimate speech ・ what do you think?</div>
+          <div class="item-foot"><span>Daily Handbook</span><span class="open">→</span></div>
+        </a>
+        <a class="item" href="Daily Notes 2026-05-25 Handbook.html" style="--accent:var(--violet)" data-search="2026-05-25 ตลอดชีวิต โดย ผ่าน throughout life whole life by via through">
+          <div class="item-meta"><time>2026.05.25</time></div>
+          <div class="item-title">ตลอดชีวิต ・ โดย ・ ผ่าน</div>
+          <div class="item-desc">throughout one’s life ・ by / via ・ through</div>
+          <div class="item-foot"><span>Daily Handbook</span><span class="open">→</span></div>
+        </a>
+        <a class="item" href="Daily Notes 2026-05-28 Handbook.html" style="--accent:var(--blue)" data-search="2026-05-28 ไม่ทัน แวะ เลือกไม่ถูก not in time stop by cant choose">
+          <div class="item-meta"><time>2026.05.28</time></div>
+          <div class="item-title">ไม่ทัน ・ แวะ ・ เลือกไม่ถูก</div>
+          <div class="item-desc">not in time ・ stop by ・ can’t choose</div>
+          <div class="item-foot"><span>Daily Handbook</span><span class="open">→</span></div>
+        </a>
+        <a class="item" href="Daily Notes 2026-05-29 Handbook.html" style="--accent:var(--orange)" data-search="2026-05-29 เพื่อ สำหรับ ให้ for in order to intended suitable give let">
+          <div class="item-meta"><time>2026.05.29</time></div>
+          <div class="item-title">เพื่อ ・ สำหรับ ・ ให้</div>
+          <div class="item-desc">for / in order to ・ intended for ・ give / let</div>
+          <div class="item-foot"><span>Daily Handbook</span><span class="open">→</span></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="month" style="--month-accent:var(--teal)">
+      <div class="month-head"><span class="month-number">06</span><span class="month-name">六月 · JUN</span><span class="month-line"></span></div>
+      <div class="list">
+        <a class="item" href="Daily Notes 2026-06-02 Handbook.html" style="--accent:var(--teal)" data-search="2026-06-02 ง่าย สมองล้า ตัวอย่าง easy simple mental fatigue example sample">
+          <div class="item-meta"><time>2026.06.02</time></div>
+          <div class="item-title">ง่าย ・ สมองล้า ・ ตัวอย่าง</div>
+          <div class="item-desc">easy / simple ・ mental fatigue ・ example / sample</div>
+          <div class="item-foot"><span>Daily Handbook</span><span class="open">→</span></div>
+        </a>
+        <a class="item" href="Daily Notes 2026-06-03 Handbook.html" style="--accent:var(--gold)" data-search="2026-06-03 ไม่ไหว ขี้สงสัย ขี้ตกใจ cant handle curious questioning easily startled">
+          <div class="item-meta"><time>2026.06.03</time></div>
+          <div class="item-title">ไม่ไหว ・ ขี้สงสัย ・ ขี้ตกใจ</div>
+          <div class="item-desc">can’t handle it ・ curious ・ easily startled</div>
+          <div class="item-foot"><span>Daily Handbook</span><span class="open">→</span></div>
+        </a>
+        <a class="item" href="Daily Notes 2026-06-05 Handbook.html" style="--accent:var(--violet)" data-search="2026-06-05 ตลอด คอย นัด throughout all along keep doing appointment arrange meet">
+          <div class="item-meta"><time>2026.06.05</time></div>
+          <div class="item-title">ตลอด ・ คอย ・ นัด</div>
+          <div class="item-desc">throughout ・ keep doing / be there to ・ appointment</div>
+          <div class="item-foot"><span>Daily Handbook</span><span class="open">→</span></div>
+        </a>
+        <a class="item" href="Daily Notes 2026-06-13 Handbook.html" style="--accent:var(--blue)" data-search="2026-06-13 มัน พัก พักผ่อน it thing situation rest pause stay recover">
+          <div class="item-meta"><time>2026.06.13</time></div>
+          <div class="item-title">มัน ・ พัก ・ พักผ่อน</div>
+          <div class="item-desc">it / the situation ・ rest / pause ・ rest and recover</div>
+          <div class="item-foot"><span>Daily Handbook</span><span class="open">→</span></div>
+        </a>
+        <a class="item" href="Daily Notes 2026-06-22 Handbook.html" style="--accent:var(--orange)" data-search="2026-06-22 วุ่นวาย เอาไงดี ได้ chaotic messy troublesome what should we do get obtain can">
+          <div class="item-meta"><time>2026.06.22</time></div>
+          <div class="item-title">วุ่นวาย ・ เอาไงดี ・ ได้</div>
+          <div class="item-desc">chaotic / troublesome ・ what should we do? ・ get / can</div>
+          <div class="item-foot"><span>Daily Handbook</span><span class="open">→</span></div>
+        </a>
+        <a class="item" href="Daily Notes 2026-06-25 Handbook.html" style="--accent:var(--teal)" data-search="2026-06-25 แวะ หรือ เหรอ stop by quick stop or whether really is that so">
+          <div class="item-meta"><time>2026.06.25</time></div>
+          <div class="item-title">แวะ ・ หรือ ・ เหรอ</div>
+          <div class="item-desc">stop by ・ or / whether ・ really? / is that so?</div>
+          <div class="item-foot"><span>Daily Handbook</span><span class="open">→</span></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="month" style="--month-accent:var(--blue)">
+      <div class="month-head"><span class="month-number">07</span><span class="month-name">七月 · JUL</span><span class="month-line"></span></div>
+      <div class="list">
+        <a class="item" href="Daily Notes 2026-07-03 Handbook.html" style="--accent:var(--blue)" data-search="2026-07-03 แบบว่า ตามนี้ เป็นอันว่า like i mean as discussed according settled">
+          <div class="item-meta"><time>2026.07.03</time></div>
+          <div class="item-title">แบบว่า ・ ตามนี้ ・ เป็นอันว่า</div>
+          <div class="item-desc">like / I mean ・ as discussed ・ so it is settled</div>
+          <div class="item-foot"><span>Daily Handbook</span><span class="open">→</span></div>
+        </a>
+        <a class="item" href="Daily Notes 2026-07-08 Handbook.html" style="--accent:var(--violet)" data-search="2026-07-08 พยายาม ลอง แม่ง try effort give it a try damn">
+          <div class="item-meta"><time>2026.07.08</time></div>
+          <div class="item-title">พยายาม ・ ลอง ・ แม่ง</div>
+          <div class="item-desc">try / make an effort ・ give it a try ・ damn</div>
+          <div class="item-foot"><span>Daily Handbook</span><span class="open">→</span></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="month" style="--month-accent:var(--gold)">
+      <div class="month-head"><span class="month-number">08</span><span class="month-name">八月 · AUG</span><span class="month-line"></span></div>
+      <div class="list">
+        <a class="item" href="Daily Notes 2026-08-06 Handbook.html" style="--accent:var(--gold)" data-search="2026-08-06 ค่ะ ครับ นะ 104 曼谷 聊天 反應 情緒 生活 語感">
+          <div class="item-meta"><time>2026.08.06</time><span class="latest">LATEST</span></div>
+          <div class="item-title">ค่ะ ・ ครับ ・ นะ</div>
+          <div class="item-desc">104 筆曼谷聊天反應、情緒與生活語感完整整理</div>
+          <div class="item-foot"><span>Full Handbook</span><span class="open">→</span></div>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <div class="empty" id="emptyState"><strong>找不到符合的筆記</strong>換個泰文、英文或日期試試看。</div>
+  <footer>
+    <div class="footer-copy"><span>學習進度與收藏會保存在目前瀏覽器中</span><span>ค่อย ๆ เรียนไป · khɔ̂i khɔ̂i riian bpai · learn little by little</span></div>
+    <nav class="footer-links" aria-label="其他學習網站">
+      <a class="footer-link" href="https://abbyyyli.github.io/thai-index/">← 學習入口</a>
+      <a class="footer-link" href="https://abbyyyli.github.io/thai-notes_daily/" target="_blank" rel="noopener">Daily Thai Notes</a>
+      <a class="footer-link" href="https://github.com/abbyyyli/Daily-Notes-Handbook" target="_blank" rel="noopener">🗂️ GitHub</a>
+    </nav>
+  </footer>
+</main>
+<script>
+const input=document.getElementById('search');
+const cards=[...document.querySelectorAll('.item')];
+const months=[...document.querySelectorAll('.month')];
+const count=document.getElementById('resultCount');
+const empty=document.getElementById('emptyState');
+input.addEventListener('input',()=>{
+  const query=input.value.trim().toLocaleLowerCase();
+  let visible=0;
+  cards.forEach(card=>{
+    const match=!query||card.dataset.search.toLocaleLowerCase().includes(query);
+    card.hidden=!match;
+    if(match) visible+=1;
+  });
+  months.forEach(month=>{month.hidden=![...month.querySelectorAll('.item')].some(card=>!card.hidden)});
+  count.textContent=visible+' '+(visible===1?'NOTE':'NOTES');
+  empty.style.display=visible?'none':'block';
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thai Notes Handbook · 2026-05-22</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+TC:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#F4EFE5;--bgc:#FDFAF4;--bgh:#F8F3E8;--sb:#3D2B24;--sbh:#4A3630;--sba:#5A4139;--sbt:#D9BFAE;--sbti:#F5EAE0;--acc:#C08A3E;--accl:rgba(192,138,62,.12);--gd:#4A3327;--gm:#8A5A3D;--gl:#B9642E;--thai:#43302A;--rom:#8C6F5C;--t:#1A1A1A;--tm:#3A3A3A;--mu:#8C6B6E;--bd:#DDD6C8;--bdl:#EDE8DE;--ft:'Sarabun',sans-serif;--fz:'Noto Sans TC',sans-serif;--fu:'Inter',sans-serif;}
+html,body{height:100%;}body{font-family:var(--fu);background:var(--bg);color:var(--t);}
+.top{position:fixed;top:0;left:0;right:0;height:52px;z-index:100;background:var(--gd);display:flex;align-items:center;justify-content:space-between;padding:0 16px;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.top-l{display:flex;align-items:center;gap:10px;}.burg{background:none;border:none;color:#fff;font-size:18px;cursor:pointer;padding:4px 8px;border-radius:4px;}.burg:hover{background:rgba(255,255,255,.1);}
+.top-title{font-family:var(--ft);font-size:22px;font-weight:700;color:#fff;}.top-sub{font-family:var(--fz);font-size:11px;color:rgba(255,255,255,.55);margin-left:4px;}
+.top-r{display:flex;gap:6px;}.cbtn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:5px 11px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--fu);transition:all .15s;white-space:nowrap;}.cbtn:hover{background:rgba(255,255,255,.22);}.cbtn.on{background:var(--acc);border-color:var(--acc);}.cbtn:focus-visible,.lbtn:focus-visible,.sb-btn:focus-visible,.filter-btn:focus-visible,.abtn:focus-visible,.xbtn:focus-visible,.burg:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+.lay{display:flex;margin-top:52px;height:calc(100vh - 52px);}
+.sb{width:258px;flex-shrink:0;background:var(--sb);overflow-y:auto;overflow-x:hidden;transition:width .22s;scrollbar-width:thin;scrollbar-color:var(--sba) var(--sb);}
+.sb.col{width:0;}.sb-book{padding:18px 16px 12px;border-bottom:1px solid rgba(255,255,255,.07);}
+.sb-th{font-family:var(--ft);font-size:26px;font-weight:700;color:var(--sbti);}.sb-zh{font-family:var(--fz);font-size:10px;color:var(--sbt);margin-top:3px;opacity:.75;}.sb-ct{font-size:10px;color:var(--acc);font-weight:700;margin-top:8px;}.sb-track{height:4px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden;margin-top:7px;}.sb-track-fill{height:100%;width:0;background:var(--acc);border-radius:inherit;transition:width .25s ease;}.sb-actions,.sb-filter{display:flex;gap:6px;margin-top:9px;}.sb-btn,.filter-btn{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:var(--sbt);font-family:var(--fz);font-size:10px;line-height:1;padding:6px 8px;border-radius:6px;cursor:pointer;transition:all .15s;}.sb-btn:hover,.filter-btn:hover,.filter-btn.on{background:var(--sba);border-color:rgba(255,255,255,.32);color:var(--sbti);}.sb-btn{color:rgba(255,255,255,.65);}.sb-save-note{font-family:var(--fz);font-size:9px;line-height:1.45;color:rgba(181,212,192,.5);margin-top:8px;}.nit-b{min-width:34px;}
+.nav-grp{padding:6px 0;}.nav-lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;color:rgba(181,212,192,.4);padding:8px 16px 3px;text-transform:uppercase;}
+.nit{display:flex;align-items:center;gap:9px;padding:8px 16px;cursor:pointer;color:var(--sbt);font-size:12.5px;transition:background .12s;border-left:3px solid transparent;user-select:none;}.nit:hover{background:var(--sbh);}.nit.act{background:var(--sba);border-left-color:var(--acc);color:var(--sbti);}
+.nit-em{width:18px;text-align:center;flex-shrink:0;font-size:14px;}.nit-tx{flex:1;min-width:0;}
+.nit-t{font-family:var(--fz);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.nit-s{font-family:var(--ft);font-size:10.5px;opacity:.55;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.nit-b{flex-shrink:0;min-width:20px;height:17px;padding:0 5px;background:rgba(255,255,255,.07);border-radius:9px;font-size:10px;text-align:center;line-height:17px;color:rgba(255,255,255,.4);}
+.nprog{height:2px;background:rgba(255,255,255,.07);margin:2px 16px 0;border-radius:1px;}.nprog-b{height:100%;background:var(--acc);transition:width .3s;border-radius:1px;}
+.cnt{flex:1;overflow-y:auto;overflow-x:hidden;padding:24px;scroll-behavior:smooth;}
+.sec-hd{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid var(--bd);}
+.sec-n{font-family:var(--ft);font-size:46px;font-weight:700;color:var(--bdl);line-height:1;letter-spacing:-2px;}.sec-tts{flex:1;}
+.sec-tzh{font-family:var(--fz);font-size:21px;font-weight:600;}.sec-tth{font-family:var(--ft);font-size:15px;color:var(--mu);margin-top:2px;}
+.sec-chip{font-size:10px;background:var(--accl);color:var(--acc);border:1px solid rgba(200,154,58,.3);padding:3px 10px;border-radius:20px;font-weight:700;}.sec-blk{margin-bottom:38px;}
+.qc{background:var(--bgc);border:1px solid var(--bdl);border-radius:10px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);transition:box-shadow .2s;overflow:hidden;}.qc.filtered-out,.sec-blk.filtered-out{display:none!important;}
+.qc:hover{box-shadow:0 3px 10px rgba(0,0,0,.09);}.qc.lrn{border-left:3px solid var(--gl);}
+.qch{display:flex;align-items:flex-start;gap:11px;padding:15px 15px 13px;cursor:pointer;transition:background .12s;}.qch:hover{background:var(--bgh);}
+.qcn{flex-shrink:0;width:34px;height:34px;background:var(--gd);color:#fff;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:1px;transition:background .2s;}.qc.lrn .qcn{background:var(--gl);}
+.qcq{flex:1;min-width:0;}.qcth{font-family:var(--ft);font-size:20px;font-weight:500;color:var(--thai);line-height:1.4;}
+.qcro{font-family:var(--ft);font-size:12.5px;color:var(--rom);font-style:italic;margin-top:2px;}.qczh{font-family:var(--fz);font-size:13px;color:var(--tm);margin-top:3px;}
+.hid{display:none!important;}.qca{display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.abtn{width:33px;height:33px;border-radius:50%;border:none;cursor:pointer;background:var(--gd);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .15s;flex-shrink:0;}.abtn:hover{background:var(--gm);transform:scale(1.06);}.abtn.pl{background:var(--acc);animation:pulse 1s infinite;}
+.xbtn{width:27px;height:27px;border-radius:50%;border:1px solid var(--bd);background:transparent;cursor:pointer;color:var(--mu);display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .2s;}.xbtn:hover{background:var(--bdl);}.qc.exp .xbtn{transform:rotate(180deg);}
+.qcb{max-height:0;overflow:hidden;transition:max-height .32s ease;}.qc.exp .qcb{max-height:900px;}.qcbi{padding:0 15px 15px;}.div{height:1px;background:var(--bdl);margin:0 -15px 14px;}
+.ans{display:flex;align-items:flex-start;gap:11px;padding:9px 11px;border-radius:8px;background:rgba(61,43,36,.045);margin-bottom:8px;}
+.anl{flex-shrink:0;width:23px;height:23px;border-radius:50%;background:var(--gd);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:2px;}
+.ant{flex:1;min-width:0;}.anth{font-family:var(--ft);font-size:18px;font-weight:500;color:var(--thai);line-height:1.4;}
+.anro{font-family:var(--ft);font-size:11.5px;color:var(--rom);font-style:italic;margin-top:2px;}.anzh{font-family:var(--fz);font-size:12px;color:var(--mu);margin-top:3px;}
+.subs{margin-top:11px;}.sub-lbl{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px;}
+.sub-chips{display:flex;flex-wrap:wrap;gap:5px;}.schip{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:18px;cursor:pointer;background:transparent;border:1px solid var(--bd);transition:all .15s;}.schip:hover{background:var(--accl);border-color:var(--acc);}
+.sch-th{font-family:var(--ft);color:var(--thai);font-size:14px;}.sch-zh{font-family:var(--fz);color:var(--mu);font-size:11px;}
+.fu{margin-top:13px;padding:9px 11px;border-radius:8px;background:rgba(200,154,58,.08);border-left:3px solid var(--acc);}
+.fu-lbl{font-size:9px;font-weight:700;color:var(--acc);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}.fu-row{display:flex;align-items:flex-start;gap:9px;}.fu-tx{flex:1;}
+.futh{font-family:var(--ft);font-size:17px;color:var(--thai);}.furo{font-family:var(--ft);font-size:11.5px;color:var(--rom);font-style:italic;margin-top:2px;}.fuzh{font-family:var(--fz);font-size:12px;color:var(--mu);margin-top:3px;}
+.notes{margin-top:13px;display:flex;flex-direction:column;gap:7px;}.note{padding:9px 11px;border-radius:8px;}
+.ng{background:rgba(192,138,62,.09);border:1px solid rgba(192,138,62,.22);}.ng-l{font-size:9px;font-weight:700;color:var(--gm);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}.ng-t{font-family:var(--ft);font-size:13.5px;color:#6b7280;line-height:1.65;}
+.nc{background:rgba(52,82,220,.04);border:1px solid rgba(52,82,220,.1);}.nc-l{font-size:9px;font-weight:700;color:#4A5ADB;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}.nc-t{font-family:var(--fz);font-size:12.5px;color:var(--tm);line-height:1.7;}
+.cft{display:flex;align-items:center;justify-content:flex-end;margin-top:13px;padding-top:9px;border-top:1px solid var(--bdl);}
+.lbtn{display:flex;align-items:center;gap:5px;padding:5px 13px;border-radius:18px;border:1px solid var(--bd);background:transparent;font-size:11px;color:var(--mu);cursor:pointer;font-family:var(--fz);transition:all .15s;}.lbtn:hover{border-color:var(--gl);color:var(--gm);}.lbtn.dn{background:var(--gl);border-color:var(--gl);color:#fff;}
+.apx{margin-bottom:38px;}.apx-hd{display:flex;align-items:center;gap:12px;margin-bottom:15px;padding-bottom:10px;border-bottom:2px solid var(--bd);}
+.apx-ic{font-size:26px;}.apx-tit{flex:1;}.apx-tzh{font-family:var(--fz);font-size:19px;font-weight:600;}.apx-tth{font-family:var(--ft);font-size:13px;color:var(--mu);margin-top:2px;}
+.plist{display:flex;flex-direction:column;gap:7px;}.prow{display:flex;align-items:flex-start;gap:11px;padding:9px 13px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);}
+.pnum{flex-shrink:0;width:21px;height:21px;border-radius:50%;background:var(--bdl);color:var(--mu);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;margin-top:2px;}
+.ptx{flex:1;}.pth{font-family:var(--ft);font-size:17px;color:var(--thai);line-height:1.4;}.prom{font-family:var(--ft);font-size:11.5px;color:var(--rom);font-style:italic;margin-top:2px;}.pzh{font-family:var(--fz);font-size:12px;color:var(--mu);margin-top:3px;}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:7px;}
+.vc{padding:10px 12px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);cursor:pointer;transition:all .15s;}.vc:hover{border-color:var(--gl);}
+.vth{font-family:var(--ft);font-size:19px;color:var(--thai);font-weight:500;}.vro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:2px;}.vzh{font-family:var(--fz);font-size:11.5px;color:var(--mu);margin-top:3px;}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:7px;}
+.fc{padding:9px 11px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);cursor:pointer;transition:all .15s;text-align:center;}.fc:hover{border-color:var(--acc);}
+.fth{font-family:var(--ft);font-size:16px;color:var(--thai);font-weight:500;}.fro{font-family:var(--ft);font-size:10.5px;color:var(--rom);font-style:italic;margin-top:2px;}.fzh{font-family:var(--fz);font-size:11.5px;color:var(--mu);margin-top:3px;}
+.lgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:14px;}
+.lcard{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);cursor:pointer;transition:all .15s;}.lcard:hover{border-color:var(--gl);}
+.lth{font-family:var(--ft);font-size:15px;color:var(--thai);}.lzh{font-family:var(--fz);font-size:11px;color:var(--mu);}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:7px;}
+.pc{padding:11px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);text-align:center;}
+.pton{font-family:var(--ft);font-size:26px;color:var(--thai);font-weight:600;}.ptro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:2px;}.ptzh{font-family:var(--fz);font-size:12.5px;font-weight:600;color:var(--t);margin-top:4px;}.ptuse{font-family:var(--fz);font-size:10.5px;color:var(--mu);margin-top:2px;line-height:1.4;}
+.parlist{display:flex;flex-direction:column;gap:7px;}
+.parrow{display:grid;grid-template-columns:65px 85px 1fr;align-items:center;gap:11px;padding:9px 13px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);cursor:pointer;}.parrow:hover{border-color:var(--acc);}
+.par-th{font-family:var(--ft);font-size:21px;color:var(--acc);font-weight:700;}.par-ro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;}
+.par-zh{font-family:var(--fz);font-size:13px;font-weight:600;color:var(--t);}.par-ex{font-family:var(--ft);font-size:13px;color:var(--mu);margin-top:2px;}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:7px;}
+.scard{padding:11px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);cursor:pointer;transition:all .15s;}.scard:hover{border-color:var(--gl);}
+.sth{font-family:var(--ft);font-size:19px;color:var(--thai);font-weight:600;}.sro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:2px;}.szh{font-family:var(--fz);font-size:12.5px;color:var(--t);font-weight:500;margin-top:4px;}.sex{font-family:var(--fz);font-size:11px;color:var(--mu);margin-top:2px;}
+.hlist{display:flex;flex-direction:column;gap:9px;}.hrow{display:flex;gap:11px;padding:11px 13px;background:var(--bgc);border:1px solid var(--bdl);border-radius:8px;}
+.hn{flex-shrink:0;width:23px;height:23px;border-radius:50%;background:var(--acc);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;}
+.htx{flex:1;}.htt{font-family:var(--fz);font-size:13.5px;font-weight:600;}.hte{font-family:var(--ft);font-size:14.5px;color:var(--thai);margin-top:3px;}.htz{font-family:var(--fz);font-size:11.5px;color:var(--mu);margin-top:2px;}
+.chgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:7px;}
+.chrow{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);}
+.ch-th{font-family:var(--ft);font-size:17px;color:var(--thai);}.ch-zh{font-family:var(--fz);font-size:11px;color:var(--mu);margin-top:2px;}
+.sslbl{display:flex;align-items:center;gap:8px;margin:14px 0 9px;font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.9px;}.sslbl::after{content:"";flex:1;height:1px;background:var(--bdl);}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(200,154,58,.45);}50%{box-shadow:0 0 0 6px rgba(200,154,58,0);}}
+@media(max-width:768px){.lay{height:calc(100dvh - 52px);}.sb{position:fixed;top:52px;left:0;bottom:0;z-index:50;transform:translateX(-100%);width:260px;}.sb.col{width:260px;overflow-y:auto;}.sb.mob-open{transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,.3);}.cnt{padding:14px;}.top-sub{display:none;}.lgrid{grid-template-columns:1fr;}.parrow{grid-template-columns:55px 70px 1fr;}}
+@media(max-width:480px){.top{padding:0 8px;}.top-l{gap:4px;}.top-title{font-size:19px;}.top-r{gap:4px;}.cbtn{padding:5px 7px;font-size:11px;}.qch{padding:13px 11px 12px;gap:8px;}.qca{gap:5px;}.qcbi{padding-left:11px;padding-right:11px;}.sec-hd{gap:9px;}.sec-n{font-size:38px;}.sec-tzh{font-size:18px;}.sec-chip{font-size:9px;padding:3px 7px;}}
+@media(min-width:769px){.sb{transform:none!important;}.sb.col{width:0;overflow:hidden;}}
+.cnt::-webkit-scrollbar{width:5px;}.cnt::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px;}
+
+
+/* ===== Extended handout styles v2 (vocab-driven, QA-50 architecture) ===== */
+.favbtn{display:flex;align-items:center;gap:5px;padding:5px 13px;border-radius:18px;border:1px solid var(--bd);background:transparent;font-size:11px;color:var(--mu);cursor:pointer;font-family:var(--fz);transition:all .15s;margin-right:6px;}
+.favbtn:hover{border-color:var(--acc);color:var(--acc);}
+.favbtn.on{background:var(--acc);border-color:var(--acc);color:#fff;}
+.cft{justify-content:space-between!important;}
+
+@keyframes flashHi{0%{box-shadow:0 0 0 5px rgba(200,154,58,.55);}100%{box-shadow:0 0 0 0 rgba(200,154,58,0);}}
+.flash{animation:flashHi 1.4s ease;border-radius:10px;}
+.empty-fav{padding:16px;text-align:center;color:var(--mu);font-family:var(--fz);font-size:12.5px;background:var(--bgc);border:1px dashed var(--bd);border-radius:10px;}
+.vb-tag{display:inline-block;font-size:9.5px;font-weight:700;color:var(--acc);background:var(--accl);border:1px solid rgba(200,154,58,.3);padding:2px 8px;border-radius:20px;}
+
+/* search */
+.stop-wrap{position:relative;flex:1;max-width:340px;margin:0 10px;}
+.sinput{width:100%;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:#fff;border-radius:8px;padding:7px 30px 7px 11px;font-size:12.5px;font-family:var(--fz);outline:none;}
+.sinput::placeholder{color:rgba(255,255,255,.5);}
+.sinput:focus{background:rgba(255,255,255,.18);}
+.sclear{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;font-size:13px;display:none;}
+.sclear.show{display:block;}
+.sres-hd{font-family:var(--fz);font-size:13px;color:var(--mu);margin:0 0 12px;padding-bottom:10px;border-bottom:2px solid var(--bd);}
+.sres-list{display:flex;flex-direction:column;gap:8px;}
+.sres-item{display:flex;align-items:flex-start;gap:11px;padding:11px 13px;border-radius:10px;background:var(--bgc);border:1px solid var(--bdl);cursor:pointer;transition:all .15s;}
+.sres-item:hover{border-color:var(--gl);box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.sres-tag{flex-shrink:0;font-size:9.5px;font-weight:700;color:var(--acc);background:var(--accl);border:1px solid rgba(200,154,58,.3);padding:3px 8px;border-radius:20px;white-space:nowrap;margin-top:2px;}
+.sres-b{flex:1;min-width:0;}
+.sres-th{font-family:var(--ft);font-size:16px;color:var(--thai);}
+.sres-ro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:1px;}
+.sres-zh{font-family:var(--fz);font-size:12px;color:var(--mu);margin-top:2px;}
+.hid-view{display:none!important;}
+
+/* compare */
+.cmp-card{background:var(--bgc);border:1px solid var(--bdl);border-radius:10px;padding:15px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.cmp-title{font-family:var(--fz);font-size:15px;font-weight:700;color:var(--t);margin-bottom:10px;}
+.cmp-row{display:grid;grid-template-columns:minmax(90px,140px) minmax(110px,180px) 1fr;gap:11px;padding:9px 0;border-top:1px dashed var(--bdl);align-items:start;}
+.cmp-row:first-of-type{border-top:none;}
+.cmp-pat{font-family:var(--ft);font-size:14.5px;color:var(--acc);font-weight:700;}
+.cmp-mean{font-family:var(--fz);font-size:12px;color:var(--tm);line-height:1.5;}
+.cmp-ex{display:flex;align-items:flex-start;gap:8px;}
+.cmp-ex-tx{flex:1;}
+.cmp-ex-th{font-family:var(--ft);font-size:15px;color:var(--thai);}
+.cmp-ex-ro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:1px;}
+.cmp-ex-en{font-family:var(--fz);font-size:11.5px;color:var(--mu);margin-top:2px;}
+.cmp-tip{margin-top:11px;padding:9px 11px;border-radius:8px;background:rgba(200,154,58,.08);border-left:3px solid var(--acc);font-family:var(--fz);font-size:12px;color:var(--tm);line-height:1.6;}
+
+/* mistakes */
+.mis-card{background:var(--bgc);border:1px solid var(--bdl);border-radius:10px;padding:15px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.mis-title{font-family:var(--fz);font-size:14.5px;font-weight:700;color:var(--t);margin-bottom:10px;}
+.mis-box{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;border-radius:8px;margin-bottom:8px;}
+.mis-wrong{background:rgba(200,60,50,.07);border:1px solid rgba(200,60,50,.18);}
+.mis-better{background:rgba(192,138,62,.1);border:1px solid rgba(192,138,62,.24);}
+.mis-lbl{flex-shrink:0;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:3px 7px;border-radius:5px;margin-top:2px;}
+.mis-wrong .mis-lbl{background:#c0392b;color:#fff;}
+.mis-better .mis-lbl{background:var(--gl);color:#fff;}
+.mis-tx{flex:1;}
+.mis-th{font-family:var(--ft);font-size:15px;color:var(--thai);}
+.mis-ro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:1px;}
+.mis-en{font-family:var(--fz);font-size:11.5px;color:var(--mu);margin-top:2px;}
+.mis-why{font-family:var(--fz);font-size:12.5px;color:var(--tm);line-height:1.65;padding:9px 11px;border-radius:8px;background:#f8f5f1;border:1px solid var(--bdl);}
+
+/* structures */
+.str-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;}
+.str-card{background:var(--bgc);border:1px solid var(--bdl);border-left:4px solid var(--gl);border-radius:10px;padding:13px 14px;}
+.str-title{font-family:var(--fz);font-size:13.5px;font-weight:700;color:var(--t);}
+.str-mean{font-family:var(--fz);font-size:11.5px;color:var(--mu);margin-top:5px;line-height:1.55;}
+.str-ex{margin-top:9px;padding:8px 10px;border-radius:8px;background:rgba(61,43,36,.045);}
+.str-th{font-family:var(--ft);font-size:15px;color:var(--thai);}
+.str-ro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:1px;}
+.str-en{font-family:var(--fz);font-size:11px;color:var(--mu);margin-top:2px;}
+
+/* dialogues */
+.dlg-card{background:var(--bgc);border:1px solid var(--bdl);border-radius:10px;padding:15px;margin-bottom:12px;}
+.dlg-title{font-family:var(--fz);font-size:14.5px;font-weight:700;color:var(--t);margin-bottom:11px;}
+.dlg-thread{display:flex;flex-direction:column;gap:9px;}
+.dlg-row{display:flex;width:100%;}
+.dlg-row.l{justify-content:flex-start;}.dlg-row.r{justify-content:flex-end;}
+.dlg-bub{max-width:76%;border:1px solid var(--bdl);border-radius:14px;padding:9px 12px;background:#fff;}
+.dlg-row.l .dlg-bub{border-top-left-radius:4px;background:#f6faf7;}
+.dlg-row.r .dlg-bub{border-top-right-radius:4px;background:#fbf8f0;}
+.dlg-spk{font-size:10px;font-weight:700;color:var(--acc);margin-bottom:4px;}
+.dlg-th{font-family:var(--ft);font-size:15px;color:var(--thai);}
+.dlg-ro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:1px;}
+.dlg-en{font-family:var(--fz);font-size:11.5px;color:var(--mu);margin-top:2px;}
+
+/* sentence groups */
+.sen-group{margin-bottom:16px;}
+.sen-scene{display:inline-flex;font-size:11px;font-weight:700;color:#fff;background:var(--gm);padding:4px 11px;border-radius:20px;margin-bottom:9px;}
+.sen-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;}
+.sen-item{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);}
+.sen-th{font-family:var(--ft);font-size:14.5px;color:var(--thai);}
+.sen-ro{font-family:var(--ft);font-size:10.5px;color:var(--rom);font-style:italic;margin-top:1px;}
+.sen-en{font-family:var(--fu);font-size:11px;color:#6b7280;margin-top:2px;}
+.qcen,.anen,.sres-en,.mis-en,.str-en,.dlg-en,.cmp-ex-en{font-family:var(--fu);color:#6b7280;}
+.qczh,.anzh,.sres-zh,.mis-zh,.str-zh,.dlg-zh,.sen-zh,.cmp-ex-zh{font-family:var(--fz);color:var(--tm);margin-top:3px;line-height:1.55;}
+.qcen{font-size:12px;margin-top:3px}.qczh{font-size:13px}.anen,.anzh,.mis-zh,.str-zh,.dlg-zh,.sen-zh,.sres-en,.sres-zh{font-size:11.5px}
+
+/* practice */
+.prc-card{background:var(--bgc);border:1px solid var(--bdl);border-radius:10px;padding:13px 14px;margin-bottom:9px;}
+.prc-title{font-size:10px;font-weight:700;color:var(--acc);text-transform:uppercase;letter-spacing:.6px;}
+.prc-prompt{font-family:var(--fz);font-size:13.5px;color:var(--t);margin-top:5px;line-height:1.6;}
+.prc-ans-wrap{margin-top:9px;}
+.prc-ans-btn{font-family:var(--fz);font-size:11.5px;color:var(--gm);background:none;border:1px solid var(--bd);border-radius:16px;padding:5px 12px;cursor:pointer;}
+.prc-ans-btn:hover{border-color:var(--gl);}
+.prc-ans{display:none;margin-top:9px;padding:9px 11px;border-radius:8px;background:rgba(192,138,62,.09);border:1px solid rgba(192,138,62,.22);}
+.prc-ans.show{display:block;}
+.prc-ans .str-th{font-size:14.5px;}
+
+@media(max-width:920px){
+ .stop-wrap{display:none;}
+ .cmp-row{grid-template-columns:1fr;}
+ .str-grid,.sen-grid{grid-template-columns:1fr;}
+}
+
+</style>
+<link rel="stylesheet" href="black-edition.css">
+</head>
+<body>
+<div id="app">
+  <header class="top">
+    <div class="top-l"><button class="burg" onclick="toggleSB()">☰</button><span class="top-title">Thai Notes Handbook</span><span class="top-sub">2026-05-22</span></div>
+    <div class="stop-wrap"><input class="sinput" id="searchInput" type="text" placeholder="搜尋泰文・拼音・英文・中文…" oninput="doSearch(this.value)"><button class="sclear" id="searchClear" onclick="clearSearch()">✕</button></div>
+    <div class="top-r"><button class="cbtn" id="btnL" onclick="toggleLang()" aria-pressed="false" title="切換中文／英文">中文</button><button class="cbtn on" id="btnR" onclick="toggleRom()" aria-pressed="true" title="顯示／隱藏羅馬拼音">拼音 ✓</button></div>
+  </header>
+  <div class="lay">
+    <nav id="sb" class="sb"></nav>
+    <main id="cnt" class="cnt"></main>
+  </div>
+</div>
+<script type="application/json" id="jd">{"title": "Thai Daily Notes", "subtitle": "2026-05-22", "vocab": [{"th": "ตัวเอง", "ro": "dtua-eeng", "en": "oneself / yourself / babe", "cat": "Local usage", "note": "一般是「自己」；親密語境可當「你 / 寶貝」。", "ex": ["อย่าลืมดูแลตัวเองนะ", "yàa lʉʉm duu-lɛɛ dtua-eeng ná", "Don’t forget to take care of yourself.", "別忘了照顧好自己喔。"], "i": "V001", "zh": "自己；親密關係中也可稱「你／寶貝」"}, {"th": "เค้า", "ro": "kháo", "en": "I / me, cute intimate speech; he/she in general Thai", "cat": "Local usage", "note": "親密聊天可當「我 / 人家」。一般泰文也可表示「他 / 她」。注意不是ค้า。", "ex": ["เค้าไม่รู้ว่าจะกินอะไรดี", "kháo mâi rúu wâa jà gin à-rai dii", "I don’t know what to eat.", "人家不知道要吃什麼才好。"], "i": "V002", "zh": "人家／我（親密可愛口吻）；一般語境也可指他／她"}, {"th": "ว่าไง", "ro": "wâa-ngai", "en": "what do you think? / what’s up?", "cat": "Local usage", "note": "可問對方意見、反應、決定；語氣可輕鬆，也可能像催促。", "ex": ["ร้านนี้ก็น่าสนใจนะ ว่าไง", "ráan níi gɔ̂ɔ nâa sǒn-jai ná, wâa-ngai", "This restaurant looks interesting. What do you think?", "這間店也滿吸引人的，你覺得呢？"], "i": "V003", "zh": "怎麼樣？／你覺得呢？／怎麼了？"}, {"th": "อะไรก็ได้", "ro": "à-rai gɔ̂ɔ dâai", "en": "anything is fine", "cat": "Practical Usage", "note": "可用，但最好加一點方向，不然對方還是要負責決定。", "ex": ["กินอะไรก็ได้ แต่ขอไม่เผ็ดมาก", "gin à-rai gɔ̂ɔ dâai, dtɛ̀ɛ khɔ̌ɔ mâi phèt mâak", "Anything is fine, but not too spicy.", "吃什麼都可以，但不要太辣。"], "i": "V004", "zh": "什麼都可以／都行"}, {"th": "แล้วแต่", "ro": "lɛ́ɛw-dtɛ̀ɛ", "en": "up to / depends on", "cat": "Practical Usage", "note": "表示交給對方或看情況決定。可溫柔，也可有點放棄決定權。", "ex": ["แล้วแต่เวลาเธอสะดวกเลย", "lɛ́ɛw-dtɛ̀ɛ wee-laa thəə sà-dùak ləəy", "Any time that’s convenient for you is fine.", "就看你什麼時候方便。"], "i": "V005", "zh": "看……而定／由……決定"}, {"th": "เลือก", "ro": "lʉ̂ak", "en": "choose", "cat": "Practical Usage", "note": "選餐廳、選東西、選時間都可用。", "ex": ["ร้านเยอะมากจนเลือกไม่ถูก", "ráan yə́ mâak jon lʉ̂ak mâi thùuk", "There are so many restaurants that I can’t choose.", "店太多了，我選不出來。"], "i": "V006", "zh": "選擇"}, {"th": "คิดไม่ออก", "ro": "khít mâi ɔ̀ɔk", "en": "can’t think of anything", "cat": "Local usage", "note": "想不到吃什麼、去哪裡、怎麼說，都很常用。", "ex": ["คิดไม่ออกว่าจะตอบยังไงดี", "khít mâi ɔ̀ɔk wâa jà dtɔ̀ɔp yang-ngai dii", "I can’t think of how to reply.", "想不出來該怎麼回才好。"], "i": "V007", "zh": "想不出來"}, {"th": "ของอร่อย ๆ", "ro": "khɔ̌ɔng à-rɔ̀i à-rɔ̀i", "en": "something yummy", "cat": "Local usage", "note": "模糊但自然的說法，適合不知道具體想吃什麼時。", "ex": ["หลังเรียนเสร็จอยากหาอะไรอร่อย ๆ กิน", "lǎng riian sèt yàak hǎa à-rai à-rɔ̀i à-rɔ̀i gin", "After class, I want to find something yummy to eat.", "下課後想找點好吃的來吃。"], "i": "V008", "zh": "好吃的東西"}, {"th": "ด้วย", "ro": "dûai", "en": "too / with / by / please", "cat": "Practical Usage", "note": "不是只有 too，可表示也、一起、用工具、請幫我、句尾提醒。", "ex": ["ช่วยส่งโลเคชันให้ด้วยนะคะ", "chûai sòng loo-khee-chân hâi dûai ná khá", "Please send me the location too.", "麻煩也把定位傳給我喔。"], "i": "V009", "zh": "也／一起／麻煩也……"}, {"th": "เดี๋ยว", "ro": "dǐaw", "en": "in a bit / wait a sec / soon", "cat": "Local usage", "note": "時間感小詞，不是「等某人」的動詞。", "ex": ["เดี๋ยวดูตารางให้", "dǐaw duu dtaa-raang hâi", "I’ll check the schedule for you in a bit.", "我待會兒幫你看一下行程表。"], "i": "V010", "zh": "等一下／待會兒／很快就……"}, {"th": "รอ", "ro": "rɔɔ", "en": "wait / wait for", "cat": "Practical Usage", "note": "真正的「等待」。可等人、車、答案、隊伍。", "ex": ["ฉันรอคำตอบจากโรงเรียนอยู่", "chǎn rɔɔ kham-dtɔ̀ɔp jàak roong-riian yùu", "I’m waiting for an answer from the school.", "我正在等學校回覆。"], "i": "V011", "zh": "等／等待"}, {"th": "ค่อย", "ro": "khɔ̂i", "en": "gradually / later / then", "cat": "Practical Usage", "note": "可表示慢慢、晚點再、先 A 再 B；在ไม่ค่อย中表示「不太」。", "ex": ["เรื่องนี้ค่อนข้างยาก ค่อย ๆ ทำก็ได้", "rʉ̂ang níi khɔ̂n-khâang yâak, khɔ̂i-khɔ̂i tham gɔ̂ɔ dâai", "This is rather difficult. You can do it slowly.", "這件事滿難的，慢慢做就好。"], "i": "V012", "zh": "慢慢地／晚點再／接著才……"}, {"th": "มาแล้ว", "ro": "maa lɛ́ɛw", "en": "I’m here / arrived / came already", "cat": "Practical Usage", "note": "告知「來了 / 到了」。可用於人、食物、車。", "ex": ["อาหารมาแล้ว เดี๋ยวค่อยถ่ายรูป", "aa-hǎan maa lɛ́ɛw, dǐaw khɔ̂i thàai-rûup", "The food is here. Let’s take photos later.", "餐點來了，晚點再拍照吧。"], "i": "V013", "zh": "來了／到了"}, {"th": "มาเร็ว", "ro": "maa rew", "en": "come quickly", "cat": "Local usage", "note": "催對方快來。對熟人自然；對不熟的人偏直接。", "ex": ["มาเร็ว ๆ หนังจะเริ่มแล้ว", "maa rew-rew, nǎng jà rə̂əm lɛ́ɛw", "Come quickly. The movie is about to start.", "快來，電影要開始了。"], "i": "V014", "zh": "快來"}, {"th": "แพ้", "ro": "phɛ́ɛ", "en": "lose / be allergic / be weak for", "cat": "Emotional usage", "note": "可指輸、過敏；情感語境是「抵抗不了」。", "ex": ["ฉันแพ้อาหารทะเล เลยกินร้านนี้ไม่ได้", "chǎn phɛ́ɛ aa-hǎan thá-lee, ləəy gin ráan níi mâi dâai", "I’m allergic to seafood, so I can’t eat at this restaurant.", "我對海鮮過敏，所以不能吃這間店。"], "i": "V015", "zh": "輸／過敏／對……沒轍"}, {"th": "หมดใจ", "ro": "mòt-jai", "en": "wholeheartedly / with all one’s heart", "cat": "Emotional usage", "note": "หมด+ใจ，整顆心、全心投入。", "ex": ["เขาทุ่มเทให้โปรเจกต์นี้หมดใจ", "khǎo thûm-thee hâi phroo-jèk níi mòt-jai", "He devotes himself to this project wholeheartedly.", "他全心投入這個專案。"], "i": "V016", "zh": "全心全意／毫無保留"}, {"th": "เป็นแบบนี้", "ro": "bpen bɛ̀ɛp níi", "en": "be like this / become like this", "cat": "Emotional usage", "note": "可描述狀態、心情、關係變化；較模糊但很生活。", "ex": ["ช่วงนี้ไม่รู้ทำไมฉันถึงเป็นแบบนี้", "chûang-níi mâi rúu tham-mai chǎn thʉ̌ng bpen bɛ̀ɛp níi", "Lately, I don’t know why I’m like this.", "最近不知道為什麼，我會變成這樣。"], "i": "V017", "zh": "變成這樣／是這種狀態"}, {"th": "หลังจาก", "ro": "lǎng jàak", "en": "after", "cat": "Textbook-based", "note": "完整的「在……之後」。日常也用，但聊天中常可改成A แล้วค่อย B。", "ex": ["หลังจากเลิกงาน ฉันจะไปเรียนภาษาไทย", "lǎng jàak lə̂ək-ngaan, chǎn jà bpai riian phaa-sǎa Thai", "After work, I’ll go study Thai.", "下班後我要去上泰文課。"], "i": "V018", "zh": "在……之後"}, {"th": "ก็", "ro": "gɔ̂ɔ", "en": "then / also / just / linking particle", "cat": "Local usage", "note": "今天重點在อะไรก็ได้、หลังจากนั้นก็...，有「就、也、反正」的語感。", "ex": ["ถ้าเธอไม่หิว เราก็ไปคาเฟ่ก่อนก็ได้", "thâa thəə mâi hǐw, rao gɔ̂ɔ bpai kaa-fêe gɔ̀ɔn gɔ̂ɔ dâai", "If you’re not hungry, we can go to a café first.", "如果你不餓，我們也可以先去咖啡廳。"], "i": "V019", "zh": "就／也／只是；承接語氣"}, {"th": "เลย", "ro": "ləəy", "en": "go ahead / completely / emphatic particle", "cat": "Local usage", "note": "今天出現在เลือกเลย、แล้วแต่...เลย，有「就……吧 / 直接……」語氣。", "ex": ["ถ้าชอบก็เอาเลย ไม่ต้องคิดมาก", "thâa chɔ̂ɔp gɔ̂ɔ ao ləəy, mâi dtɔ̂ng khít mâak", "If you like it, just take it. Don’t overthink.", "喜歡就拿吧，別想太多。"], "i": "V020", "zh": "就／完全／乾脆；加強結果或語氣"}], "compare": [], "mistakes": [{"title": "1. 把 เดี๋ยว 當成『等某人』", "wrong": {"label": "Wrong", "th": "ฉันเดี๋ยวเธอ", "ro": "chǎn dǐaw thəə", "en": "Incorrect: using เดี๋ยว as wait for someone.", "zh": "錯誤用法：把 เดี๋ยว 當成「等某人」來用。"}, "better": {"label": "Better", "th": "ฉันรอเธอ", "ro": "chǎn rɔɔ thəə", "en": "I’m waiting for you.", "zh": "我在等你。"}, "why": "Why：เดี๋ยว 是時間感；真正表示等某人要用 รอ。"}, {"title": "2. 把 ค่อย 當成 wait", "wrong": {"label": "Wrong", "th": "ฉันค่อยเพื่อน", "ro": "chǎn khɔ̂i phʉ̂an", "en": "Incorrect: using ค่อย as wait.", "zh": "錯誤用法：把 ค่อย 當成「等」來用。"}, "better": {"label": "Better", "th": "ฉันรอเพื่อนอยู่", "ro": "chǎn rɔɔ phʉ̂an yùu", "en": "I’m waiting for a friend.", "zh": "我在等朋友。"}, "why": "Why：ค่อย 表示慢慢、晚點再或接著才；等人要用 รอ。"}, {"title": "3. 把 เค้า 拼成 ค้า", "wrong": {"label": "Wrong", "th": "ค้ากินอะไรก็ได้", "ro": "kháa gin à-rai gɔ̂ɔ dâai", "en": "Incorrect spelling.", "zh": "拼字錯誤。"}, "better": {"label": "Better", "th": "เค้ากินอะไรก็ได้", "ro": "kháo gin à-rai gɔ̂ɔ dâai", "en": "I can eat anything.", "zh": "我什麼都能吃。"}, "why": "Why：親密聊天中表示『我／人家』的是 เค้า，不是 ค้า。"}, {"title": "4. 對不熟的人叫 ตัวเอง", "wrong": {"label": "Wrong", "th": "ตัวเองอยากกินอะไรคะ", "ro": "dtua-eeng yàak gin à-rai khá", "en": "What do you want to eat, babe?", "zh": "你想吃什麼，寶貝？"}, "better": {"label": "Better", "th": "คุณอยากกินอะไรคะ", "ro": "khun yàak gin à-rai khá", "en": "What would you like to eat?", "zh": "你想吃什麼呢？"}, "why": "Why：ตัวเอง 當第二人稱時是親密稱呼；對店員、老師或不熟的人不適合。"}, {"title": "5. มาแล้ว 和 มาเร็ว 混用", "wrong": {"label": "Wrong", "th": "มาเร็ว", "ro": "maa rew", "en": "Come quickly.", "zh": "快點來。"}, "better": {"label": "Better", "th": "ฉันมาแล้ว", "ro": "chǎn maa lɛ́ɛw", "en": "I’m here.", "zh": "我到了。"}, "why": "Why：มาเร็ว 是叫別人快來；自己已經到了要說 มาแล้ว。"}, {"title": "6. 每個 after 都用 หลังจาก", "wrong": {"label": "Wrong", "th": "หลังจากกินข้าวแล้ว เราจะไป", "ro": "lǎng jàak gin khâaw lɛ́ɛw, rao jà bpai", "en": "After eating, we will go.", "zh": "吃飯以後，我們就走。"}, "better": {"label": "Better", "th": "กินข้าวแล้วค่อยไป", "ro": "gin khâaw lɛ́ɛw khɔ̂i bpai", "en": "Eat first, then go.", "zh": "先吃飯，再走。"}, "why": "Why：日常安排常用 A แล้วค่อย B，會比每次都用 หลังจาก 更自然。"}, {"title": "7. ด้วย 和 กับ 混用", "wrong": {"label": "Wrong", "th": "ฉันไปด้วยเพื่อน", "ro": "chǎn bpai dûai phʉ̂an", "en": "Incorrect use of ด้วย with a person.", "zh": "錯誤用法：對人使用 ด้วย。"}, "better": {"label": "Better", "th": "ฉันไปกับเพื่อน", "ro": "chǎn bpai gàp phʉ̂an", "en": "I went with a friend.", "zh": "我跟朋友一起去了。"}, "why": "Why：和某人一起通常用 กับ；ด้วย 常表示也、一起加入、用某種方式，或放句尾表示請求。"}, {"title": "8. 把 แพ้ให้เธอแล้วหมดใจ 當普通日常句", "wrong": {"label": "Wrong", "th": "แพ้ให้เธอแล้วหมดใจ", "ro": "phɛ́ɛ hâi thəə lɛ́ɛw mòt-jai", "en": "I’ve lost to you with all my heart.", "zh": "我為你輸得心都沒了（字面直譯，聽起來太誇張）。"}, "better": {"label": "Better", "th": "ฉันแพ้ทางคนอบอุ่น", "ro": "chǎn phɛ́ɛ-thaang khon òp-ùn", "en": "I’m weak for warm people.", "zh": "我對溫暖的人沒有抵抗力。"}, "why": "Why：原句情緒很濃，不適合工作、普通朋友或正式場合；日常可用 แพ้ทาง + 人的特質。"}], "dialogues": [{"title": "Dialogue 1｜朋友討論吃什麼", "turns": [{"speaker": "A", "side": "left", "th": "วันนี้กินอะไรดี", "ro": "wan-níi gin à-rai dii", "en": "What should we eat today?", "zh": "今天要吃什麼好？"}, {"speaker": "B", "side": "right", "th": "อยากกินของอร่อย ๆ แต่คิดไม่ออก", "ro": "yàak gin khɔ̌ɔng à-rɔ̀i à-rɔ̀i, dtɛ̀ɛ khít mâi ɔ̀ɔk", "en": "I want something yummy, but I can’t think of anything.", "zh": "想吃點好吃的，可是想不到要吃什麼。"}, {"speaker": "A", "side": "left", "th": "งั้นไปกินชาบูกันไหม ว่าไง", "ro": "ngán bpai gin chaa-buu gan mái, wâa-ngai", "en": "Then shall we eat shabu? What do you think?", "zh": "那去吃涮涮鍋好不好？你覺得呢？"}, {"speaker": "B", "side": "right", "th": "ก็ดีนะ แต่ขอร้านที่ไม่เผ็ดมาก", "ro": "gɔ̂ɔ dii ná, dtɛ̀ɛ khɔ̌ɔ ráan thîi mâi phèt mâak", "en": "Sounds good, but let’s choose a place that’s not too spicy.", "zh": "也不錯啊，但想找一家不要太辣的。"}]}, {"title": "Dialogue 2｜親密口語：吃什麼都可以", "turns": [{"speaker": "A", "side": "left", "th": "ตัวเองอยากกินอะไร", "ro": "dtua-eeng yàak gin à-rai", "en": "Babe, what do you want to eat?", "zh": "寶貝，你想吃什麼？"}, {"speaker": "B", "side": "right", "th": "เค้ากินอะไรก็ได้", "ro": "kháo gin à-rai gɔ̂ɔ dâai", "en": "I can eat anything.", "zh": "我吃什麼都可以。"}, {"speaker": "A", "side": "left", "th": "งั้นตัวเองเลือกเลย", "ro": "ngán dtua-eeng lʉ̂ak ləəy", "en": "Then you choose.", "zh": "那你選吧。"}, {"speaker": "B", "side": "right", "th": "เค้าไม่รู้ ตัวเองเลือกเลย", "ro": "kháo mâi rúu, dtua-eeng lʉ̂ak ləəy", "en": "I don’t know. You choose.", "zh": "我不知道啦，你選就好。"}]}, {"title": "Dialogue 3｜BTS 等人", "turns": [{"speaker": "A", "side": "left", "th": "ถึงไหนแล้ว", "ro": "thʉ̌ng nǎi lɛ́ɛw", "en": "Where are you now?", "zh": "你到哪裡了？"}, {"speaker": "B", "side": "right", "th": "กำลังลง BTS เดี๋ยวถึงแล้ว", "ro": "gam-lang long BTS, dǐaw thʉ̌ng lɛ́ɛw", "en": "I’m getting off the BTS. I’ll arrive soon.", "zh": "正在下 BTS，快到了。"}, {"speaker": "A", "side": "left", "th": "โอเค ฉันรอหน้าห้างนะ", "ro": "oo-khee, chǎn rɔɔ nâa hâang ná", "en": "Okay, I’ll wait in front of the mall.", "zh": "好，我在百貨公司門口等你喔。"}]}, {"title": "Dialogue 4｜情緒安慰", "turns": [{"speaker": "A", "side": "left", "th": "ไม่รู้เมื่อไรที่ฉันเริ่มเป็นแบบนี้", "ro": "mâi rúu mʉ̂a-rai thîi chǎn rə̂əm bpen bɛ̀ɛp níi", "en": "I don’t know when I started becoming like this.", "zh": "我也不知道自己從什麼時候開始變成這樣。"}, {"speaker": "B", "side": "right", "th": "ไม่เป็นไรนะ ค่อย ๆ เล่าให้ฟังได้", "ro": "mâi bpen rai ná, khɔ̂i-khɔ̂i lâo hâi fang dâai", "en": "It’s okay. You can slowly tell me.", "zh": "沒關係，你可以慢慢說給我聽。"}]}, {"title": "Dialogue 5｜Work / Study：晚點再處理", "turns": [{"speaker": "A", "side": "left", "th": "ไฟล์นี้ต้องส่งวันนี้ไหมคะ", "ro": "fai níi dtɔ̂ng sòng wan-níi mái khá", "en": "Does this file need to be sent today?", "zh": "這份檔案今天一定要交嗎？"}, {"speaker": "B", "side": "right", "th": "ไม่รีบค่ะ ประชุมเสร็จแล้วค่อยส่งให้ก็ได้", "ro": "mâi rîip khâ, bprà-chum sèt lɛ́ɛw khɔ̂i sòng hâi gɔ̂ɔ dâai", "en": "No rush. You can send it after the meeting.", "zh": "不急，開完會再傳給我也可以。"}]}], "structures": [{"title": "Pattern 1｜ไม่รู้เมื่อไรที่ + Subject + เริ่ม + Verb / Phrase", "meaning": "Meaning:不知道什麼時候開始……。常用於情緒、關係、習慣變化。", "examples": []}, {"title": "Pattern 2｜เดี๋ยว + Verb/เดี๋ยวค่อย + Verb", "meaning": "Meaning:เดี๋ยว + Verb= 等一下會做；เดี๋ยวค่อย + Verb= 晚點再做。", "examples": []}, {"title": "Pattern 3｜A แล้วค่อย B= 先 A，再 B", "meaning": "กินข้าวแล้วค่อยไป🔊gin khâaw lɛ́ɛw khɔ̂i bpaiEat first, then go.", "examples": []}, {"title": "Pattern 4｜อะไร / ที่ไหน / ยังไง + ก็ได้", "meaning": "Meaning:什麼 / 哪裡 / 怎樣都可以。", "examples": []}, {"title": "Pattern 5｜หลังจาก + Event / Sentence", "meaning": "หลังจากลง BTS แล้ว เดินต่อประมาณห้านาที🔊lǎng jàak long BTS lɛ́ɛw, dəən dtɔ̀ɔ bprà-maan hâa naa-thiiAfter getting off the BTS, walk about five more minutes.", "examples": []}], "sentenceBank": [{"scene": "Self / Emotion｜ตัวเอง / เค้า / 心情變化", "sentences": []}, {"scene": "Food / Friends｜吃什麼 / 都可以 / 餐廳選擇", "sentences": []}, {"scene": "Study / Work｜選擇 / 想不出來 / 不太擅長", "sentences": []}, {"scene": "Errands / Arrival｜幫忙 / 等一下 / 到了再說", "sentences": []}, {"scene": "Waiting / Time Order｜รอ / ค่อย / หลังจาก / ก็", "sentences": []}], "bangkok": [{"scene": "Café｜朋友等你點餐", "sentences": []}, {"scene": "BTS｜快趕不上車", "sentences": []}, {"scene": "Mall｜不知道要吃哪一家", "sentences": []}, {"scene": "Condo / Delivery｜外送到了", "sentences": []}, {"scene": "Work｜同事請你幫忙", "sentences": []}, {"scene": "Friends｜心情不好但說不清", "sentences": []}], "practice": [{"title": "1. Vocabulary recall｜選詞", "prompts": ["請填入：我正在等朋友。ฉัน ___ เพื่อนอยู่。"], "answers": [["รอ", "rɔɔ", "wait; wait for", "等；等待"]]}, {"title": "2. Choose the right word｜時間順序", "prompts": ["請填入：晚點再聊。เดี๋ยว ___ คุยกัน。"], "answers": [["ค่อย", "khɔ̂i", "later; then", "晚點；再"]]}, {"title": "3. Chinese → Thai｜自然回覆", "prompts": ["請翻成泰文：我想吃點好吃的，但想不到要吃什麼。"], "answers": [["อยากกินของอร่อย ๆ แต่คิดไม่ออก", "yàak gin khɔ̌ɔng à-rɔ̀i à-rɔ̀i, dtɛ̀ɛ khít mâi ɔ̀ɔk", "I want something yummy, but I can’t think of anything.", "我想吃點好吃的，但想不到要吃什麼。"]]}, {"title": "4. Chinese → Thai｜生活時間線", "prompts": ["請翻成泰文：先吃飯，再去。"], "answers": [["กินข้าวแล้วค่อยไป", "gin khâaw lɛ́ɛw khɔ̂i bpai", "Eat first, then go.", "先吃飯，再去。"]]}, {"title": "5. Mini dialogue｜安慰對方", "prompts": ["A：我現在還不想說。B：沒關係，晚點再聊也可以。"], "answers": [["ไม่เป็นไร เดี๋ยวค่อยคุยก็ได้", "mâi bpen rai, dǐaw khɔ̂i khui gɔ̂ɔ dâai", "It’s okay. We can talk later.", "沒關係，晚點再聊也可以。"]]}], "g": [{"id": "g-structure", "title": "句型結構", "tth": "โครงสร้างประโยค", "em": "🧩", "kind": "structure"}, {"id": "g-mistake", "title": "常見錯誤", "tth": "ข้อผิดพลาดที่พบบ่อย", "em": "🚫", "kind": "mistake"}, {"id": "g-dialogue", "title": "情境短對話", "tth": "บทสนทนาสั้นๆ", "em": "💬", "kind": "dialogue"}, {"id": "g-sentence", "title": "例句庫", "tth": "ประโยคตัวอย่าง", "em": "📝", "kind": "sentence", "src": "sentenceBank"}, {"id": "g-bangkok", "title": "曼谷生活場景", "tth": "ฉากชีวิตกรุงเทพ", "em": "🏙️", "kind": "sentence", "src": "bangkok"}, {"id": "g-practice", "title": "自我測驗", "tth": "แบบฝึกหัด", "em": "✅", "kind": "practice"}]}</script>
+<script>
+
+let ROM=true,LANG='zh',isMob=window.innerWidth<769,curPl=null,FILTER='all';
+const PROGRESS_KEY='thai_notes_lrn_2026_05_22_v1';
+const FAV_KEY='thai_notes_fav_2026_05_22_v1';
+function loadProgress(){
+ try{const raw=localStorage.getItem(PROGRESS_KEY);const p=raw?JSON.parse(raw):{};return p&&typeof p==='object'&&!Array.isArray(p)?p:{};}catch(e){return{};}
+}
+function saveProgress(){try{localStorage.setItem(PROGRESS_KEY,JSON.stringify(LRN));}catch(e){console.warn('無法儲存學習進度。',e);}}
+function loadFav(){
+ try{const raw=localStorage.getItem(FAV_KEY);const p=raw?JSON.parse(raw):{};return p&&typeof p==='object'&&!Array.isArray(p)?p:{};}catch(e){return{};}
+}
+function saveFav(){try{localStorage.setItem(FAV_KEY,JSON.stringify(FAV));}catch(e){console.warn('無法儲存收藏。',e);}}
+let LRN=loadProgress();
+let FAV=loadFav();
+const D=JSON.parse(document.getElementById('jd').textContent);
+const VOCAB=D.vocab,CMP=D.compare,MIS=D.mistakes,DLG=D.dialogues,STR=D.structures,SENB=D.sentenceBank,BKK=D.bangkok,PRC=D.practice,GRP=D.g;
+const TITLE='Thai Daily Notes',SUBTITLE='ตัวเอง・เค้า・ว่าไง';
+
+function speak(t){
+ if(!window.speechSynthesis||!t)return;
+ window.speechSynthesis.cancel();
+ const u=new SpeechSynthesisUtterance(t);
+ u.lang='th-TH';u.rate=0.88;u.pitch=1;
+ window.speechSynthesis.speak(u);
+}
+function playBtn(el,t){
+ if(curPl)curPl.classList.remove('pl');
+ curPl=el;el.classList.add('pl');speak(t);
+ setTimeout(()=>{if(curPl===el)el.classList.remove('pl');},3000);
+}
+function esc(s){return(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;');}
+function ab(t,e=''){return `<button class="abtn${e?' '+e:''}" onclick="event.stopPropagation();playBtn(this,'${esc(t)}')" title="播放">▶</button>`;}
+function ro(cls,t){return `<div class="${cls}${ROM?'':' hid'}">${t||''}</div>`;}
+function enzh(clsEn,clsZh,en,zh){const et=en||zh||'',zt=zh||en||'';return `<div class="${clsEn} lang-en${LANG==='en'?'':' hid'}">${et}</div><div class="${clsZh} lang-zh${LANG==='zh'?'':' hid'}">${zt}</div>`;}
+
+/* ================= Vocabulary card (mirrors QA-50's rQ) ================= */
+function rV(v){
+ const id=v.i,lrn=LRN[id]?'lrn':'',fav=!!FAV[id];
+ const num=parseInt(id.slice(1),10);
+ const exHtml=(v.ex&&v.ex[0])?`<div class="ans"><div class="anl">例</div><div class="ant"><div class="anth">${v.ex[0]}</div>${ro('anro',v.ex[1]||'')}${enzh('anen','anzh',v.ex[2],v.ex[3])}</div>${ab(v.ex[0])}</div>`:'';
+ const note=v.note?`<div class="note ng"><div class="ng-l">📖 語感筆記</div><div class="ng-t">${v.note}</div></div>`:'';
+ const lb=LRN[id]?`<button class="lbtn dn" onclick="event.stopPropagation();tLrn('${id}',this)">↩ 改為未熟悉</button>`
+  :`<button class="lbtn" onclick="event.stopPropagation();tLrn('${id}',this)">✓ 標記為熟悉</button>`;
+ const favBtn=`<button class="favbtn ${fav?'on':''}" onclick="event.stopPropagation();tFav('${id}',this)">${fav?'★ 已收藏':'☆ 收藏'}</button>`;
+ return `<div class="qc ${lrn}" id="${id}">
+  <div class="qch" onclick="tCard('${id}')">
+   <div class="qcn">${num}</div>
+   <div class="qcq"><div class="qcth">${v.th}</div>${ro('qcro',v.ro)}${enzh('qcen','qczh',v.en,v.zh)}</div>
+   <div class="qca">${ab(v.th)}<button class="xbtn">▾</button></div>
+  </div>
+  <div class="qcb"><div class="qcbi"><div class="div"></div>
+   <div class="vb-tag" style="margin-bottom:9px;">${v.cat}</div>
+   ${exHtml}
+   <div class="notes">${note}</div>
+   <div class="cft">${favBtn}${lb}</div>
+  </div></div>
+ </div>`;
+}
+function rVocabAll(){
+ const done=getDoneCount();
+ return `<div class="sec-blk" id="g-vocab">
+  <div class="sec-hd"><div class="sec-n">📚</div>
+   <div class="sec-tts"><div class="sec-tzh">詞彙庫</div><div class="sec-tth">คำศัพท์ทั้งหมด</div></div>
+   <div class="sec-chip" id="chip-g-vocab">${done}/${VOCAB.length} 已熟悉</div>
+  </div>${VOCAB.map(v=>rV(v)).join('')}
+ </div>`;
+}
+
+/* ================= Compare (近義比較) ================= */
+function rCmpRow(row){
+ const termCell = row.term && row.term[0]
+  ? `<div><div class="cmp-pat">${row.term[0]}${ab(row.term[0])}</div>${ro('cmp-ex-ro',row.term[1])}<div class="cmp-ex-en">${row.term[2]}</div></div>`
+  : `<div class="cmp-pat">—</div>`;
+ return `<div class="cmp-row">
+  ${termCell}
+  <div class="cmp-mean">${row.meaning||''}</div>
+  <div class="cmp-ex"><div class="cmp-ex-tx"><div class="cmp-ex-th">${row.ex[0]}</div>${ro('cmp-ex-ro',row.ex[1])}<div class="cmp-ex-en">${row.ex[2]}</div></div>${ab(row.ex[0])}</div>
+ </div>`;
+}
+function rCmpCard(c,i){
+ return `<div class="cmp-card" id="CMP-${i}">
+  <div class="cmp-title">${c.title}</div>
+  ${c.intro?`<div class="cmp-mean" style="margin-bottom:8px;">${c.intro}</div>`:''}
+  ${c.rows.map(rCmpRow).join('')}
+  ${c.tip?`<div class="cmp-tip">${c.tip}</div>`:''}
+ </div>`;
+}
+function rCmpSec(){
+ return `<div class="apx" id="g-compare"><div class="apx-hd"><div class="apx-ic">⚖️</div><div class="apx-tit"><div class="apx-tzh">近義比較</div><div class="apx-tth">คำใกล้เคียงที่ต้องแยกให้ออก</div></div></div>
+  ${CMP.map((c,i)=>rCmpCard(c,i)).join('')}
+ </div>`;
+}
+
+/* ================= Mistakes (常見錯誤) ================= */
+function rMisBox(cls,label,box){
+ if(!box)return'';
+ return `<div class="mis-box ${cls}"><div class="mis-lbl">${label}</div><div class="mis-tx"><div class="mis-th">${box.th}</div>${ro('mis-ro',box.ro)}${enzh('mis-en','mis-zh',box.en,box.zh)}</div>${ab(box.th)}</div>`;
+}
+function rMisCard(m,i){
+ return `<div class="mis-card" id="MIS-${i}">
+  <div class="mis-title">${m.title}</div>
+  ${rMisBox('mis-wrong',(m.wrong&&m.wrong.label)?m.wrong.label:'Wrong',m.wrong)}
+  ${rMisBox('mis-better',(m.better&&m.better.label)?m.better.label:'Better',m.better)}
+  ${m.why?`<div class="mis-why">💡 ${m.why}</div>`:''}
+ </div>`;
+}
+function rMisSec(){
+ return `<div class="apx" id="g-mistake"><div class="apx-hd"><div class="apx-ic">🚫</div><div class="apx-tit"><div class="apx-tzh">常見錯誤</div><div class="apx-tth">ข้อผิดพลาดที่พบบ่อย</div></div></div>
+  ${MIS.map((m,i)=>rMisCard(m,i)).join('')}
+ </div>`;
+}
+
+/* ================= Structures (句型結構) ================= */
+function rStrExample(ex){
+ return `<div class="str-ex"><div style="display:flex;align-items:flex-start;gap:8px;"><div><div class="str-th">${ex[0]}</div>${ro('str-ro',ex[1])}${enzh('str-en','str-zh',ex[2],ex[3])}</div>${ab(ex[0])}</div></div>`;
+}
+function rStrCard(st,i){
+ const examples=(st.examples&&st.examples.length)?st.examples:(st.ex?[st.ex]:[]);
+ return `<div class="str-card" id="STR-${i}">
+  <div class="str-title">${st.title}</div>
+  ${st.meaning?`<div class="str-mean">${st.meaning}</div>`:''}
+  ${examples.map(rStrExample).join('')}
+ </div>`;
+}
+function rStrSec(){
+ return `<div class="apx" id="g-structure"><div class="apx-hd"><div class="apx-ic">🧩</div><div class="apx-tit"><div class="apx-tzh">句型結構</div><div class="apx-tth">โครงสร้างประโยคที่ใช้บ่อย</div></div></div>
+  <div class="str-grid">${STR.map((st,i)=>rStrCard(st,i)).join('')}</div>
+ </div>`;
+}
+
+/* ================= Dialogues (情境短對話) ================= */
+function rDlgTurn(t){
+ const side=t.side==='left'?'l':'r';
+ return `<div class="dlg-row ${side}"><div class="dlg-bub"><div class="dlg-spk">${t.speaker}</div><div style="display:flex;align-items:flex-start;gap:8px;"><div><div class="dlg-th">${t.th}</div>${ro('dlg-ro',t.ro)}${enzh('dlg-en','dlg-zh',t.en,t.zh)}</div>${ab(t.th)}</div></div></div>`;
+}
+function rDlgCard(d,i){
+ return `<div class="dlg-card" id="DLG-${i}">
+  <div class="dlg-title">${d.title}</div>
+  <div class="dlg-thread">${d.turns.map(rDlgTurn).join('')}</div>
+ </div>`;
+}
+function rDlgSec(){
+ return `<div class="apx" id="g-dialogue"><div class="apx-hd"><div class="apx-ic">💬</div><div class="apx-tit"><div class="apx-tzh">情境短對話</div><div class="apx-tth">บทสนทนาสั้นๆ</div></div></div>
+  ${DLG.map((d,i)=>rDlgCard(d,i)).join('')}
+ </div>`;
+}
+
+/* ================= Sentence groups (例句庫 / 曼谷場景) ================= */
+function rSenItem(s){
+ return `<div class="sen-item"><div><div class="sen-th">${s.th}</div>${ro('sen-ro',s.ro)}${enzh('sen-en','sen-zh',s.en,s.zh)}</div>${ab(s.th)}</div>`;
+}
+function rSenGroup(grp,gi,idPrefix){
+ return `<div class="sen-group" id="${idPrefix}-${gi}">
+  <div class="sen-scene">${grp.scene}</div>
+  <div class="sen-grid">${grp.sentences.map(rSenItem).join('')}</div>
+ </div>`;
+}
+function rSenSec(list,secId,title,tth,em,idPrefix){
+ return `<div class="apx" id="${secId}"><div class="apx-hd"><div class="apx-ic">${em}</div><div class="apx-tit"><div class="apx-tzh">${title}</div><div class="apx-tth">${tth}</div></div></div>
+  ${list.map((g,gi)=>rSenGroup(g,gi,idPrefix)).join('')}
+ </div>`;
+}
+
+/* ================= Practice (自我測驗) ================= */
+function rPrcCard(p,i){
+ const prompts=(p.prompts&&p.prompts.length)?p.prompts:(p.prompt?[p.prompt]:[]);
+ const answers=(p.answers&&p.answers.length)?p.answers:(p.ans?[p.ans]:[]);
+ const promptHtml=prompts.map(t=>`<div class="prc-prompt">${t}</div>`).join('');
+ const ansHtml=answers.map(a=>`<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;"><div><div class="str-th">${a[0]}</div>${ro('str-ro',a[1])}${enzh('str-en','str-zh',a[2],a[3])}</div>${ab(a[0])}</div>`).join('');
+ return `<div class="prc-card" id="PRC-${i}">
+  <div class="prc-title">Q${i+1}｜${p.title||''}</div>
+  ${promptHtml}
+  <div class="prc-ans-wrap">
+   <button class="prc-ans-btn" onclick="tPrc(${i})" id="prc-btn-${i}">👁 顯示答案</button>
+   <div class="prc-ans" id="prc-ans-${i}">
+    ${ansHtml}
+   </div>
+  </div>
+ </div>`;
+}
+function rPrcSec(){
+ return `<div class="apx" id="g-practice"><div class="apx-hd"><div class="apx-ic">✅</div><div class="apx-tit"><div class="apx-tzh">自我測驗</div><div class="apx-tth">แบบฝึกหัดทบทวนตัวเอง</div></div></div>
+  ${PRC.map((p,i)=>rPrcCard(p,i)).join('')}
+ </div>`;
+}
+function tPrc(i){
+ const el=document.getElementById('prc-ans-'+i);
+ const btn=document.getElementById('prc-btn-'+i);
+ const show=el.classList.toggle('show');
+ btn.textContent=show?'🙈 隱藏答案':'👁 顯示答案';
+}
+
+function rGroups(){
+ return GRP.map(g=>{
+  if(g.kind==='compare')return rCmpSec();
+  if(g.kind==='mistake')return rMisSec();
+  if(g.kind==='structure')return rStrSec();
+  if(g.kind==='dialogue')return rDlgSec();
+  if(g.kind==='practice')return rPrcSec();
+  if(g.kind==='sentence'&&g.src==='sentenceBank')return rSenSec(SENB,g.id,g.title,g.tth,g.em,'SB');
+  if(g.kind==='sentence'&&g.src==='bangkok')return rSenSec(BKK,g.id,g.title,g.tth,g.em,'BK');
+  return '';
+ }).join('');
+}
+
+/* ================= 我的收藏 ================= */
+function renderFavSec(){
+ const el=document.getElementById('favSec');
+ if(!el)return;
+ const ids=Object.keys(FAV).filter(k=>FAV[k]);
+ if(!ids.length){
+  el.innerHTML=`<div class="sec-hd"><div class="sec-n">⭐</div><div class="sec-tts"><div class="sec-tzh">我的收藏</div><div class="sec-tth">รายการโปรดของฉัน</div></div></div><div class="empty-fav">還沒有收藏，點單字卡上的「☆ 收藏」把它加進這裡，方便之後複習。</div>`;
+  return;
+ }
+ const cards=ids.map(id=>{
+  const v=VOCAB.find(x=>x.i===id);
+  if(!v)return '';
+  return `<div class="sres-item" onclick="jumpTo('${id}')"><span class="sres-tag">詞彙</span><div class="sres-b"><div class="sres-th">${v.th}</div>${ro('sres-ro',v.ro)}${enzh('sres-en','sres-zh',v.en,v.zh)}</div>${ab(v.th)}</div>`;
+ }).join('');
+ el.innerHTML=`<div class="sec-hd"><div class="sec-n">⭐</div><div class="sec-tts"><div class="sec-tzh">我的收藏</div><div class="sec-tth">รายการโปรดของฉัน</div></div><div class="sec-chip">${ids.length} 筆</div></div><div class="sres-list">${cards}</div>`;
+}
+function tFav(id,btn){
+ FAV[id]=!FAV[id];
+ if(!FAV[id])delete FAV[id];
+ saveFav();
+ if(btn){btn.classList.toggle('on',!!FAV[id]);btn.textContent=FAV[id]?'★ 已收藏':'☆ 收藏';}
+ renderFavSec();
+ const navB=document.getElementById('nav-favSec-badge');
+ if(navB)navB.textContent=Object.keys(FAV).filter(k=>FAV[k]).length;
+}
+
+/* ================= Sidebar / Content shell ================= */
+function getDoneCount(){return VOCAB.filter(v=>LRN[v.i]).length;}
+
+function rSB(){
+ const done=getDoneCount();
+ const total=VOCAB.length;
+ const totalPct=Math.round(done/total*100);
+ const favCount=Object.keys(FAV).filter(k=>FAV[k]).length;
+ let h=`<div class="sb-book"><div class="sb-th">${TITLE}</div><div class="sb-zh">${SUBTITLE}</div><div class="sb-ct" id="sb-total">✓ ${done}/${total} 已熟悉</div><div class="sb-track" aria-label="學習進度"><div class="sb-track-fill" id="sb-track-fill" style="width:${totalPct}%"></div></div><div class="sb-filter" aria-label="熟悉狀態篩選"><button class="filter-btn ${FILTER==='all'?'on':''}" data-filter="all" onclick="setFilter('all')">全部</button><button class="filter-btn ${FILTER==='learned'?'on':''}" data-filter="learned" onclick="setFilter('learned')">已熟悉</button><button class="filter-btn ${FILTER==='unlearned'?'on':''}" data-filter="unlearned" onclick="setFilter('unlearned')">未熟悉</button></div><div class="sb-actions"><button class="sb-btn" onclick="resetProgress()">重設進度</button></div><div class="sb-save-note">進度與收藏會記在目前這台裝置的瀏覽器中。</div></div>
+  <div class="nav-grp"><div class="nit" id="nav-favSec" onclick="goto('favSec')"><div class="nit-em">⭐</div><div class="nit-tx"><div class="nit-t">我的收藏</div></div><div class="nit-b" id="nav-favSec-badge">${favCount}</div></div></div>
+  <div class="nav-grp"><div class="nav-lbl">詞彙</div>
+   <div class="nit" id="nav-g-vocab" onclick="goto('g-vocab')"><div class="nit-em">📚</div><div class="nit-tx"><div class="nit-t">詞彙庫</div></div><div class="nit-b" id="nav-count-g-vocab">${done}/${total}</div></div>
+   <div class="nprog"><div class="nprog-b" id="nav-prog-g-vocab" style="width:${totalPct}%"></div></div>
+  </div>
+  <div class="nav-grp"><div class="nav-lbl">延伸內容</div>`;
+ GRP.forEach(g=>{
+  h+=`<div class="nit" id="nav-${g.id}" onclick="goto('${g.id}')"><div class="nit-em">${g.em}</div><div class="nit-tx"><div class="nit-t">${g.title}</div><div class="nit-s">${g.tth}</div></div></div>`;
+ });
+ h+=`</div>`;
+ document.getElementById('sb').innerHTML=h;
+}
+
+function rCnt(){
+ document.getElementById('cnt').innerHTML=`<div id="normalView">
+   <div class="sec-blk" id="favSec"></div>
+   ${rVocabAll()}
+   ${rGroups()}
+  </div>
+  <div id="searchView" class="hid-view"></div>`;
+ renderFavSec();
+}
+
+function tCard(id){document.getElementById(id).classList.toggle('exp');}
+function updateKnownCard(id){
+ const known=!!LRN[id];
+ const c=document.getElementById(id);
+ if(!c)return;
+ c.classList.toggle('lrn',known);
+ const n=c.querySelector('.qcn');
+ if(n)n.style.background=known?'var(--gl)':'var(--gd)';
+ const btn=c.querySelector('.lbtn');
+ if(btn){
+  btn.textContent=known?'↩ 改為未熟悉':'✓ 標記為熟悉';
+  btn.classList.toggle('dn',known);
+  btn.setAttribute('aria-pressed',String(known));
+ }
+}
+function refreshProgress(){
+ const done=getDoneCount(),total=VOCAB.length,pct=Math.round(done/total*100);
+ const totalEl=document.getElementById('sb-total');
+ const trackEl=document.getElementById('sb-track-fill');
+ if(totalEl)totalEl.textContent=`✓ ${done}/${total} 已熟悉`;
+ if(trackEl)trackEl.style.width=`${pct}%`;
+ const chip=document.getElementById('chip-g-vocab');
+ const count=document.getElementById('nav-count-g-vocab');
+ const bar=document.getElementById('nav-prog-g-vocab');
+ if(chip)chip.textContent=`${done}/${total} 已熟悉`;
+ if(count)count.textContent=`${done}/${total}`;
+ if(bar)bar.style.width=`${pct}%`;
+}
+function applyFilter(){
+ VOCAB.forEach(v=>{
+  const c=document.getElementById(v.i);
+  if(!c)return;
+  const known=!!LRN[v.i];
+  const hide=(FILTER==='learned'&&!known)||(FILTER==='unlearned'&&known);
+  c.classList.toggle('filtered-out',hide);
+ });
+ const vsec=document.getElementById('g-vocab');
+ if(vsec){
+  const visible=[...vsec.querySelectorAll('.qc')].some(c=>!c.classList.contains('filtered-out'));
+  vsec.classList.toggle('filtered-out',!visible);
+ }
+ document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('on',b.dataset.filter===FILTER));
+}
+function setFilter(mode){FILTER=mode;applyFilter();}
+function tLrn(id,btn){
+ LRN[id]=!LRN[id];
+ if(!LRN[id])delete LRN[id];
+ updateKnownCard(id);
+ saveProgress();
+ refreshProgress();
+ applyFilter();
+}
+function resetProgress(){
+ if(!getDoneCount())return;
+ if(!window.confirm('確定要把所有單字改回未熟悉嗎？'))return;
+ LRN={};
+ VOCAB.forEach(v=>updateKnownCard(v.i));
+ saveProgress();
+ refreshProgress();
+ applyFilter();
+}
+function syncProgressFromStorage(){
+ LRN=loadProgress();
+ VOCAB.forEach(v=>updateKnownCard(v.i));
+ refreshProgress();
+ applyFilter();
+}
+function goto(id){
+ const el=document.getElementById(id);
+ if(el){el.scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>setAct(id),400);}
+ if(isMob)document.getElementById('sb').classList.remove('mob-open');
+}
+function setAct(id){
+ document.querySelectorAll('.nit').forEach(n=>n.classList.remove('act'));
+ const nav=document.getElementById('nav-'+id);if(nav)nav.classList.add('act');
+}
+function toggleSB(){
+ const sb=document.getElementById('sb');
+ if(isMob)sb.classList.toggle('mob-open');else sb.classList.toggle('col');
+}
+
+function toggleLang(){
+ LANG=LANG==='zh'?'en':'zh';
+ document.querySelectorAll('.lang-en').forEach(e=>e.classList.toggle('hid',LANG!=='en'));
+ document.querySelectorAll('.lang-zh').forEach(e=>e.classList.toggle('hid',LANG!=='zh'));
+ const b=document.getElementById('btnL');
+ b.classList.toggle('on',LANG==='en');
+ b.setAttribute('aria-pressed',String(LANG==='en'));
+ b.textContent=LANG==='zh'?'中文':'EN';
+}
+function toggleRom(){
+ ROM=!ROM;
+ document.querySelectorAll('.qcro,.anro,.furo,.prom,.vro,.fro,.ptro,.par-ro,.sro,.cmp-ex-ro,.mis-ro,.str-ro,.dlg-ro,.sen-ro,.sres-ro').forEach(e=>e.classList.toggle('hid',!ROM));
+ const b=document.getElementById('btnR');
+ b.classList.toggle('on',ROM);
+ b.setAttribute('aria-pressed',String(ROM));
+ b.textContent=ROM?'拼音 ✓':'拼音 ✗';
+}
+function syncViewportMode(){
+ const nextMob=window.innerWidth<769;
+ const sb=document.getElementById('sb');
+ if(nextMob!==isMob){isMob=nextMob;sb.classList.remove('col','mob-open');}
+}
+function initSpy(){
+ const ids=['favSec','g-vocab',...GRP.map(g=>g.id)];
+ const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)setAct(e.target.id);});},{threshold:0.15,rootMargin:'-52px 0px -70% 0px'});
+ ids.forEach(id=>{const el=document.getElementById(id);if(el)obs.observe(el);});
+}
+
+/* ================= 全域搜尋 ================= */
+let SEARCH_INDEX=[];
+function buildIndex(){
+ const idx=[];
+ VOCAB.forEach(v=>{
+  idx.push({id:v.i,tag:'詞彙庫',th:v.th,ro:v.ro,en:v.en,zh:v.zh||'',
+   blob:[v.th,v.ro,v.en,v.zh||'',v.note||'',...(v.ex||[])].join(' ')});
+ });
+ CMP.forEach((c,i)=>{
+  if(c.rows&&c.rows.length){
+   c.rows.forEach(row=>{
+    const termTh=(row.term&&row.term[0])?row.term[0]:row.ex[0];
+    const termRo=(row.term&&row.term[1])?row.term[1]:row.ex[1];
+    idx.push({id:'CMP-'+i,tag:'近義比較・'+c.title,th:termTh,ro:termRo,zh:(row.meaning||'')+'　'+row.ex[2],
+     blob:[c.title,c.intro||'',(row.term||[]).join(' '),row.meaning||'',row.ex.join(' ')].join(' ')});
+   });
+  } else {
+   idx.push({id:'CMP-'+i,tag:'近義比較',th:c.title,ro:'',zh:c.tip||c.intro||'',blob:c.title+' '+(c.tip||'')+' '+(c.intro||'')});
+  }
+ });
+ MIS.forEach((m,i)=>{
+  const w=m.wrong||{},b=m.better||{};
+  idx.push({id:'MIS-'+i,tag:'常見錯誤',th:(w.th||'')+' → '+(b.th||''),ro:b.ro||'',en:b.en||'',zh:(b.zh||'')+'　'+m.title+'：'+(m.why||''),
+   blob:[m.title,w.th||'',w.ro||'',w.en||'',w.zh||'',b.th||'',b.ro||'',b.en||'',b.zh||'',m.why||''].join(' ')});
+ });
+ STR.forEach((st,i)=>{
+  const examples=(st.examples&&st.examples.length)?st.examples:(st.ex?[st.ex]:[]);
+  const first=examples[0]||['','',''];
+  idx.push({id:'STR-'+i,tag:'句型結構',th:first[0]||st.title,ro:first[1]||'',en:first[2]||'',zh:(first[3]||'')+'　'+st.title+'　'+(st.meaning||''),
+   blob:[st.title,st.meaning||'',examples.map(e=>e.join(' ')).join(' ')].join(' ')});
+ });
+ DLG.forEach((d,i)=>{
+  d.turns.forEach(t=>{
+   idx.push({id:'DLG-'+i,tag:'情境對話・'+d.title,th:t.th,ro:t.ro,en:t.en,zh:t.zh||'',
+    blob:[d.title,t.speaker,t.th,t.ro,t.en,t.zh||''].join(' ')});
+  });
+ });
+ SENB.forEach((g,gi)=>{
+  g.sentences.forEach(s=>{
+   idx.push({id:'SB-'+gi,tag:'例句庫・'+g.scene,th:s.th,ro:s.ro,en:s.en,zh:s.zh||'',blob:[g.scene,s.th,s.ro,s.en,s.zh||''].join(' ')});
+  });
+ });
+ BKK.forEach((g,gi)=>{
+  g.sentences.forEach(s=>{
+   idx.push({id:'BK-'+gi,tag:'曼谷場景・'+g.scene,th:s.th,ro:s.ro,en:s.en,zh:s.zh||'',blob:[g.scene,s.th,s.ro,s.en,s.zh||''].join(' ')});
+  });
+ });
+ PRC.forEach((p,i)=>{
+  const prompts=(p.prompts&&p.prompts.length)?p.prompts:(p.prompt?[p.prompt]:[]);
+  const answers=(p.answers&&p.answers.length)?p.answers:(p.ans?[p.ans]:[]);
+  idx.push({id:'PRC-'+i,tag:'自我測驗',th:prompts.join(' / ')||p.title||'',ro:'',zh:answers.map(a=>a.join(' ')).join(' / '),
+   blob:[p.title||'',prompts.join(' '),answers.map(a=>a.join(' ')).join(' ')].join(' ')});
+ });
+ SEARCH_INDEX=idx;
+}
+function doSearch(qstr){
+ const q=(qstr||'').trim().toLowerCase();
+ const nv=document.getElementById('normalView'),sv=document.getElementById('searchView'),clearBtn=document.getElementById('searchClear');
+ if(clearBtn)clearBtn.classList.toggle('show',q.length>0);
+ if(!q){nv.classList.remove('hid-view');sv.classList.add('hid-view');sv.innerHTML='';return;}
+ nv.classList.add('hid-view');sv.classList.remove('hid-view');
+ const matches=SEARCH_INDEX.filter(it=>it.blob.toLowerCase().includes(q));
+ const seen=new Set(),uniq=[];
+ for(const m of matches){const key=m.id+'|'+m.th;if(seen.has(key))continue;seen.add(key);uniq.push(m);if(uniq.length>=60)break;}
+ if(!uniq.length){sv.innerHTML=`<div class="sres-hd">沒有找到符合的內容，換個關鍵字試試。</div>`;return;}
+ sv.innerHTML=`<div class="sres-hd">找到 ${uniq.length} 筆符合的內容</div><div class="sres-list">${uniq.map(m=>
+  `<div class="sres-item" onclick="jumpTo('${m.id}')"><span class="sres-tag">${m.tag}</span><div class="sres-b"><div class="sres-th">${m.th}</div>${m.ro?ro('sres-ro',m.ro):''}${enzh('sres-en','sres-zh',m.en,m.zh)}</div>${ab(m.th)}</div>`
+ ).join('')}</div>`;
+}
+function clearSearch(){
+ const input=document.getElementById('searchInput');
+ if(input)input.value='';
+ doSearch('');
+}
+function jumpTo(id){
+ clearSearch();
+ setTimeout(()=>{
+  const el=document.getElementById(id);
+  if(!el)return;
+  if(id[0]==='V')el.classList.add('exp');
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+  el.classList.add('flash');
+  setTimeout(()=>el.classList.remove('flash'),1500);
+  const parentSec=el.closest('.sec-blk')||el.closest('.apx');
+  setAct(parentSec?parentSec.id:id);
+  if(isMob)document.getElementById('sb').classList.remove('mob-open');
+ },60);
+}
+
+rSB();rCnt();refreshProgress();applyFilter();initSpy();buildIndex();
+window.addEventListener('resize',syncViewportMode);
+window.addEventListener('storage',e=>{
+ if(e.key===PROGRESS_KEY)syncProgressFromStorage();
+ if(e.key===FAV_KEY){FAV=loadFav();rCnt();initSpy();}
+});
+
+</script>
+</body>
+</html>

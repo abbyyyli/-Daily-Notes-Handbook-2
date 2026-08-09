@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thai Notes Handbook · 2026-08-06</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+TC:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#F4EFE5;--bgc:#FDFAF4;--bgh:#F8F3E8;--sb:#3D2B24;--sbh:#4A3630;--sba:#5A4139;--sbt:#D9BFAE;--sbti:#F5EAE0;--acc:#C08A3E;--accl:rgba(192,138,62,.12);--gd:#4A3327;--gm:#8A5A3D;--gl:#B9642E;--thai:#43302A;--rom:#8C6F5C;--t:#1A1A1A;--tm:#3A3A3A;--mu:#8C6B6E;--bd:#DDD6C8;--bdl:#EDE8DE;--ft:'Sarabun',sans-serif;--fz:'Noto Sans TC',sans-serif;--fu:'Inter',sans-serif;}
+html,body{height:100%;}body{font-family:var(--fu);background:var(--bg);color:var(--t);}
+.top{position:fixed;top:0;left:0;right:0;height:52px;z-index:100;background:var(--gd);display:flex;align-items:center;justify-content:space-between;padding:0 16px;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.top-l{display:flex;align-items:center;gap:10px;}.burg{background:none;border:none;color:#fff;font-size:18px;cursor:pointer;padding:4px 8px;border-radius:4px;}.burg:hover{background:rgba(255,255,255,.1);}
+.top-title{font-family:var(--ft);font-size:22px;font-weight:700;color:#fff;}.top-sub{font-family:var(--fz);font-size:11px;color:rgba(255,255,255,.55);margin-left:4px;}
+.top-r{display:flex;gap:6px;}.cbtn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:5px 11px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--fu);transition:all .15s;white-space:nowrap;}.cbtn:hover{background:rgba(255,255,255,.22);}.cbtn.on{background:var(--acc);border-color:var(--acc);}.cbtn:focus-visible,.lbtn:focus-visible,.sb-btn:focus-visible,.filter-btn:focus-visible,.abtn:focus-visible,.xbtn:focus-visible,.burg:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+.lay{display:flex;margin-top:52px;height:calc(100vh - 52px);}
+.sb{width:258px;flex-shrink:0;background:var(--sb);overflow-y:auto;overflow-x:hidden;transition:width .22s;scrollbar-width:thin;scrollbar-color:var(--sba) var(--sb);}
+.sb.col{width:0;}.sb-book{padding:18px 16px 12px;border-bottom:1px solid rgba(255,255,255,.07);}
+.sb-th{font-family:var(--ft);font-size:26px;font-weight:700;color:var(--sbti);}.sb-zh{font-family:var(--fz);font-size:10px;color:var(--sbt);margin-top:3px;opacity:.75;}.sb-ct{font-size:10px;color:var(--acc);font-weight:700;margin-top:8px;}.sb-track{height:4px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden;margin-top:7px;}.sb-track-fill{height:100%;width:0;background:var(--acc);border-radius:inherit;transition:width .25s ease;}.sb-actions,.sb-filter{display:flex;gap:6px;margin-top:9px;}.sb-btn,.filter-btn{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:var(--sbt);font-family:var(--fz);font-size:10px;line-height:1;padding:6px 8px;border-radius:6px;cursor:pointer;transition:all .15s;}.sb-btn:hover,.filter-btn:hover,.filter-btn.on{background:var(--sba);border-color:rgba(255,255,255,.32);color:var(--sbti);}.sb-btn{color:rgba(255,255,255,.65);}.sb-save-note{font-family:var(--fz);font-size:9px;line-height:1.45;color:rgba(181,212,192,.5);margin-top:8px;}.nit-b{min-width:34px;}
+.nav-grp{padding:6px 0;}.nav-lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;color:rgba(181,212,192,.4);padding:8px 16px 3px;text-transform:uppercase;}
+.nit{display:flex;align-items:center;gap:9px;padding:8px 16px;cursor:pointer;color:var(--sbt);font-size:12.5px;transition:background .12s;border-left:3px solid transparent;user-select:none;}.nit:hover{background:var(--sbh);}.nit.act{background:var(--sba);border-left-color:var(--acc);color:var(--sbti);}
+.nit-em{width:18px;text-align:center;flex-shrink:0;font-size:14px;}.nit-tx{flex:1;min-width:0;}
+.nit-t{font-family:var(--fz);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.nit-s{font-family:var(--ft);font-size:10.5px;opacity:.55;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.nit-b{flex-shrink:0;min-width:20px;height:17px;padding:0 5px;background:rgba(255,255,255,.07);border-radius:9px;font-size:10px;text-align:center;line-height:17px;color:rgba(255,255,255,.4);}
+.nprog{height:2px;background:rgba(255,255,255,.07);margin:2px 16px 0;border-radius:1px;}.nprog-b{height:100%;background:var(--acc);transition:width .3s;border-radius:1px;}
+.cnt{flex:1;overflow-y:auto;overflow-x:hidden;padding:24px;scroll-behavior:smooth;}
+.sec-hd{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid var(--bd);}
+.sec-n{font-family:var(--ft);font-size:46px;font-weight:700;color:var(--bdl);line-height:1;letter-spacing:-2px;}.sec-tts{flex:1;}
+.sec-tzh{font-family:var(--fz);font-size:21px;font-weight:600;}.sec-tth{font-family:var(--ft);font-size:15px;color:var(--mu);margin-top:2px;}
+.sec-chip{font-size:10px;background:var(--accl);color:var(--acc);border:1px solid rgba(200,154,58,.3);padding:3px 10px;border-radius:20px;font-weight:700;}.sec-blk{margin-bottom:38px;}
+.qc{background:var(--bgc);border:1px solid var(--bdl);border-radius:10px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);transition:box-shadow .2s;overflow:hidden;}.qc.filtered-out,.sec-blk.filtered-out{display:none!important;}
+.qc:hover{box-shadow:0 3px 10px rgba(0,0,0,.09);}.qc.lrn{border-left:3px solid var(--gl);}
+.qch{display:flex;align-items:flex-start;gap:11px;padding:15px 15px 13px;cursor:pointer;transition:background .12s;}.qch:hover{background:var(--bgh);}
+.qcn{flex-shrink:0;width:34px;height:34px;background:var(--gd);color:#fff;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:1px;transition:background .2s;}.qc.lrn .qcn{background:var(--gl);}
+.qcq{flex:1;min-width:0;}.qcth{font-family:var(--ft);font-size:20px;font-weight:500;color:var(--thai);line-height:1.4;}
+.qcro{font-family:var(--ft);font-size:12.5px;color:var(--rom);font-style:italic;margin-top:2px;}.qczh{font-family:var(--fz);font-size:13px;color:var(--mu);margin-top:3px;}
+.hid{display:none!important;}.qca{display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.abtn{width:33px;height:33px;border-radius:50%;border:none;cursor:pointer;background:var(--gd);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .15s;flex-shrink:0;}.abtn:hover{background:var(--gm);transform:scale(1.06);}.abtn.pl{background:var(--acc);animation:pulse 1s infinite;}
+.xbtn{width:27px;height:27px;border-radius:50%;border:1px solid var(--bd);background:transparent;cursor:pointer;color:var(--mu);display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .2s;}.xbtn:hover{background:var(--bdl);}.qc.exp .xbtn{transform:rotate(180deg);}
+.qcb{max-height:0;overflow:hidden;transition:max-height .32s ease;}.qc.exp .qcb{max-height:900px;}.qcbi{padding:0 15px 15px;}.div{height:1px;background:var(--bdl);margin:0 -15px 14px;}
+.ans{display:flex;align-items:flex-start;gap:11px;padding:9px 11px;border-radius:8px;background:rgba(61,43,36,.045);margin-bottom:8px;}
+.anl{flex-shrink:0;width:23px;height:23px;border-radius:50%;background:var(--gd);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:2px;}
+.ant{flex:1;min-width:0;}.anth{font-family:var(--ft);font-size:18px;font-weight:500;color:var(--thai);line-height:1.4;}
+.anro{font-family:var(--ft);font-size:11.5px;color:var(--rom);font-style:italic;margin-top:2px;}.anzh{font-family:var(--fz);font-size:12px;color:var(--mu);margin-top:3px;}
+.subs{margin-top:11px;}.sub-lbl{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px;}
+.sub-chips{display:flex;flex-wrap:wrap;gap:5px;}.schip{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:18px;cursor:pointer;background:transparent;border:1px solid var(--bd);transition:all .15s;}.schip:hover{background:var(--accl);border-color:var(--acc);}
+.sch-th{font-family:var(--ft);color:var(--thai);font-size:14px;}.sch-zh{font-family:var(--fz);color:var(--mu);font-size:11px;}
+.fu{margin-top:13px;padding:9px 11px;border-radius:8px;background:rgba(200,154,58,.08);border-left:3px solid var(--acc);}
+.fu-lbl{font-size:9px;font-weight:700;color:var(--acc);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}.fu-row{display:flex;align-items:flex-start;gap:9px;}.fu-tx{flex:1;}
+.futh{font-family:var(--ft);font-size:17px;color:var(--thai);}.furo{font-family:var(--ft);font-size:11.5px;color:var(--rom);font-style:italic;margin-top:2px;}.fuzh{font-family:var(--fz);font-size:12px;color:var(--mu);margin-top:3px;}
+.notes{margin-top:13px;display:flex;flex-direction:column;gap:7px;}.note{padding:9px 11px;border-radius:8px;}
+.ng{background:rgba(185,100,46,.09);border:1px solid rgba(185,100,46,.22);}.ng-l{font-size:9px;font-weight:700;color:var(--gm);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}.ng-t{font-family:var(--ft);font-size:13.5px;color:var(--tm);line-height:1.65;}
+.nc{background:rgba(52,82,220,.04);border:1px solid rgba(52,82,220,.1);}.nc-l{font-size:9px;font-weight:700;color:#4A5ADB;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}.nc-t{font-family:var(--fz);font-size:12.5px;color:var(--tm);line-height:1.7;}
+.cft{display:flex;align-items:center;justify-content:flex-end;margin-top:13px;padding-top:9px;border-top:1px solid var(--bdl);}
+.lbtn{display:flex;align-items:center;gap:5px;padding:5px 13px;border-radius:18px;border:1px solid var(--bd);background:transparent;font-size:11px;color:var(--mu);cursor:pointer;font-family:var(--fz);transition:all .15s;}.lbtn:hover{border-color:var(--gl);color:var(--gm);}.lbtn.dn{background:var(--gl);border-color:var(--gl);color:#fff;}
+.apx{margin-bottom:38px;}.apx-hd{display:flex;align-items:center;gap:12px;margin-bottom:15px;padding-bottom:10px;border-bottom:2px solid var(--bd);}
+.apx-ic{font-size:26px;}.apx-tit{flex:1;}.apx-tzh{font-family:var(--fz);font-size:19px;font-weight:600;}.apx-tth{font-family:var(--ft);font-size:13px;color:var(--mu);margin-top:2px;}
+.plist{display:flex;flex-direction:column;gap:7px;}.prow{display:flex;align-items:flex-start;gap:11px;padding:9px 13px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);}
+.pnum{flex-shrink:0;width:21px;height:21px;border-radius:50%;background:var(--bdl);color:var(--mu);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;margin-top:2px;}
+.ptx{flex:1;}.pth{font-family:var(--ft);font-size:17px;color:var(--thai);line-height:1.4;}.prom{font-family:var(--ft);font-size:11.5px;color:var(--rom);font-style:italic;margin-top:2px;}.pzh{font-family:var(--fz);font-size:12px;color:var(--mu);margin-top:3px;}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:7px;}
+.vc{padding:10px 12px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);cursor:pointer;transition:all .15s;}.vc:hover{border-color:var(--gl);}
+.vth{font-family:var(--ft);font-size:19px;color:var(--thai);font-weight:500;}.vro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:2px;}.vzh{font-family:var(--fz);font-size:11.5px;color:var(--mu);margin-top:3px;}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:7px;}
+.fc{padding:9px 11px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);cursor:pointer;transition:all .15s;text-align:center;}.fc:hover{border-color:var(--acc);}
+.fth{font-family:var(--ft);font-size:16px;color:var(--thai);font-weight:500;}.fro{font-family:var(--ft);font-size:10.5px;color:var(--rom);font-style:italic;margin-top:2px;}.fzh{font-family:var(--fz);font-size:11.5px;color:var(--mu);margin-top:3px;}
+.lgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:14px;}
+.lcard{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);cursor:pointer;transition:all .15s;}.lcard:hover{border-color:var(--gl);}
+.lth{font-family:var(--ft);font-size:15px;color:var(--thai);}.lzh{font-family:var(--fz);font-size:11px;color:var(--mu);}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:7px;}
+.pc{padding:11px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);text-align:center;}
+.pton{font-family:var(--ft);font-size:26px;color:var(--thai);font-weight:600;}.ptro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:2px;}.ptzh{font-family:var(--fz);font-size:12.5px;font-weight:600;color:var(--t);margin-top:4px;}.ptuse{font-family:var(--fz);font-size:10.5px;color:var(--mu);margin-top:2px;line-height:1.4;}
+.parlist{display:flex;flex-direction:column;gap:7px;}
+.parrow{display:grid;grid-template-columns:65px 85px 1fr;align-items:center;gap:11px;padding:9px 13px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);cursor:pointer;}.parrow:hover{border-color:var(--acc);}
+.par-th{font-family:var(--ft);font-size:21px;color:var(--acc);font-weight:700;}.par-ro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;}
+.par-zh{font-family:var(--fz);font-size:13px;font-weight:600;color:var(--t);}.par-ex{font-family:var(--ft);font-size:13px;color:var(--mu);margin-top:2px;}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:7px;}
+.scard{padding:11px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);cursor:pointer;transition:all .15s;}.scard:hover{border-color:var(--gl);}
+.sth{font-family:var(--ft);font-size:19px;color:var(--thai);font-weight:600;}.sro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:2px;}.szh{font-family:var(--fz);font-size:12.5px;color:var(--t);font-weight:500;margin-top:4px;}.sex{font-family:var(--fz);font-size:11px;color:var(--mu);margin-top:2px;}
+.hlist{display:flex;flex-direction:column;gap:9px;}.hrow{display:flex;gap:11px;padding:11px 13px;background:var(--bgc);border:1px solid var(--bdl);border-radius:8px;}
+.hn{flex-shrink:0;width:23px;height:23px;border-radius:50%;background:var(--acc);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;}
+.htx{flex:1;}.htt{font-family:var(--fz);font-size:13.5px;font-weight:600;}.hte{font-family:var(--ft);font-size:14.5px;color:var(--thai);margin-top:3px;}.htz{font-family:var(--fz);font-size:11.5px;color:var(--mu);margin-top:2px;}
+.chgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:7px;}
+.chrow{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);}
+.ch-th{font-family:var(--ft);font-size:17px;color:var(--thai);}.ch-zh{font-family:var(--fz);font-size:11px;color:var(--mu);margin-top:2px;}
+.sslbl{display:flex;align-items:center;gap:8px;margin:14px 0 9px;font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.9px;}.sslbl::after{content:"";flex:1;height:1px;background:var(--bdl);}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(200,154,58,.45);}50%{box-shadow:0 0 0 6px rgba(200,154,58,0);}}
+@media(max-width:768px){.lay{height:calc(100dvh - 52px);}.sb{position:fixed;top:52px;left:0;bottom:0;z-index:50;transform:translateX(-100%);width:260px;}.sb.col{width:260px;overflow-y:auto;}.sb.mob-open{transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,.3);}.cnt{padding:14px;}.top-sub{display:none;}.lgrid{grid-template-columns:1fr;}.parrow{grid-template-columns:55px 70px 1fr;}}
+@media(max-width:480px){.top{padding:0 8px;}.top-l{gap:4px;}.top-title{font-size:19px;}.top-r{gap:4px;}.cbtn{padding:5px 7px;font-size:11px;}.qch{padding:13px 11px 12px;gap:8px;}.qca{gap:5px;}.qcbi{padding-left:11px;padding-right:11px;}.sec-hd{gap:9px;}.sec-n{font-size:38px;}.sec-tzh{font-size:18px;}.sec-chip{font-size:9px;padding:3px 7px;}}
+@media(min-width:769px){.sb{transform:none!important;}.sb.col{width:0;overflow:hidden;}}
+.cnt::-webkit-scrollbar{width:5px;}.cnt::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px;}
+
+
+/* ===== Extended handout styles v2 (vocab-driven, QA-50 architecture) ===== */
+.favbtn{display:flex;align-items:center;gap:5px;padding:5px 13px;border-radius:18px;border:1px solid var(--bd);background:transparent;font-size:11px;color:var(--mu);cursor:pointer;font-family:var(--fz);transition:all .15s;margin-right:6px;}
+.favbtn:hover{border-color:var(--acc);color:var(--acc);}
+.favbtn.on{background:var(--acc);border-color:var(--acc);color:#fff;}
+.cft{justify-content:space-between!important;}
+
+@keyframes flashHi{0%{box-shadow:0 0 0 5px rgba(200,154,58,.55);}100%{box-shadow:0 0 0 0 rgba(200,154,58,0);}}
+.flash{animation:flashHi 1.4s ease;border-radius:10px;}
+.empty-fav{padding:16px;text-align:center;color:var(--mu);font-family:var(--fz);font-size:12.5px;background:var(--bgc);border:1px dashed var(--bd);border-radius:10px;}
+.vb-tag{display:inline-block;font-size:9.5px;font-weight:700;color:var(--acc);background:var(--accl);border:1px solid rgba(200,154,58,.3);padding:2px 8px;border-radius:20px;}
+
+/* search */
+.stop-wrap{position:relative;flex:1;max-width:340px;margin:0 10px;}
+.sinput{width:100%;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:#fff;border-radius:8px;padding:7px 30px 7px 11px;font-size:12.5px;font-family:var(--fz);outline:none;}
+.sinput::placeholder{color:rgba(255,255,255,.5);}
+.sinput:focus{background:rgba(255,255,255,.18);}
+.sclear{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;font-size:13px;display:none;}
+.sclear.show{display:block;}
+.sres-hd{font-family:var(--fz);font-size:13px;color:var(--mu);margin:0 0 12px;padding-bottom:10px;border-bottom:2px solid var(--bd);}
+.sres-list{display:flex;flex-direction:column;gap:8px;}
+.sres-item{display:flex;align-items:flex-start;gap:11px;padding:11px 13px;border-radius:10px;background:var(--bgc);border:1px solid var(--bdl);cursor:pointer;transition:all .15s;}
+.sres-item:hover{border-color:var(--gl);box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.sres-tag{flex-shrink:0;font-size:9.5px;font-weight:700;color:var(--acc);background:var(--accl);border:1px solid rgba(200,154,58,.3);padding:3px 8px;border-radius:20px;white-space:nowrap;margin-top:2px;}
+.sres-b{flex:1;min-width:0;}
+.sres-th{font-family:var(--ft);font-size:16px;color:var(--thai);}
+.sres-ro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:1px;}
+.sres-zh{font-family:var(--fz);font-size:12px;color:var(--mu);margin-top:2px;}
+.hid-view{display:none!important;}
+
+/* compare */
+.cmp-card{background:var(--bgc);border:1px solid var(--bdl);border-radius:10px;padding:15px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.cmp-title{font-family:var(--fz);font-size:15px;font-weight:700;color:var(--t);margin-bottom:10px;}
+.cmp-row{display:grid;grid-template-columns:minmax(90px,140px) minmax(110px,180px) 1fr;gap:11px;padding:9px 0;border-top:1px dashed var(--bdl);align-items:start;}
+.cmp-row:first-of-type{border-top:none;}
+.cmp-pat{font-family:var(--ft);font-size:14.5px;color:var(--acc);font-weight:700;}
+.cmp-mean{font-family:var(--fz);font-size:12px;color:var(--tm);line-height:1.5;}
+.cmp-ex{display:flex;align-items:flex-start;gap:8px;}
+.cmp-ex-tx{flex:1;}
+.cmp-ex-th{font-family:var(--ft);font-size:15px;color:var(--thai);}
+.cmp-ex-ro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:1px;}
+.cmp-ex-en{font-family:var(--fz);font-size:11.5px;color:var(--mu);margin-top:2px;}
+.cmp-tip{margin-top:11px;padding:9px 11px;border-radius:8px;background:rgba(200,154,58,.08);border-left:3px solid var(--acc);font-family:var(--fz);font-size:12px;color:var(--tm);line-height:1.6;}
+
+/* mistakes */
+.mis-card{background:var(--bgc);border:1px solid var(--bdl);border-radius:10px;padding:15px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.mis-title{font-family:var(--fz);font-size:14.5px;font-weight:700;color:var(--t);margin-bottom:10px;}
+.mis-box{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;border-radius:8px;margin-bottom:8px;}
+.mis-wrong{background:rgba(200,60,50,.07);border:1px solid rgba(200,60,50,.18);}
+.mis-better{background:rgba(185,100,46,.1);border:1px solid rgba(185,100,46,.24);}
+.mis-lbl{flex-shrink:0;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:3px 7px;border-radius:5px;margin-top:2px;}
+.mis-wrong .mis-lbl{background:#c0392b;color:#fff;}
+.mis-better .mis-lbl{background:var(--gl);color:#fff;}
+.mis-tx{flex:1;}
+.mis-th{font-family:var(--ft);font-size:15px;color:var(--thai);}
+.mis-ro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:1px;}
+.mis-en{font-family:var(--fz);font-size:11.5px;color:var(--mu);margin-top:2px;}
+.mis-why{font-family:var(--fz);font-size:12.5px;color:var(--tm);line-height:1.65;padding:9px 11px;border-radius:8px;background:#f8f5f1;border:1px solid var(--bdl);}
+
+/* structures */
+.str-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;}
+.str-card{background:var(--bgc);border:1px solid var(--bdl);border-left:4px solid var(--gl);border-radius:10px;padding:13px 14px;}
+.str-title{font-family:var(--fz);font-size:13.5px;font-weight:700;color:var(--t);}
+.str-mean{font-family:var(--fz);font-size:11.5px;color:var(--mu);margin-top:5px;line-height:1.55;}
+.str-ex{margin-top:9px;padding:8px 10px;border-radius:8px;background:rgba(61,43,36,.045);}
+.str-th{font-family:var(--ft);font-size:15px;color:var(--thai);}
+.str-ro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:1px;}
+.str-en{font-family:var(--fz);font-size:11px;color:var(--mu);margin-top:2px;}
+
+/* dialogues */
+.dlg-card{background:var(--bgc);border:1px solid var(--bdl);border-radius:10px;padding:15px;margin-bottom:12px;}
+.dlg-title{font-family:var(--fz);font-size:14.5px;font-weight:700;color:var(--t);margin-bottom:11px;}
+.dlg-thread{display:flex;flex-direction:column;gap:9px;}
+.dlg-row{display:flex;width:100%;}
+.dlg-row.l{justify-content:flex-start;}.dlg-row.r{justify-content:flex-end;}
+.dlg-bub{max-width:76%;border:1px solid var(--bdl);border-radius:14px;padding:9px 12px;background:#fff;}
+.dlg-row.l .dlg-bub{border-top-left-radius:4px;background:#f6faf7;}
+.dlg-row.r .dlg-bub{border-top-right-radius:4px;background:#fbf8f0;}
+.dlg-spk{font-size:10px;font-weight:700;color:var(--acc);margin-bottom:4px;}
+.dlg-th{font-family:var(--ft);font-size:15px;color:var(--thai);}
+.dlg-ro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:1px;}
+.dlg-en{font-family:var(--fz);font-size:11.5px;color:var(--mu);margin-top:2px;}
+
+/* sentence groups */
+.sen-group{margin-bottom:16px;}
+.sen-scene{display:inline-flex;font-size:11px;font-weight:700;color:#fff;background:var(--gm);padding:4px 11px;border-radius:20px;margin-bottom:9px;}
+.sen-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;}
+.sen-item{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;border-radius:8px;background:var(--bgc);border:1px solid var(--bdl);}
+.sen-th{font-family:var(--ft);font-size:14.5px;color:var(--thai);}
+.sen-ro{font-family:var(--ft);font-size:10.5px;color:var(--rom);font-style:italic;margin-top:1px;}
+.sen-en{font-family:var(--fz);font-size:11px;color:var(--mu);margin-top:2px;}
+
+/* 05/22 black palette: English soft gray, Traditional Chinese dark ink. */
+.lang-en{color:#6b7280;}
+.lang-zh{color:var(--tm);}
+
+/* practice */
+.prc-card{background:var(--bgc);border:1px solid var(--bdl);border-radius:10px;padding:13px 14px;margin-bottom:9px;}
+.prc-title{font-size:10px;font-weight:700;color:var(--acc);text-transform:uppercase;letter-spacing:.6px;}
+.prc-prompt{font-family:var(--fz);font-size:13.5px;color:var(--t);margin-top:5px;line-height:1.6;}
+.prc-ans-wrap{margin-top:9px;}
+.prc-ans-btn{font-family:var(--fz);font-size:11.5px;color:var(--gm);background:none;border:1px solid var(--bd);border-radius:16px;padding:5px 12px;cursor:pointer;}
+.prc-ans-btn:hover{border-color:var(--gl);}
+.prc-ans{display:none;margin-top:9px;padding:9px 11px;border-radius:8px;background:rgba(185,100,46,.09);border:1px solid rgba(185,100,46,.22);}
+.prc-ans.show{display:block;}
+.prc-ans .str-th{font-size:14.5px;}
+
+@media(max-width:920px){
+ .stop-wrap{display:none;}
+ .cmp-row{grid-template-columns:1fr;}
+ .str-grid,.sen-grid{grid-template-columns:1fr;}
+}
+
+/* ===== Black edition pilot · Night Library ===== */
+:root{
+ --bg:#E9ECF1;--bgc:#FFFEFB;--bgh:#F5F6F8;
+ --sb:#111827;--sbh:#1A2538;--sba:#22304A;
+ --sbt:#AAB4C7;--sbti:#F8F5EE;
+ --acc:#D9AA50;--accl:rgba(217,170,80,.13);
+ --gd:#182236;--gm:#536A86;--gl:#438F85;
+ --thai:#182033;--rom:#747C8A;
+ --t:#182033;--tm:#3E4654;--mu:#727B89;
+ --bd:#D8DCE3;--bdl:#E7E9ED;
+}
+body{background:var(--bg);color:var(--t);}
+.top{
+ height:60px;padding:0 20px;
+ background:rgba(16,23,37,.98);
+ border-bottom:1px solid rgba(255,255,255,.09);
+ box-shadow:0 8px 28px rgba(15,23,42,.2);
+}
+.top-l{gap:11px;}.burg{width:34px;height:34px;padding:0;border:1px solid rgba(255,255,255,.12);border-radius:10px;}
+.top-title{font-family:var(--fu);font-size:16px;font-weight:600;letter-spacing:.02em;}
+.top-sub{color:#8F99AB;font-size:10.5px;}
+.top-r{gap:7px;}.cbtn{padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14);color:#DDE2EA;}
+.cbtn:hover{background:rgba(255,255,255,.13);}.cbtn.on{background:var(--acc);border-color:var(--acc);color:#172033;}
+.sinput{height:36px;border-radius:12px;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.13);}
+.sinput:focus{background:rgba(255,255,255,.11);border-color:rgba(217,170,80,.6);}
+.lay{margin-top:60px;height:calc(100vh - 60px);}
+.sb{width:272px;background:linear-gradient(180deg,#111827 0%,#141E30 100%);scrollbar-color:#35425A var(--sb);}
+.sb-book{padding:24px 18px 17px;border-bottom-color:rgba(255,255,255,.08);}
+.sb-th{font-family:var(--fu);font-size:19px;font-weight:600;letter-spacing:.01em;}
+.sb-zh{margin-top:6px;color:#929CAF;font-size:10.5px;line-height:1.55;opacity:1;}
+.sb-ct{margin-top:14px;color:var(--acc);font-size:10.5px;}
+.sb-track{height:5px;margin-top:8px;background:rgba(255,255,255,.1);}
+.sb-track-fill,.nprog-b{background:linear-gradient(90deg,var(--acc),#EBCB83);}
+.sb-actions,.sb-filter{gap:7px;margin-top:11px;}
+.sb-btn,.filter-btn{padding:7px 9px;border-radius:8px;color:#AEB8C9;background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.12);}
+.sb-btn:hover,.filter-btn:hover,.filter-btn.on{background:#26344D;border-color:#53617A;color:#FFF;}
+.sb-save-note{color:#727E92;font-size:9.5px;}
+.nav-grp{padding:8px 0;}.nav-lbl{padding:10px 18px 5px;color:#68758A;letter-spacing:1.3px;}
+.nit{padding:9px 18px;color:#AEB7C7;border-left-width:3px;}
+.nit:hover{background:#1A2538;}.nit.act{background:#22304A;border-left-color:var(--acc);color:#FFF;}
+.nit-b{background:rgba(255,255,255,.07);color:#7F8A9D;}
+.nprog{background:rgba(255,255,255,.05);margin-left:18px;margin-right:18px;}
+.cnt{
+ padding:34px clamp(20px,4vw,52px) 70px;
+ background:
+  radial-gradient(circle at 100% 0%,rgba(217,170,80,.08),transparent 28rem),
+  linear-gradient(145deg,#EEF0F4 0%,#E7EAEF 100%);
+}
+#normalView,#searchView{width:min(100%,1060px);margin:0 auto;}
+.sec-blk,.apx{margin-bottom:48px;}
+.sec-hd,.apx-hd{margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid #CED3DC;}
+.sec-n{font-family:var(--fu);font-size:42px;font-weight:600;color:#CDD2DB;letter-spacing:-.055em;}
+.sec-tzh,.apx-tzh{color:#1B2436;font-weight:600;letter-spacing:.01em;}
+.sec-tth,.apx-tth{color:#7A8391;}
+.sec-chip,.vb-tag,.sres-tag{color:#8A651F;background:#F7EED8;border-color:#E8D29F;}
+.qc,.cmp-card,.mis-card,.dlg-card,.prc-card,.str-card,.sen-item,.sres-item,.prow,.vc,.fc,.lcard,.pc,.parrow,.scard,.hrow,.chrow{
+ background:var(--bgc);border-color:#E0E3E8;border-radius:14px;
+ box-shadow:0 4px 16px rgba(24,32,51,.045);
+}
+.qc{margin-bottom:12px;border-radius:16px;box-shadow:0 5px 18px rgba(24,32,51,.055);}
+.qc:hover,.cmp-card:hover,.str-card:hover,.sen-item:hover{box-shadow:0 10px 26px rgba(24,32,51,.09);}
+.qc.lrn{border-left:4px solid var(--gl);}
+.qch{padding:17px 17px 15px;}.qch:hover{background:#F7F8FA;}
+.qcn{width:36px;height:36px;border-radius:11px;background:var(--gd);box-shadow:0 4px 10px rgba(24,34,54,.18);}
+.qc.lrn .qcn{background:var(--gl);}.qcth{font-size:21px;color:#182033;}
+.qcro,.anro,.furo,.prom,.vro,.fro,.ptro,.par-ro,.sro,.cmp-ex-ro,.mis-ro,.str-ro,.dlg-ro,.sen-ro,.sres-ro{color:var(--rom);}
+.qczh,.anzh,.fuzh,.pzh,.vzh,.fzh,.lzh,.ptuse,.sex,.htz,.ch-zh,.cmp-ex-en,.mis-en,.str-en,.dlg-en,.sen-en,.sres-zh{color:var(--mu);}
+.abtn{background:#26344D;box-shadow:0 3px 9px rgba(24,34,54,.16);}
+.abtn:hover{background:#364A69;}.abtn.pl{background:var(--acc);color:#182033;}
+.xbtn{border-color:#D5D9E1;color:#747D8C;background:#F8F9FA;}.xbtn:hover{background:#EEF0F3;}
+.ans,.str-ex{background:#F3F5F7;}
+.anl{background:#26344D;}.schip{background:#FAFAF8;border-color:#D9DDE4;}
+.schip:hover{background:#F8F0DE;border-color:#D9AA50;}
+.fu,.cmp-tip{background:#FBF5E7;border-left-color:var(--acc);}
+.ng{background:#F7F2E8;border-color:#E8D9B8;}.ng-l{color:#8A651F;}
+.nc{background:#F0F4F8;border-color:#D8E1EB;}.nc-l{color:#506C8D;}
+.lbtn,.favbtn,.prc-ans-btn{border-color:#D4D8E0;background:#FFF;color:#626C7B;}
+.lbtn:hover,.favbtn:hover,.prc-ans-btn:hover{border-color:var(--acc);color:#8A651F;background:#FFF9ED;}
+.lbtn.dn,.favbtn.on{background:var(--gl);border-color:var(--gl);color:#FFF;}
+.cmp-card,.mis-card,.dlg-card{padding:18px;margin-bottom:13px;}
+.cmp-title,.mis-title,.dlg-title,.str-title{color:#1B2436;}
+.cmp-row{border-top-color:#E1E4E9;}.cmp-pat,.prc-title{color:#9A7126;}
+.mis-better{background:#EDF7F4;border-color:#CBE6E0;}.mis-better .mis-lbl{background:var(--gl);}
+.mis-why{background:#F4F3EF;border-color:#E4E1D8;}
+.str-card{border-left:5px solid var(--blue,#7397C9);padding:16px;}
+.dlg-bub{border-color:#DDE1E7;box-shadow:0 3px 10px rgba(24,32,51,.05);}
+.dlg-row.l .dlg-bub{background:#F1F7F5;border-left:5px solid #63B7AE;}
+.dlg-row.r .dlg-bub{background:#F5F3EA;border-right:5px solid var(--acc);}
+.dlg-spk{color:#876522;}.sen-scene{background:#536A86;}
+.prc-ans{background:#F1F7F5;border-color:#CBE6E0;}
+.empty-fav{background:rgba(255,255,255,.6);border-color:#C9CED7;}
+.cnt::-webkit-scrollbar-thumb{background:#B8BEC8;}
+
+@media(max-width:768px){
+ .lay{height:calc(100dvh - 60px);}
+ .sb{top:60px;width:272px;}.sb.col{width:272px;}
+ .cnt{padding:20px 14px 54px;}
+ .top{padding:0 10px;}
+ .top-title{font-size:15px;}.top-r{gap:5px;}.cbtn{padding:6px 9px;}
+ .sec-blk,.apx{margin-bottom:40px;}
+}
+@media(max-width:480px){
+ .top-sub{display:none;}.top-title{font-size:14px;}
+ .qch{padding:15px 12px 13px;}
+ .qcbi{padding-left:12px;padding-right:12px;}
+ .sec-hd,.apx-hd{gap:10px;}.sec-n{font-size:36px;}
+}
+
+</style>
+<link rel="stylesheet" href="black-edition.css">
+</head>
+<body>
+<div id="app">
+  <header class="top">
+    <div class="top-l"><button class="burg" onclick="toggleSB()">☰</button><span class="top-title">Thai Notes Handbook</span><span class="top-sub">2026-08-06</span></div>
+    <div class="stop-wrap"><input class="sinput" id="searchInput" type="text" placeholder="搜尋泰文・拼音・英文・中文…" oninput="doSearch(this.value)"><button class="sclear" id="searchClear" onclick="clearSearch()">✕</button></div>
+    <div class="top-r"><button class="cbtn" id="btnL" onclick="toggleLang()" aria-pressed="false" title="切換中文／英文">中文</button><button class="cbtn on" id="btnR" onclick="toggleRom()" aria-pressed="true" title="顯示／隱藏羅馬拼音">拼音 ✓</button></div>
+  </header>
+  <div class="lay">
+    <nav id="sb" class="sb"></nav>
+    <main id="cnt" class="cnt"></main>
+  </div>
+</div>
+<script type="application/json" id="jd">{"vocab":[{"th":"ค่ะ","ro":"khâ","en":"female polite particle","cat":"Grammar Core","note":"女性陳述、回應、答應時常用的禮貌句尾；它主要標示禮貌與說話者位置，不要硬翻成某個中文詞。","ex":["ขอบคุณค่ะ","khɔ̀ɔp-khun khâ","Thank you.","謝謝。"],"i":"V001","zh":"女性禮貌句尾語氣詞"},{"th":"ครับ","ro":"khráp","en":"male polite particle","cat":"Grammar Core","note":"男性最常見的禮貌句尾，也可單獨當「收到、是、好」的回應。","ex":["ครับ เข้าใจแล้ว","khráp khâo-jai lɛ́ɛw","Yes, I understand.","好，了解了。"],"i":"V002","zh":"男性禮貌句尾語氣詞"},{"th":"นะ","ro":"ná","en":"softening / interpersonal particle","cat":"Grammar Core","note":"把一句話「交到對方那邊」：可柔化、提醒、拉近共同感，也能在強語氣下變成警告。不是單純的 please。","ex":["อย่านะ","yàa ná","Don’t, okay? / Don’t you dare.","不要喔／你不要喔。"],"i":"V003","zh":"柔化、提醒或拉近語氣的句尾詞"},{"th":"แล้ว","ro":"lɛ́ɛw","en":"already; then; now; and then","cat":"Grammar Core","note":"核心不是單純「已經」，而是狀態跨過一個界線：事情進入新的時間／狀態。","ex":["แล้วไปไหนต่อ","lɛ́ɛw bpai nǎi dtɔ̀ɔ","And then where did you go?","然後去哪裡？"],"i":"V004","zh":"已經／然後／進入新狀態"},{"th":"เปล่า","ro":"bplào","en":"no; not; or not?","cat":"Grammar Core","note":"不是只否定某個動詞，而常是把對方提出的整個假設／命題退回去：「不是那樣」。","ex":["เปล่า แค่เหนื่อย","bplào khɛ̂ɛ nʉ̀ai","No, I’m just tired.","沒有，只是累。"],"i":"V005","zh":"沒有／不是／……了沒？"},{"th":"อย่าเพิ่ง","ro":"yàa phə̂ng","en":"don’t... just yet","cat":"Grammar Core","note":"「時間煞車」：現在先不要，但沒有關掉未來的可能性。","ex":["อย่าเพิ่งตอบ รอข้อมูลก่อน","yàa phə̂ng dtɔ̀ɔp rɔɔ khɔ̂ɔ-muun gɔ̀ɔn","Don’t reply yet. Wait for the information first.","先別回，先等資料。"],"i":"V006","zh":"先不要／別急著……"},{"th":"สงสัย","ro":"sǒng-sǎi","en":"wonder; suspect; probably","cat":"Grammar Core","note":"核心是資訊不完整，腦中開始對原因或可能性作推測。口語裡常不是「懷疑某人」。","ex":["สงสัยเขาหลับแล้ว","sǒng-sǎi khǎo làp lɛ́ɛw","I guess he’s probably asleep.","看來他應該睡了。"],"i":"V007","zh":"好奇／懷疑／看來可能……"},{"th":"น่าดู","ro":"nâa duu","en":"worth watching; worth seeing","cat":"Grammar Core","note":"某個東西看起來值得花注意力去看；不是直接斷定「很好看」。","ex":["งานนี้น่าดู","ngaan níi nâa duu","This event looks worth checking out.","這活動看起來值得去看。"],"i":"V008","zh":"看起來值得看"},{"th":"คนละเรื่อง","ro":"khon-lá rʉ̂ang","en":"a completely different matter","cat":"Grammar Core","note":"把兩件不應連在一起判斷的事切開：「根本兩回事」。比 ไม่เหมือนกัน 強。","ex":["ขอโทษกับแก้ปัญหามันคนละเรื่องกัน","khɔ̌ɔ-thôot gàp gɛ̂ɛ bpan-hǎa man khon-lá rʉ̂ang gan","Apologizing and fixing the problem are two different things.","道歉和解決問題是兩回事。"],"i":"V009","zh":"完全是兩回事"},{"th":"เป็นไปได้","ro":"bpen bpai dâai","en":"possible; be possible","cat":"Grammar Core","note":"判斷一件事情在現實中「有沒有走得通的路／成立可能」。","ex":["เป็นไปได้ว่าเขาจะมา","bpen bpai dâai wâa khǎo jà maa","It’s possible that he’ll come.","他有可能會來。"],"i":"V010","zh":"有可能／可行"},{"th":"จริงหรือ","ro":"jing rʉ̌ʉ","en":"really?; is that true?","cat":"Grammar Core","note":"完整、標準的「真的嗎？」；在曼谷朋友聊天裡常見更口語的 จริงเหรอ。","ex":["จริงเหรอ ฉันไม่รู้เลย","jing rɔ̌ɔ chǎn mâi rúu ləəy","Really? I had no idea.","真的喔？我完全不知道。"],"i":"V011","zh":"真的嗎？（較完整標準）"},{"th":"ยินดีด้วย","ro":"yin-dii dûai","en":"congratulations; happy for you","cat":"Grammar Core","note":"你的好事發生了，我也一起替你高興；所以是「恭喜」，不是「不客氣」。","ex":["ยินดีด้วยนะ เรียนจบแล้ว","yin-dii dûai ná riian jòp lɛ́ɛw","Congratulations on graduating.","恭喜畢業。"],"i":"V012","zh":"恭喜／替你開心"},{"th":"สนใจ","ro":"sǒn-jai","en":"be interested in; pay attention to","cat":"Grammar Core","note":"人的注意力／興趣往某人某事靠過去。主詞是「產生興趣的人」。","ex":["สนใจตัวไหนคะ","sǒn-jai dtua nǎi khá","Which one are you interested in?","對哪一款有興趣呢？"],"i":"V013","zh":"對……有興趣／關注"},{"th":"น่าสนใจ","ro":"nâa sǒn-jai","en":"interesting; worth looking into","cat":"Grammar Core","note":"事物本身有吸引注意力的特質：值得研究、看一看。","ex":["งานนี้น่าสนใจนะ","ngaan níi nâa sǒn-jai ná","This event looks interesting.","這活動看起來很值得去。"],"i":"V014","zh":"有趣／值得了解"},{"th":"ปกติ","ro":"bpòk-gà-dtì","en":"normal; usually","cat":"Grammar Core","note":"所有意思都圍繞「平常基準線」：沒偏離就是正常；按平常模式就是通常。","ex":["ปกติตื่นกี่โมง","bpòk-gà-dtì dtʉ̀ʉn gìi moong","What time do you usually wake up?","你平常幾點起床？"],"i":"V015","zh":"平常／通常／正常"},{"th":"ก็ได้","ro":"gɔ̂ɔ dâai","en":"okay; fine; that works","cat":"Grammar Core","note":"不是唯一或最積極選擇，但「這樣也可以接受」。因此既可中性，也可勉強。","ex":["ถ้าร้านนี้เต็ม ไปร้านอื่นก็ได้","thâa ráan níi dtem bpai ráan ʉ̀ʉn gɔ̂ɔ dâai","If this place is full, another restaurant is fine too.","這間滿了，去別間也可以。"],"i":"V016","zh":"也可以／那樣也行"},{"th":"อาบน้ำหรือยัง","ro":"àap náam rʉ̌ʉ yang","en":"Have you showered yet?","cat":"Grammar Core","note":"生活型「做了沒？」句型：V + หรือยัง。熟人聊天常再縮成 V + ยัง。","ex":["อาบน้ำยัง","àap náam yang","Showered yet?","洗澡了沒？"],"i":"V017","zh":"洗澡了嗎？"},{"th":"บางที","ro":"baang-thii","en":"sometimes; perhaps","cat":"Grammar Core","note":"不是每次如此，而是某些時候；口語也能進一步表示「或許」。","ex":["บางทีเขาอาจจะลืม","baang-thii khǎo àat jà lʉʉm","Maybe he forgot.","說不定他忘了。"],"i":"V018","zh":"有時候／也許"},{"th":"ไม่เป็นไร","ro":"mâi bpen rai","en":"it’s okay; no problem; never mind; no thanks","cat":"Grammar Core","note":"核心不是某個固定中文，而是「這件事不用升級成需要處理的問題」。所以能變成沒關係、不客氣、不用了、沒事。","ex":["เอาถุงไหมคะ — ไม่เป็นไรค่ะ","ao thǔng mái khá — mâi bpen rai khâ","Would you like a bag? — No, thank you.","要袋子嗎？— 不用了，謝謝。"],"i":"V019","zh":"沒關係／沒事／不用了，謝謝"},{"th":"เหรอ","ro":"rɔ̌ɔ","en":"really?; is that so?","cat":"Grammar Core","note":"收到一個新資訊後再回頭確認：「喔？原來是這樣嗎？」不是單純從零開始問 yes/no。","ex":["จริงเหรอ","jing rɔ̌ɔ","Really?","真的嗎？"],"i":"V020","zh":"真的嗎？／是喔？"},{"th":"อ๋อ","ro":"ɔ̌ɔ","en":"oh; I see","cat":"Local usage","note":"新資訊補上之後，腦中「喀」一聲接起來：原來如此。重點是理解，不是單純驚訝。","ex":["อ๋อ ที่แท้เป็นแบบนี้","ɔ̌ɔ thîi-thɛ́ɛ bpen bɛ̀ɛp níi","Oh, so that’s how it is.","喔，原來是這樣。"],"i":"V021","zh":"喔，原來如此／懂了"},{"th":"อ่าฮะ","ro":"à-há","en":"uh-huh; mm-hmm","cat":"Local usage","note":"典型 backchannel：我有在聽，你可以繼續。它不必然等於「我同意你的觀點」。","ex":["อ่าฮะ เข้าใจ","à-há khâo-jai","Mm-hmm, I understand.","嗯哼，了解。"],"i":"V022","zh":"嗯哼／嗯嗯（表示有在聽）"},{"th":"ฮะ","ro":"há","en":"yes; huh? (male casual)","cat":"Local usage","note":"男性口語裡可作較隨便的應答，也可能因語調變成「蛤？」。一定要靠前後文和音調判斷。","ex":["ฮะ อะไรนะ","há à-rai ná","Huh? What did you say?","蛤？你說什麼？"],"i":"V023","zh":"好／蛤？（男性口語）"},{"th":"เออ","ro":"əə","en":"yeah; right; uh","cat":"Local usage","note":"熟人間高頻反應詞，可表示「對、嗯、啊對了、呃」。核心是很口語的認同或思緒轉折。","ex":["เออ ลืมบอกไป","əə lʉʉm bɔ̀ɔk bpai","Oh, I forgot to tell you.","欸，我忘了跟你說。"],"i":"V024","zh":"嗯／對／欸，對了"},{"th":"มัน","ro":"man","en":"it; he; she; the situation","cat":"Local usage","note":"不只指物，也常在口語指親近的第三人或整個情況。核心是把對象放在「非尊稱、口語指涉」的位置。","ex":["มันยังไม่มาเลย","man yang mâi maa ləəy","He/She still hasn’t come.","他／她還沒來。"],"i":"V025","zh":"它／他、她（口語）／整個情況"},{"th":"นาง","ro":"naang","en":"she; that girl/woman (chatty)","cat":"Local usage","note":"聊天、八卦、社群語氣裡很常見的「她／那女的」，帶一點旁觀、戲劇化鏡頭感。","ex":["วันนี้นางสวยมาก","wan-níi naang sǔai mâak","She looks gorgeous today.","她今天超漂亮。"],"i":"V026","zh":"她／那個女的（聊天口吻）"},{"th":"แก","ro":"gɛɛ","en":"you; he/she (close informal)","cat":"Local usage","note":"高頻熟人稱呼，標記「我們關係夠近」。通常比 มึง 安全，但仍不是正式「你」。","ex":["แกดูนี่สิ","gɛɛ duu nîi sì","Look at this.","你看這個啦。"],"i":"V027","zh":"你／他、她（熟人口語）"},{"th":"ยังๆ","ro":"yang-yang","en":"not yet; wait, not yet","cat":"Local usage","note":"即時制止進度：「還沒、還沒！」常發生在對方動作正要繼續時。","ex":["ยังๆ รอก่อน","yang-yang rɔɔ gɔ̀ɔn","Not yet, wait first.","還沒，先等一下。"],"i":"V028","zh":"還沒、還沒！"},{"th":"เดี๋ยวๆ","ro":"dǐaw-dǐaw","en":"wait, wait; hold on","cat":"Local usage","note":"即時把對話或動作截停：等等，我有事情要確認／插話／重新思考。","ex":["เดี๋ยวๆ อย่าเพิ่งกด","dǐaw-dǐaw yàa phə̂ng gòt","Wait, don’t press it yet.","等等，先不要按。"],"i":"V029","zh":"等等、先等一下"},{"th":"เฉยๆ","ro":"chə̌əy-chə̌əy","en":"just; simply; nothing special","cat":"Local usage","note":"把「特別目的、強烈情緒、額外程度」降到零：沒有你以為的那麼多。","ex":["ร้านนี้ก็เฉยๆ","ráan níi gɔ̂ɔ chə̌əy-chə̌əy","This place is just so-so.","這間就普通而已。"],"i":"V030","zh":"只是……／沒特別怎樣／普普"},{"th":"ไม่แน่นะ","ro":"mâi nɛ̂ɛ ná","en":"maybe; you never know","cat":"Local usage","note":"把別人過早的確定結論重新打開：「也不一定喔、搞不好」。","ex":["ไม่แน่นะ พรุ่งนี้อาจมีข่าวดี","mâi nɛ̂ɛ ná phrûng-níi àat mii khàao dii","You never know—there might be good news tomorrow.","搞不好明天會有好消息。"],"i":"V031","zh":"也不一定喔／搞不好"},{"th":"ใช้ได้นะ","ro":"chái dâai ná","en":"not bad; pretty good; usable","cat":"Local usage","note":"兩個世界：字面是「還能用」；評價時是「有過關、滿可以的」，通常帶保留，不是最高級稱讚。","ex":["ร้านนี้ใช้ได้นะ","ráan níi chái dâai ná","This place is pretty decent.","這間店不錯欸。"],"i":"V032","zh":"滿可以的／還不錯／能用"},{"th":"อะไรนะ","ro":"à-rai ná","en":"what?; what did you say?","cat":"Local usage","note":"不是只問「什麼東西」，而是要求重播剛才那段；也能在其實聽清楚時表示震驚或挑戰。","ex":["อะไรนะ ห้าหมื่นเหรอ","à-rai ná hâa mʉ̀ʉn rɔ̌ɔ","What? Fifty thousand?","什麼？五萬？"],"i":"V033","zh":"什麼？／你剛說什麼？"},{"th":"ว่าแล้ว","ro":"wâa lɛ́ɛw","en":"I knew it; that explains it","cat":"Local usage","note":"現在發生的事證明之前心裡已有的預感，所以可依情境翻「我就知道」或「難怪」。","ex":["ว่าแล้ว วันนี้ดูง่วงมาก","wâa lɛ́ɛw wan-níi duu ngûang mâak","That explains it. You look really sleepy today.","難怪，今天看起來這麼睏。"],"i":"V034","zh":"我就知道／難怪"},{"th":"เอาอีกแล้ว","ro":"ao ìik lɛ́ɛw","en":"here we go again; not again","cat":"Local usage","note":"某個熟悉、通常令人無奈的行為／麻煩又出現：「又來了」。","ex":["เอาอีกแล้วนะ เริ่มแซวอีกแล้ว","ao ìik lɛ́ɛw ná rə̂əm sɛɛw ìik lɛ́ɛw","Here you go again, teasing me again.","又來了喔，又開始虧我。"],"i":"V035","zh":"又來了／怎麼又這樣"},{"th":"ล้อเล่น","ro":"lɔ́ɔ-lên","en":"joke; just kidding","cat":"Local usage","note":"告訴對方「剛才說的不要照字面當真」。","ex":["ล้อเล่นใช่ไหม","lɔ́ɔ-lên châi mái","You’re joking, right?","你在開玩笑吧？"],"i":"V036","zh":"開玩笑／鬧著玩的"},{"th":"ไม่ธรรมดา","ro":"mâi tham-má-daa","en":"not ordinary; exceptional","cat":"Local usage","note":"不能用普通等級看：不簡單、有料、不能小看；也可能表示事情嚴重，不一定是稱讚。","ex":["เรื่องนี้ไม่ธรรมดาแล้ว","rʉ̂ang níi mâi tham-má-daa lɛ́ɛw","This is getting serious.","這件事不簡單了。"],"i":"V037","zh":"不簡單／非比尋常"},{"th":"งง","ro":"ngong","en":"confused; puzzled","cat":"Local usage","note":"資訊已經進來，但腦中不知道怎麼拼成清楚結構：「我現在搞不懂」。","ex":["อธิบายแบบนี้ยิ่งงง","à-thí-baai bɛ̀ɛp níi yîng ngong","Explaining it this way makes it even more confusing.","這樣解釋反而更亂。"],"i":"V038","zh":"搞不懂／滿頭問號"},{"th":"ถูกหวยไหม","ro":"thùuk hǔai mái","en":"Did you win the lottery?","cat":"Local usage","note":"ถูกหวย 的核心是「號碼對中了」；所以整句是「有沒有中彩券？」","ex":["ถูกนิดหน่อย","thùuk nít-nɔ̀i","I won a little.","中一點點。"],"i":"V039","zh":"有中彩券嗎？"},{"th":"แกล้ง","ro":"glɛ̂ɛng","en":"tease; prank; deliberately do; pretend","cat":"Local usage","note":"最穩定核心是「故意」：故意做某件事讓對方有反應，或故意做出假的表象。","ex":["แกล้งหลับ","glɛ̂ɛng làp","pretend to sleep","裝睡。"],"i":"V040","zh":"捉弄／故意做／假裝"},{"th":"แซว","ro":"sɛɛw","en":"tease verbally; make a playful comment","cat":"Local usage","note":"主要用「嘴巴」虧、起鬨、調侃，通常比แกล้ง更聚焦言語。","ex":["เพื่อนชอบแซวว่าฉันกับเขาเป็นแฟนกัน","phʉ̂an chɔ̂ɔp sɛɛw wâa chǎn gàp khǎo bpen fɛɛn gan","My friends like teasing that we’re a couple.","朋友很愛虧我們是一對。"],"i":"V041","zh":"用言語虧人／起鬨／調侃"},{"th":"มดขึ้น","ro":"mót khʉ̂n","en":"ants got to it; too sweet","cat":"Local usage","note":"字面是「螞蟻爬上來」；朋友間常利用「太甜會招螞蟻」吐槽互動太甜、太閃。","ex":["หวานกันขนาดนี้ มดขึ้นหมดแล้ว","wǎan gan khà-nàat níi mót khʉ̂n mòt lɛ́ɛw","You two are so sweet that ants are everywhere.","你們甜成這樣，螞蟻都來了。"],"i":"V042","zh":"招螞蟻／甜到招螞蟻"},{"th":"มาหาเรื่อง","ro":"maa hǎa rʉ̂ang","en":"come looking for trouble; pick a fight","cat":"Local usage","note":"不是來「找事情」，而是帶著挑釁意圖來找碴、引發衝突。","ex":["เขาไม่ได้มาคุย เขามาหาเรื่อง","khǎo mâi dâai maa khui khǎo maa hǎa rʉ̂ang","He didn’t come to talk. He came to pick a fight.","他不是來談，是來找碴。"],"i":"V043","zh":"來找碴／挑釁"},{"th":"ไฮโซ","ro":"hai-soo","en":"high-society; posh; upscale","cat":"Local usage","note":"從 high society 泰化而來；不只「有錢」，更有上流圈、奢華生活方式、看起來很貴氣的形象。","ex":["วันนี้แต่งตัวไฮโซมาก","wan-níi dtɛ̀ng-dtua hai-soo mâak","You look really posh today.","今天穿得很貴氣。"],"i":"V044","zh":"上流圈／貴氣／高檔"},{"th":"ชิลชิล","ro":"chin-chin","en":"relaxed; easygoing; chill","cat":"Local usage","note":"沒有壓力、不需要把事情做得太緊。現代口語也常寫 ชิลๆ。","ex":["เขาเป็นคนชิลๆ","khǎo bpen khon chin-chin","He’s very easygoing.","他個性很隨和。"],"i":"V045","zh":"輕鬆／隨性／沒壓力"},{"th":"นั่นสิ","ro":"nân sì","en":"exactly; that’s true; good question","cat":"Local usage","note":"你剛講的那個點，我也正好卡在同一點：「就是啊／對耶，我也在想」。","ex":["ทำไมเขายังไม่มา — นั่นสิ","tham-mai khǎo yang mâi maa — nân sì","Why isn’t he here yet? — Good question.","他怎麼還沒來？— 對耶。"],"i":"V046","zh":"就是啊／對耶／好問題"},{"th":"อ้อร้อ","ro":"ɔ̂ɔ-rɔ́ɔ","en":"Southern regional: showy / coquettish / lively","cat":"Local usage","note":"南部地方詞，語意高度依地區與語氣，可從活潑俏皮到愛表現、做作、不端莊。不是核心曼谷主動詞。","ex":["เด็กคนนี้อ้อร้อจริงๆ","dèk khon níi ɔ̂ɔ-rɔ́ɔ jing-jing","This kid is really lively/showy.","這孩子真的很活潑／很會表現。"],"i":"V047","zh":"南部方言：活潑、愛表現或嬌媚"},{"th":"เน่า","ro":"nâo","en":"rotten; lame; cheesy","cat":"Local usage","note":"字面「腐爛」，口語延伸成爛梗、俗爛、狗血、品質糟得很有畫面。","ex":["มุกนี้เน่ามาก","múk níi nâo mâak","This joke is so lame.","這梗超爛。"],"i":"V048","zh":"腐爛／爛、俗爛、老梗"},{"th":"ดวงดี","ro":"duang dii","en":"have good fortune; be lucky","cat":"Local usage","note":"不是只發生一件幸運事，而是某段時間整體運勢站在你這邊。","ex":["ได้รางวัลอีกแล้ว ดวงดีจริงๆ","dâai raang-wan ìik lɛ́ɛw duang dii jing-jing","You won again. You’re really lucky.","又中獎了，運氣真的很好。"],"i":"V049","zh":"運勢好／運氣好"},{"th":"เยอะแยะ","ro":"yə́-yɛ́","en":"lots and lots; plenty","cat":"Local usage","note":"不只「很多」，還有「多得是、綽綽有餘、不缺這一個」的感覺。","ex":["ร้านอื่นมีเยอะแยะ","ráan ʉ̀ʉn mii yə́-yɛ́","There are plenty of other places.","其他店多得是。"],"i":"V050","zh":"一大堆／多得是"},{"th":"แป๊บนึง","ro":"bpɛ́ɛp nʉ̀ng","en":"just a moment; one sec","cat":"Practical Usage","note":"向對方「借一小段時間」。重點是請對方等我一下，不是精確的一分鐘或幾秒。","ex":["ขอแป๊บนึงนะ กำลังส่งงาน","khɔ̌ɔ bpɛ́ɛp nʉ̀ng ná gam-lang sòng ngaan","Give me a sec; I’m submitting something.","等我一下，我正在送資料。"],"i":"V051","zh":"一下下／等我一下"},{"th":"คุ้นๆ","ro":"khún-khún","en":"kind of familiar","cat":"Practical Usage","note":"記憶系統有反應，但還抓不到完整答案：眼熟、耳熟、名字熟。","ex":["ชื่อนี้คุ้นๆ แต่จำไม่ได้","chʉ̂ʉ níi khún-khún dtɛ̀ɛ jam mâi dâai","This name sounds familiar, but I can’t remember.","這名字很熟，但想不起來。"],"i":"V052","zh":"好像有點熟／眼熟、耳熟"},{"th":"สดชื่น","ro":"sòt-chʉ̂ʉn","en":"refreshed; refreshing","cat":"Practical Usage","note":"身體與精神重新有清爽生命力：睡飽、洗澡、涼爽飲料後都能用，不等於單純開心。","ex":["อาบน้ำแล้วสดชื่นขึ้น","àap náam lɛ́ɛw sòt-chʉ̂ʉn khʉ̂n","I feel more refreshed after showering.","洗完澡清爽多了。"],"i":"V053","zh":"清爽／精神恢復"},{"th":"เรียบร้อย","ro":"rîiap-rɔ́ɔi","en":"neat; proper; all done","cat":"Practical Usage","note":"核心是「一切已被整理到妥當、沒有東西亂在外面」，所以可延伸成整齊、規矩、完成。","ex":["เรียบร้อยแล้วค่ะ","rîiap-rɔ́ɔi lɛ́ɛw khâ","Everything is done.","都處理好了。"],"i":"V054","zh":"整齊得體／都處理好了"},{"th":"โชคดีนะ","ro":"chôok-dii ná","en":"good luck; take care","cat":"Practical Usage","note":"把「希望接下來順利」送給對方；除了考試／面試，也能用在離別時祝對方往後順利。","ex":["ย้ายบ้านพรุ่งนี้เหรอ โชคดีนะ","yáai bâan phrûng-níi rɔ̌ɔ chôok-dii ná","You’re moving tomorrow? Good luck.","明天搬家？祝一切順利。"],"i":"V055","zh":"祝好運／保重喔"},{"th":"นิสัย","ro":"ní-sǎi","en":"character; habit; behavioral tendency","cat":"Practical Usage","note":"一個人反覆表現出的性格／行為模式。單獨喊 นิสัย! 時，常是熟人吐槽「很壞欸你」。","ex":["แกล้งกันอีกแล้ว นิสัย!","glɛ̂ɛng gan ìik lɛ́ɛw ní-sǎi","You’re teasing me again. You’re so mean!","又捉弄我，很壞欸你。"],"i":"V056","zh":"個性／習慣／行為傾向"},{"th":"ดูออก","ro":"duu ɔ̀ɔk","en":"can tell; see through","cat":"Practical Usage","note":"眼睛看到表面後，腦中成功判讀出背後真正狀態：「看得出來」。","ex":["ดูออกว่าเขาฝืนยิ้ม","duu ɔ̀ɔk wâa khǎo fʉ̌ʉn yím","I can tell he’s forcing a smile.","看得出來他是在勉強笑。"],"i":"V057","zh":"看得出來／看穿"},{"th":"สมัยก่อน","ro":"sà-mǎi gɔ̀ɔn","en":"in the old days; back then","cat":"Practical Usage","note":"不是剛才之前，而是帶「以前那個年代／那個人生階段」的時間感。","ex":["สมัยก่อนฉันขี้อายมาก","sà-mǎi gɔ̀ɔn chǎn khîi-aai mâak","I used to be very shy.","我以前很害羞。"],"i":"V058","zh":"以前／從前那個年代"},{"th":"ง่วง","ro":"ngûang","en":"sleepy; drowsy","cat":"Practical Usage","note":"身體在說「該睡了」：眼皮重、想睡。不是一般的「累」。","ex":["เริ่มง่วงแล้ว","rə̂əm ngûang lɛ́ɛw","I’m starting to get sleepy.","開始睏了。"],"i":"V059","zh":"想睡／睏"},{"th":"ได้แรง","ro":"dâai rɛɛng","en":"get strength; gain energy","cat":"Practical Usage","note":"在具體上下文裡是「得到力氣／推力」，但裸用不是最穩定的曼谷固定反應詞。","ex":["พักก่อน จะได้มีแรง","phák gɔ̀ɔn jà dâai mii rɛɛng","Rest first so you’ll have energy.","先休息，才會有力氣。"],"i":"V060","zh":"得到力量／重新有勁"},{"th":"ตักบาตร","ro":"dtàk-bàat","en":"give alms to monks","cat":"Practical Usage","note":"非常具體的佛教生活行為：把食物等供養給僧人，不是泛泛「做好事」。","ex":["ไปตักบาตรกับครอบครัว","bpai dtàk-bàat gàp khrɔ̂ɔp-khrua","go give alms with the family","跟家人一起去供僧。"],"i":"V061","zh":"托缽供養僧侶"},{"th":"ทำบุญ","ro":"tham bun","en":"make merit","cat":"Practical Usage","note":"在佛教／泰國文化框架裡累積บุญ（功德）的廣義行為，不只是一般「做善事」。","ex":["วันเกิดอยากไปทำบุญ","wan-gə̀ət yàak bpai tham bun","I want to make merit on my birthday.","生日想去做功德。"],"i":"V062","zh":"做功德／行善積福"},{"th":"จั๊กจี้","ro":"ják-gà-jîi","en":"ticklish; feel tickled","cat":"Practical Usage","note":"被碰到某些部位後，身體忍不住縮、笑、躲；不是皮膚自己發癢。","ex":["ฉันขี้จั๊กจี้","chǎn khîi-ják-gà-jîi","I’m very ticklish.","我很怕癢。"],"i":"V063","zh":"怕癢／覺得癢"},{"th":"ไม่อยากยุ่ง","ro":"mâi yàak yûng","en":"don’t want to get involved","cat":"Practical Usage","note":"不想把自己拉進某人的事情／衝突／麻煩裡：「我不想被捲進去」。","ex":["ไม่อยากยุ่งกับเขาแล้ว","mâi yàak yûng gàp khǎo lɛ́ɛw","I don’t want anything to do with him anymore.","我不想再跟他有牽扯。"],"i":"V064","zh":"不想介入／不想淌渾水"},{"th":"มึนมึน","ro":"mʉn-mʉn","en":"dazed; woozy; mentally foggy","cat":"Practical Usage","note":"不是「我不懂」，而是腦袋本身沒有完全開機：昏、霧、反應慢。聊天常寫 มึนๆ。","ex":["อ่านเยอะจนมึน","àan yə́ jon mʉn","I read so much that my head is spinning.","看太多看到腦袋都昏了。"],"i":"V065","zh":"昏昏的／腦袋霧霧的"},{"th":"บ้า","ro":"bâa","en":"crazy; ridiculous; silly","cat":"Emotional usage","note":"口語常不是醫學上的「瘋」，而是對荒謬、害羞、被逗到的即時反應，可親暱也可攻擊。","ex":["บ้า พูดอะไรเนี่ย","bâa phûut à-rai nîia","Oh, stop it. What are you saying?","討厭啦，你在講什麼。"],"i":"V066","zh":"瘋／太扯／傻傻的"},{"th":"อย่านะ","ro":"yàa ná","en":"don’t, okay?; don’t you dare","cat":"Emotional usage","note":"อย่า 是禁止，นะ 把力量送到對方身上；因此可以柔化，也可以反而形成「你不要喔」的警告。","ex":["อย่านะ ฉันเตือนแล้ว","yàa ná chǎn dtʉan lɛ́ɛw","Don’t you dare. I warned you.","你不要喔，我警告過了。"],"i":"V067","zh":"不要喔／你敢……試試看"},{"th":"ดื้อ","ro":"dʉ̂ʉ","en":"stubborn; naughty; disobedient","cat":"Emotional usage","note":"不只是「固執」；通常隱含外面已經有勸告、規則或要求，但這個人偏偏不照做。","ex":["อย่าดื้อสิ พักก่อน","yàa dʉ̂ʉ sì phák gɔ̀ɔn","Don’t be stubborn. Rest first.","不要逞強啦，先休息。"],"i":"V068","zh":"固執／不聽話／調皮"},{"th":"สู้ๆ","ro":"sûu-sûu","en":"keep going; you’ve got this","cat":"Emotional usage","note":"不是字面「戰鬥」，而是把力量推給正在努力的人：撐住、加油、繼續。","ex":["ช่วงนี้เหนื่อยหน่อยนะ สู้ๆ","chûang níi nʉ̀ai nɔ̀i ná sûu-sûu","It’s a tough period. Hang in there.","最近比較累，撐一下。"],"i":"V069","zh":"加油／繼續撐住"},{"th":"ตายๆๆ","ro":"dtaai-dtaai-dtaai","en":"oh no; goodness; damn","cat":"Emotional usage","note":"字面是「死」，口語卻是情緒突然衝高的感嘆：完了、天啊、我的媽。可正可負。","ex":["ตายแล้ว สวยมาก","dtaai lɛ́ɛw sǔai mâak","Oh my God, you look gorgeous.","我的天，太漂亮了。"],"i":"V070","zh":"糟了／天啊／我的天"},{"th":"เจ้าชู้","ro":"jâo-chúu","en":"flirtatious; a flirt; a player","cat":"Emotional usage","note":"感情／曖昧注意力常往多人分散：很會撩、愛放電、可能不專一。","ex":["เขาเจ้าชู้มาก","khǎo jâo-chúu mâak","He’s a real player.","他很花心。"],"i":"V071","zh":"愛撩人／花心／很會玩曖昧"},{"th":"น่าเอ็นดู","ro":"nâa en-duu","en":"endearing; adorable in a tender way","cat":"Emotional usage","note":"不只「可愛」，而是可愛到讓人心軟、想疼、想照顧。","ex":["ดูน้องหมาสิ น่าเอ็นดูจัง","duu nɔ́ɔng-mǎa sì nâa en-duu jang","Look at that dog—so adorable.","你看那隻狗，好惹人疼。"],"i":"V072","zh":"惹人疼／讓人心軟的可愛"},{"th":"น่ารักอ่ะ","ro":"nâa-rák à","en":"that’s so cute","cat":"Emotional usage","note":"น่ารัก 是可愛；อ่ะ 把它變成很即時、很聊天的情緒流出：「好可愛喔」。","ex":["จำได้ด้วยเหรอ น่ารักอ่ะ","jam dâai dûai rɔ̌ɔ nâa-rák à","You even remembered? That’s so sweet.","你居然記得？好可愛／好貼心。"],"i":"V073","zh":"好可愛喔"},{"th":"อะไรของเธอ","ro":"à-rai khɔ̌ɔng thəə","en":"what’s with you?","cat":"Emotional usage","note":"不是「你的什麼」，而是對對方奇怪言行反應：「你現在到底怎麼回事／演哪齣？」","ex":["อะไรของเธอ อยู่ๆ ก็พูดแบบนี้","à-rai khɔ̌ɔng thəə yùu-yùu gɔ̂ɔ phûut bɛ̀ɛp níi","What’s with you? Why are you suddenly saying this?","你怎麼回事，突然這樣講。"],"i":"V074","zh":"你是怎樣？／你在搞什麼？"},{"th":"แล้วแต่เธอ","ro":"lɛ́ɛw dtɛ̀ɛ thəə","en":"it’s up to you","cat":"Emotional usage","note":"核心是把決定權交給對方；本身可中性，但冷語氣會變成「隨便你」。","ex":["จะไปก็ไป แล้วแต่เธอ","jà bpai gɔ̂ɔ bpai lɛ́ɛw dtɛ̀ɛ thəə","If you want to go, go. It’s up to you.","你要去就去，隨你。"],"i":"V075","zh":"隨便你／由你決定"},{"th":"ช่างมันเถอะ","ro":"châang man thə̀","en":"let it go; forget it","cat":"Emotional usage","note":"這件事也許真的有問題，但我決定不再把心理能量丟進去：算了吧、放掉吧。","ex":["ช่างมันเถอะ เรื่องผ่านไปแล้ว","châang man thə̀ rʉ̂ang phàan bpai lɛ́ɛw","Let it go. It’s already in the past.","算了吧，都過去了。"],"i":"V076","zh":"算了／別管它了"},{"th":"ฝันไปเถอะ","ro":"fǎn bpai thə̀","en":"dream on","cat":"Emotional usage","note":"帶嘲諷的「你去夢裡想吧」：對方期待的事情不會發生。","ex":["คิดว่าจะยอมเหรอ ฝันไปเถอะ","khít wâa jà yɔɔm rɔ̌ɔ fǎn bpai thə̀","You think I’ll give in? Dream on.","你以為我會答應？做夢。"],"i":"V077","zh":"做夢吧／想得美"},{"th":"ขี้เกียจจัง","ro":"khîi-gìiat jang","en":"I’m so lazy; I can’t be bothered","cat":"Emotional usage","note":"不是一定在批判人格，常是「現在真的很不想動／懶得做」。จัง 把當下感受放大。","ex":["ขี้เกียจออกจากบ้านจัง","khîi-gìiat ɔ̀ɔk jàak bâan jang","I really can’t be bothered to leave the house.","好懶得出門。"],"i":"V078","zh":"好懶喔／什麼都不想弄"},{"th":"เก่งจัง","ro":"gèng jang","en":"you’re so good; impressive","cat":"Emotional usage","note":"對能力的即時驚嘆：「你好厲害喔」。จัง 比 มาก 更像情緒直接跑出來。","ex":["พูดไทยได้เยอะแล้ว เก่งจัง","phûut thai dâai yə́ lɛ́ɛw gèng jang","You can speak so much Thai already. You’re really good.","已經會講很多泰文了，好厲害。"],"i":"V079","zh":"好厲害／你很會耶"},{"th":"แย่แล้ว","ro":"yɛ̂ɛ lɛ́ɛw","en":"oh no; this is bad","cat":"Emotional usage","note":"事情跨進「不好處理」的狀態，是即時警報，不只是靜態評價「很糟」。","ex":["แย่แล้ว ลืมกระเป๋าไว้ที่บ้าน","yɛ̂ɛ lɛ́ɛw lʉʉm grà-bpǎo wái thîi bâan","Oh no, I left my bag at home.","糟了，我把包忘在家。"],"i":"V080","zh":"糟了／這下不妙"},{"th":"เสียอารมณ์","ro":"sǐa aa-rom","en":"have one’s mood spoiled; be put off","cat":"Emotional usage","note":"外部事件把原本好好的興致／mood 弄壞，中文常最接近「掃興」。","ex":["อาหารอร่อยนะ แต่บริการทำให้เสียอารมณ์","aa-hǎan à-rɔ̀i ná dtɛ̀ɛ bɔɔ-rí-gaan tham hâi sǐa aa-rom","The food is good, but the service ruins the experience.","東西好吃，但服務很掃興。"],"i":"V081","zh":"被掃興／心情被破壞"},{"th":"อารมณ์เสีย","ro":"aa-rom sǐa","en":"be in a bad mood; annoyed","cat":"Emotional usage","note":"主角是人的當前情緒狀態：煩、怒、不爽。","ex":["รถติดจนเริ่มอารมณ์เสีย","rót dtìt jon rə̂əm aa-rom sǐa","The traffic is making me annoyed.","塞車塞到開始不爽。"],"i":"V082","zh":"心情不好／在生氣"},{"th":"อารมณ์ดี","ro":"aa-rom dii","en":"be in a good mood; cheerful","cat":"Emotional usage","note":"人的「情緒天氣」很好；既可表示今天心情好，也可形容一個人平常開朗。","ex":["เขาเป็นคนอารมณ์ดี","khǎo bpen khon aa-rom dii","He’s a cheerful person.","他是個很開朗的人。"],"i":"V083","zh":"心情好／很開心"},{"th":"หงุดหงิด","ro":"ngùt-ngìt","en":"irritated; frustrated; restless","cat":"Emotional usage","note":"不像大怒，更像一堆小刺激持續磨神經：煩躁、阿雜、不耐煩。","ex":["ไม่ได้โกรธ แค่หงุดหงิดนิดหน่อย","mâi dâai gròot khɛ̂ɛ ngùt-ngìt nít-nɔ̀i","I’m not angry, just a little irritated.","沒有生氣，只是有點煩。"],"i":"V084","zh":"煩躁／阿雜／不耐煩"},{"th":"สุดยอด","ro":"sùt-yɔ̂ɔt","en":"awesome; amazing; the best","cat":"Emotional usage","note":"評價衝到很高：太強、太讚、超厲害。比 ใช้ได้นะ 明顯強很多。","ex":["ร้านนี้สุดยอด","ráan níi sùt-yɔ̂ɔt","This place is amazing.","這間店超讚。"],"i":"V085","zh":"太棒了／超強／頂尖"},{"th":"คิดถึง","ro":"khít-thʉ̌ng","en":"miss; think of fondly","cat":"Emotional usage","note":"不在眼前的人／地方持續占著心裡的位置，有情感牽引，不只是腦中想到。","ex":["คิดถึงบ้าน","khít-thʉ̌ng bâan","I miss home.","想家。"],"i":"V086","zh":"想念／牽掛"},{"th":"ตกใจหมดเลย","ro":"dtòk-jai mòt ləəy","en":"you scared me; that startled me","cat":"Emotional usage","note":"突然刺激把正常狀態整個打散：「嚇我一大跳」。不等於持續害怕。","ex":["แกล้งใช่ไหม ตกใจหมดเลย","glɛ̂ɛng châi mái dtòk-jai mòt ləəy","You did that on purpose, didn’t you? You scared me!","你故意的對吧？嚇死我。"],"i":"V087","zh":"害我嚇一大跳"},{"th":"เกรงใจอ่ะ","ro":"greeng-jai à","en":"I feel bad imposing","cat":"Emotional usage","note":"非常泰的人際概念：知道別人正在付出時間、錢、力氣或方便，所以不想把對方的付出當理所當然。","ex":["อยากให้ช่วยนะ แต่เกรงใจ","yàak hâi chûai ná dtɛ̀ɛ greeng-jai","I want to ask for help, but I feel bad imposing.","想請你幫忙，但很不好意思麻煩你。"],"i":"V088","zh":"覺得不好意思／怕麻煩別人"},{"th":"ลุ้นหวยอยู่","ro":"lún hǔai yùu","en":"waiting anxiously for the lottery result","cat":"Emotional usage","note":"不是普通รอ，而是結果未揭曉、自己又很在意，所以心裡懸著期待。","ex":["ลุ้นว่าเขาจะตอบไหม","lún wâa khǎo jà dtɔ̀ɔp mái","I’m anxiously waiting to see whether he’ll reply.","正在期待他會不會回。"],"i":"V089","zh":"正緊張等彩券開獎"},{"th":"ไม่กวนแล้ว","ro":"mâi guan lɛ́ɛw","en":"I won’t bother you anymore; I’ll let you go","cat":"Emotional usage","note":"主動把自己的存在退出對方注意力。「你去忙，我不打擾了」；也可能帶受傷的「好啦我不煩你」。","ex":["ง่วงแล้วใช่ไหม งั้นไม่กวนแล้วนะ","ngûang lɛ́ɛw châi mái ngán mâi guan lɛ́ɛw ná","You’re sleepy, right? Then I’ll let you rest.","睏了對吧？那我不吵你了。"],"i":"V090","zh":"不吵你了／先讓你休息"},{"th":"เครียด","ro":"khrîiat","en":"stressed; tense","cat":"Emotional usage","note":"大腦被壓力繃住、沒辦法鬆開；不是單純難過。","ex":["ช่วงนี้งานเยอะจนเครียด","chûang níi ngaan yə́ jon khrîiat","I have so much work lately that I’m stressed.","最近工作多到壓力很大。"],"i":"V091","zh":"有壓力／緊繃"},{"th":"ไม่ยอม","ro":"mâi yɔɔm","en":"refuse; won’t give in; won’t allow","cat":"Emotional usage","note":"有外部要求、壓力、規則要我接受／退讓，但我不讓。","ex":["ฉันไม่ยอมให้ใครมาพูดแบบนี้","chǎn mâi yɔɔm hâi khrai maa phûut bɛ̀ɛp níi","I won’t allow anyone to talk like this.","我不允許任何人這樣講。"],"i":"V092","zh":"不答應／不讓步／不允許"},{"th":"ยึดติด","ro":"yʉ́t-dtìt","en":"cling to; be attached to; fixate on","cat":"Emotional usage","note":"心理抓住、黏住，不願鬆手，甚至開始限制自己。通常帶負擔感。","ex":["เขายังยึดติดกับอดีต","khǎo yang yʉ́t-dtìt gàp à-dìit","He’s still attached to the past.","他還執著於過去。"],"i":"V093","zh":"執著／抓著不放／過度依戀"},{"th":"สบายใจ","ro":"sà-baai-jai","en":"feel at ease; feel reassured","cat":"Emotional usage","note":"心裡沒有東西卡著：安心、放心、自在。不是興奮，也不是單純心情好。","ex":["อยู่กับเธอแล้วสบายใจ","yùu gàp thəə lɛ́ɛw sà-baai-jai","I feel at ease when I’m with you.","跟你在一起讓我很安心自在。"],"i":"V094","zh":"安心／放心／心裡自在"},{"th":"อะไรกันนักหนา","ro":"à-rai gan nák-nǎa","en":"what’s all the fuss?; why so much?","cat":"Emotional usage","note":"說話者明確判斷對方「已經太多了」：有完沒完、何必一直這樣。帶不耐煩。","ex":["จะทะเลาะอะไรกันนักหนา","jà thá-lɔ́ à-rai gan nák-nǎa","Why do you keep fighting so much?","到底有什麼好一直吵的？"],"i":"V095","zh":"到底在鬧什麼？／有完沒完？"},{"th":"ขนลุก","ro":"khǒn lúk","en":"get goosebumps","cat":"Emotional usage","note":"身體的毛豎起來；原因可以是恐怖、冷、感動、表演太強，不一定負面。","ex":["ร้องดีมาก ฟังแล้วขนลุกเลย","rɔ́ɔng dii mâak fang lɛ́ɛw khǒn lúk ləəy","The singing was so good that I got goosebumps.","唱得太好了，聽到起雞皮疙瘩。"],"i":"V096","zh":"起雞皮疙瘩"},{"th":"ตลกละ","ro":"dtà-lòk lá","en":"this is getting ridiculous","cat":"Emotional usage","note":"一開始可能還能笑，但現在跨線了：「開始太扯／荒謬了」。不是單純「很好笑」。","ex":["จะให้ฉันจ่ายทั้งหมดเหรอ ตลกละ","jà hâi chǎn jàai tháng-mòt rɔ̌ɔ dtà-lòk lá","You want me to pay for everything? That’s ridiculous.","要我全部付？太扯了吧。"],"i":"V097","zh":"開始太扯了／這下荒謬了"},{"th":"กู","ro":"guu","en":"I; me (very informal / rough)","cat":"Common mistake","note":"第一人稱的強烈親密／粗口標記。核心不是「我」本身，而是說話者把關係拉進非常內圈或衝突層級。","ex":["กูบอกแล้วไง","guu bɔ̀ɔk lɛ́ɛw ngai","I told you already.","我不是早就說了嗎。"],"i":"V098","zh":"我（非常粗、親密內圈或衝突用）"},{"th":"มึง","ro":"mʉng","en":"you (very informal / rough)","cat":"Common mistake","note":"第二人稱的強烈關係標記；在某些死黨群是親密，在圈外可能直接變成挑釁。","ex":["มึงพูดอะไร","mʉng phûut à-rai","What are you saying?","你在講什麼？"],"i":"V099","zh":"你（非常粗、親密內圈或衝突用）"},{"th":"หรอ","ro":"rɔ̌ɔ","en":"really? (chat spelling)","cat":"Common mistake","note":"真實 LINE／社群裡常見的非標準聊天拼字；理解成 เหรอ 的口語功能。","ex":["พรุ่งนี้หยุดหรอ","phrûng-níi yùt rɔ̌ɔ","You’re off tomorrow? (chat spelling)","你明天放假喔？（聊天拼法）"],"i":"V100","zh":"真的嗎？（聊天拼寫）"},{"th":"แว็บๆ","ro":"wɛ́p-wɛ́p","en":"flashing briefly; appearing in brief flashes","cat":"Common mistake","note":"短時間反覆閃現：燈光、畫面、念頭一閃一閃地冒出。","ex":["มีภาพแว็บๆ ขึ้นมาในหัว","mii phâap wɛ́p-wɛ́p khʉ̂n maa nai hǔa","Images keep flashing briefly through my mind.","腦中有畫面一閃一閃冒出。"],"i":"V101","zh":"一閃一閃／短暫閃過"},{"th":"อย่าเยอะ","ro":"yàa yə́","en":"don’t be too much; stop being extra","cat":"Common mistake","note":"對方的反應、要求、戲份被判定「太多」：收一點、別太超過。很口語，也很容易刺人。","ex":["อย่าเยอะได้ไหม","yàa yə́ dâai mái","Can you not be so demanding?","可以不要要求那麼多嗎？"],"i":"V102","zh":"別太超過／戲不要那麼多"},{"th":"ยินดีค่ะ","ro":"yin-dii khâ","en":"gladly; my pleasure","cat":"Textbook-based","note":"核心是「我很樂意／欣然」。可回應感謝，也常出現在服務語境。","ex":["ยินดีให้บริการค่ะ","yin-dii hâi bɔɔ-rí-gaan khâ","We’re happy to assist you.","很樂意為您服務。"],"i":"V103","zh":"很樂意／不客氣"},{"th":"ซึ่ง","ro":"sʉ̂ng","en":"which; that; who","cat":"Textbook-based","note":"偏正式／書面的關係連接詞，把後面的補充資訊掛回前面的人、事或整個命題。","ex":["เอกสารนี้ ซึ่งออกโดยมหาวิทยาลัย ต้องใช้สมัครวีซ่า","èek-gà-sǎan níi sʉ̂ng ɔ̀ɔk dooi má-hǎa-wít-thá-yaa-lai dtɔ̂ng chái sà-màk wii-sâa","This document, which was issued by the university, is required for the visa application.","這份由大學核發的文件是申請簽證所需。"],"i":"V104","zh":"關係代名詞：……的／而這……"}],"vsecs":[{"id":"v01","n":"01","title":"文法核心","tth":"ไวยากรณ์หลัก","em":"📖","r":[0,20]},{"id":"v02","n":"02","title":"道地用法","tth":"สำนวนท้องถิ่น","em":"🗣️","r":[20,50]},{"id":"v03","n":"03","title":"實用短語","tth":"วลีที่ใช้บ่อย","em":"🧳","r":[50,65]},{"id":"v04","n":"04","title":"情緒語感","tth":"อารมณ์ความรู้สึก","em":"💗","r":[65,97]},{"id":"v05","n":"05","title":"常見誤用詞","tth":"คำที่มักใช้ผิด","em":"⚠️","r":[97,102]},{"id":"v06","n":"06","title":"教科書詞","tth":"คำศัพท์จากตำรา","em":"📘","r":[102,104]}],"compare":[{"title":"1. อ๋อ vs เออ｜「懂了」和「對啦」不是同一個反應","rows":[{"term":["อ๋อ","ɔ̌ɔ","oh, I see","哦，我明白了"],"meaning":"資訊原本缺一塊，現在接上了；「喔，原來如此」。","ex":["อ๋อ เข้าใจแล้ว","ɔ̌ɔ khâo-jai lɛ́ɛw","Oh, I understand now.","喔，懂了。"]},{"term":["เออ","əə","yeah; right; uh","是的；對；呃"],"meaning":"熟人應聲、同意、突然想起；也可作思考填充詞。","ex":["เออ จริงด้วย ลืมไปเลย","əə jing dûai lʉʉm bpai ləəy","Oh yeah, right. I completely forgot.","欸對耶，我完全忘了。"]}],"tip":"Bangkok note：對長輩或正式對象用 เออ 單獨回答容易過度隨便；อ๋อ 則重點在「理解新資訊」。"},{"title":"2. ยังๆ vs เดี๋ยวๆ vs แป๊บนึง｜三種「等一下」","rows":[{"term":["ยังๆ","yang-yang","not yet, not yet","還沒有，還沒有"],"meaning":"「還沒！還沒進到下一步。」","ex":["ยังๆ อย่าเพิ่งกด","yang-yang yàa phə̂ng gòt","Not yet—don’t press it yet.","還沒有——先不要按它。"]},{"term":["เดี๋ยวๆ","dǐaw-dǐaw","wait, wait","等等，等等"],"meaning":"把正在進行的對話或動作即時截停。","ex":["เดี๋ยวๆ หกโมงเช้าเหรอ","dǐaw-dǐaw hòk moong cháo rɔ̌ɔ","Wait—six in the morning?","等等，早上六點？"]},{"term":["แป๊บนึง","bpɛ́ɛp nʉ̀ng","just a moment","稍等片刻"],"meaning":"向對方借一小段時間；「等我一下」。","ex":["รอแป๊บนึงนะ กำลังลงไป","rɔɔ bpɛ́ɛp nʉ̀ng ná gam-lang long bpai","Wait a sec, I’m coming down.","等一下，我要下來了。"]}],"tip":""},{"title":"3. อย่า vs อย่าเพิ่ง｜禁止 vs 暫緩","rows":[{"term":["อย่า","yàa","don’t","不要／禁止……"],"meaning":"不要做；句子本身不暗示稍後可以。","ex":["อย่าพูดแบบนั้น","yàa phûut bɛ̀ɛp nán","Don’t say that.","別這麼說。"]},{"term":["อย่าเพิ่ง","yàa phə̂ng","don’t...yet","先不要／別急著……"],"meaning":"現在先不要，保留之後的空間。","ex":["อย่าเพิ่งตอบข้อความนะ","yàa phə̂ng dtɔ̀ɔp khɔ̂ɔ-khwaam ná","Don’t reply to the message yet.","先不要回覆訊息。"]}],"tip":"Practical note：要表達「先別急」時漏掉 เพิ่ง，語氣會從延後變成真正禁止。"},{"title":"4. เฉยๆ vs ธรรมดา｜「沒特別」和「普通類型」","rows":[{"term":["เฉยๆ","chə̌əy-chə̌əy","just; nothing special","中立；沒什麼特別的"],"meaning":"說話者主觀降低目的、情緒或程度。","ex":["ถามเฉยๆ ไม่ได้มีอะไร","thǎam chə̌əy-chə̌əy mâi dâai mii à-rai","I’m just asking. There’s nothing behind it.","我只是問問，沒有別的意思。"]},{"term":["ธรรมดา","tham-má-daa","ordinary; normal","普通的；正常的"],"meaning":"客觀分類上的普通、不特殊。","ex":["เป็นร้านธรรมดา แต่รสชาติดี","bpen ráan tham-má-daa dtɛ̀ɛ rót-châat dii","It’s an ordinary place, but the food tastes good.","這是一個普通的地方，但食物味道不錯。"]}],"tip":""},{"title":"5. สนใจ vs น่าสนใจ｜興趣的箭頭方向","rows":[{"term":["สนใจ","sǒn-jai","be interested in","對……有興趣"],"meaning":"人把注意力放到某件事上：人 → 事物。","ex":["ฉันสนใจคอร์สนี้","chǎn sǒn-jai khɔ̂ɔt níi","I’m interested in this course.","我對這門課程感興趣。"]},{"term":["น่าสนใจ","nâa sǒn-jai","interesting; worth looking into","有趣；值得研究"],"meaning":"事物本身值得注意：事物 → 吸引人的注意。","ex":["คอร์สนี้น่าสนใจนะ","khɔ̂ɔt níi nâa sǒn-jai ná","This course looks interesting.","這門課程看起來很有趣。"]}],"tip":""},{"title":"6. แล้วแต่เธอ vs อะไรก็ได้ vs ก็ได้｜「你決定」「我都行」「這樣也行」","rows":[{"term":["แล้วแต่เธอ","lɛ́ɛw dtɛ̀ɛ thəə","it’s up to you","這取決於你"],"meaning":"把決定權交給對方；語氣冷時可變成「隨便你」。","ex":["แล้วแต่เธอเลย เราได้หมด","lɛ́ɛw dtɛ̀ɛ thəə ləəy rao dâai mòt","Totally up to you. I’m fine with anything.","完全取決於你。我什麼都行。"]},{"term":["อะไรก็ได้","à-rai gɔ̂ɔ dâai","anything is fine","什麼都可以／都行"],"meaning":"我對選項沒有偏好。","ex":["กินอะไรก็ได้","gin à-rai gɔ̂ɔ dâai","Anything is fine to eat.","什麼都可以吃。"]},{"term":["ก็ได้","gɔ̂ɔ dâai","okay; that works","好的；那行"],"meaning":"某個方案不是唯一選擇，但可以接受；有時是勉強答應。","ex":["หกโมงก็ได้","hòk moong gɔ̂ɔ dâai","Six o’clock works too.","六點也可以。"]}],"tip":""},{"title":"7. ช่างมันเถอะ vs ไม่เป็นไร｜放掉 vs 不把它當問題","rows":[{"term":["ไม่เป็นไร","mâi bpen rai","it’s okay; no problem; no thanks","沒關係；沒問題；不用了，謝謝"],"meaning":"這件事不用升級成需要處理的問題。","ex":["ขอโทษนะ — ไม่เป็นไร","khɔ̌ɔ-thôot ná — mâi bpen rai","Sorry. — It’s okay.","對不起。— 沒關係。"]},{"term":["ช่างมันเถอะ","châang man thə̀","let it go; forget it","放手吧；忘記它"],"meaning":"事情可能真的有問題，但不要再投放心力。","ex":["ช่างมันเถอะ เรื่องผ่านไปแล้ว","châang man thə̀ rʉ̂ang phàan bpai lɛ́ɛw","Let it go. It’s already in the past.","算了吧，都過去了。"]}],"tip":"Common mistake：不小心打翻水用 ไม่เป็นไร 很自然；對長期懊悔說 ช่างมันเถอะ 才是「放下吧」。"},{"title":"8. เสียอารมณ์ vs อารมณ์เสีย vs หงุดหงิด｜掃興、壞心情、煩躁","rows":[{"term":["เสียอารมณ์","sǐa aa-rom","have one’s mood spoiled","毀了一個人的心情"],"meaning":"事件 → 把 mood 弄壞。","ex":["กำลังสนุก แล้วโดนขัดจังหวะจนเสียอารมณ์","gam-lang sà-nùk lɛ́ɛw doon khàt jang-wà jon sǐa aa-rom","I was having fun, but being interrupted ruined my mood.","我玩得很開心，但被打斷了，毀了我的心情。"]},{"term":["อารมณ์เสีย","aa-rom sǐa","be in a bad mood","心情不好"],"meaning":"人 = 現在處在壞 mood。","ex":["ตอนนี้อารมณ์เสีย ขออยู่เงียบๆ ก่อน","dtɔɔn níi aa-rom sǐa khɔ̌ɔ yùu ngîiap-ngîiap gɔ̀ɔn","I’m in a bad mood right now. I need some quiet first.","我現在心情不好。我首先需要安靜一點。"]},{"term":["หงุดหงิด","ngùt-ngìt","irritated; frustrated","惱怒；沮喪"],"meaning":"多個小刺激持續磨神經。","ex":["วันนี้หงุดหงิดง่ายจัง","wan-níi ngùt-ngìt ngâai jang","I’m getting irritated really easily today.","我今天特別容易煩躁。"]}],"tip":""},{"title":"9. สดชื่น vs อารมณ์ดี｜精神清爽 vs 情緒愉快","rows":[{"term":["สดชื่น","sòt-chʉ̂ʉn","refreshed; refreshing","清爽／精神恢復"],"meaning":"身體、精神恢復清爽。","ex":["อาบน้ำแล้วสดชื่นขึ้น","àap náam lɛ́ɛw sòt-chʉ̂ʉn khʉ̂n","I feel more refreshed after showering.","洗完澡清爽多了。"]},{"term":["อารมณ์ดี","aa-rom dii","be in a good mood","心情愉快"],"meaning":"情緒天氣很好、心情愉快。","ex":["วันนี้ดูอารมณ์ดีจัง","wan-níi duu aa-rom dii jang","You seem to be in a great mood today.","你今天看起來心情很好。"]}],"tip":""},{"title":"10. ง่วง vs เหนื่อย vs มึน vs งง｜四種「狀態不好」","rows":[{"term":["ง่วง","ngûang","sleepy","想睡／睏"],"meaning":"身體想睡。","ex":["ง่วงมาก แต่ยังไม่เหนื่อย","ngûang mâak dtɛ̀ɛ yang mâi nʉ̀ai","I’m very sleepy, but not tired yet.","我很困，但還沒累。"]},{"term":["เหนื่อย","nʉ̀ai","tired","累了。"],"meaning":"身體或精神被消耗。","ex":["วันนี้ทำงานหนักเลยเหนื่อยมาก","wan-níi tham ngaan nàk ləəy nʉ̀ai mâak","I worked hard today, so I’m exhausted.","我今天工作很努力，所以我很累。"]},{"term":["มึน","mʉn","foggy; dazed","腦袋昏昏的／沒開機"],"meaning":"腦袋不清醒、反應慢。","ex":["นอนน้อยจนมึน","nɔɔn nɔ́ɔi jon mʉn","I’m foggy from not sleeping enough.","我睡得不夠，昏昏沉沉的。"]},{"term":["งง","ngong","confused","困惑的"],"meaning":"資訊、邏輯接不起來。","ex":["เข้าใจคำ แต่ยังงงวิธีใช้","khâo-jai kham dtɛ̀ɛ yang ngong wí-thii chái","I understand the word, but I’m still confused about how to use it.","我理解這個詞，但我仍然對如何使用它感到困惑。"]}],"tip":""},{"title":"11. คิดถึง vs นึกถึง｜想念 vs 被勾起聯想","rows":[{"term":["คิดถึง","khít-thʉ̌ng","miss","想念／思念"],"meaning":"帶情感牽引，心裡想念某人、地方或生活。","ex":["คิดถึงกรุงเทพฯ มาก","khít-thʉ̌ng grung-thêep mâak","I really miss Bangkok.","我真的很想念曼谷。"]},{"term":["นึกถึง","nʉ́k thʉ̌ng","think of; be reminded of","想到／聯想到"],"meaning":"某個刺激讓腦中聯想到另一件事，不一定有想念。","ex":["เพลงนี้ทำให้นึกถึงกรุงเทพฯ","phleeng níi tham hâi nʉ́k thʉ̌ng grung-thêep","This song reminds me of Bangkok.","這首歌讓我想起了曼谷。"]}],"tip":""},{"title":"12. สบายใจ vs โล่งใจ vs อุ่นใจ｜三種「安心」","rows":[{"term":["สบายใจ","sà-baai-jai","feel at ease","感到安心"],"meaning":"心裡沒有負擔、可以放鬆。","ex":["คุยกับเธอแล้วสบายใจ","khui gàp thəə lɛ́ɛw sà-baai-jai","Talking with you puts me at ease.","和你聊天讓我感到安心。"]},{"term":["โล่งใจ","lôong-jai","feel relieved","鬆一口氣／放心下來"],"meaning":"擔心解除後「呼」地鬆下來。","ex":["รู้ว่าไม่เป็นอะไรก็โล่งใจ","rúu wâa mâi bpen à-rai gɔ̂ɔ lôong-jai","I felt relieved knowing nothing was wrong.","知道沒有什麼問題，我鬆了一口氣。"]},{"term":["อุ่นใจ","ùn-jai","feel reassured","感到放心"],"meaning":"因人、保障、陪伴存在而安心。","ex":["มีคนไปด้วยก็อุ่นใจขึ้น","mii khon bpai dûai gɔ̂ɔ ùn-jai khʉ̂n","Having someone go with me makes me feel more secure.","有人和我一起去讓我感覺更安全。"]}],"tip":""},{"title":"13. แกล้ง vs แซว vs ล้อเล่น｜行為、嘴巴、真假","rows":[{"term":["แกล้ง","glɛ̂ɛng","prank; deliberately tease; pretend","惡作劇；故意挑逗；假裝"],"meaning":"核心是「故意做」；可捉弄，也可假裝。","ex":["แกล้งหลับเหรอ","glɛ̂ɛng làp rɔ̌ɔ","Are you pretending to sleep?","你在假裝睡覺嗎？"]},{"term":["แซว","sɛɛw","tease verbally","口頭挑逗"],"meaning":"主要用話虧人、起鬨。","ex":["อย่าแซวสิ เขินนะ","yàa sɛɛw sì khə̌ən ná","Don’t tease me. I’m getting shy.","別戲弄我。我越來越害羞了。"]},{"term":["ล้อเล่น","lɔ́ɔ-lên","just kidding","開玩笑的"],"meaning":"剛才講的內容不要照字面當真。","ex":["ล้อเล่นนะ อย่าจริงจัง","lɔ́ɔ-lên ná yàa jing-jang","I’m kidding. Don’t take it seriously.","我開玩笑的。不要把它當回事。"]}],"tip":""},{"title":"14. เหรอ vs ไหม vs หรอ｜反應問句、中性問句、聊天拼字","rows":[{"term":["ไหม","mái","yes/no question marker","是/否問題標記"],"meaning":"從零開始問對方是否做某事。","ex":["ไปไหม","bpai mái","Are you going?","你要去嗎？"]},{"term":["เหรอ","rɔ̌ɔ","really?; is that so?","真的嗎？／是喔？"],"meaning":"收到一個新資訊後回頭確認。","ex":["จะไปเหรอ","jà bpai rɔ̌ɔ","Oh, you’re going?","哦，你要去嗎？"]},{"term":["หรอ","rɔ̌ɔ","really? (chat spelling)","真的嗎？（聊天拼寫）"],"meaning":"聊天常見非標準拼字；閱讀要懂，正式筆記保留 เหรอ。","ex":["จริงหรอ","jing rɔ̌ɔ","Really? (chat spelling)","真的嗎？（聊天拼法）"]}],"tip":""},{"title":"15. ผูกพัน vs ยึดติด｜連結與抓住不放","rows":[{"term":["ผูกพัน","phùuk-phan","emotionally bonded","情感上的紐帶"],"meaning":"有深厚連結，本身可正面或中性。","ex":["ฉันผูกพันกับที่นี่มาก","chǎn phùuk-phan gàp thîi-nîi mâak","I feel deeply connected to this place.","我對這個地方有很深的情感連結。"]},{"term":["ยึดติด","yʉ́t-dtìt","cling to; be fixated on","執著／緊抓著不放"],"meaning":"心抓住不放，開始限制自己。","ex":["อย่ายึดติดกับผลลัพธ์มากเกินไป","yàa yʉ́t-dtìt gàp phǒn-láp mâak gəən bpai","Don’t get too attached to the outcome.","不要太執著於結果。"]}],"tip":""},{"title":"16. โชคดี vs ดวงดี｜一次幸運與整體運勢","rows":[{"term":["โชคดี","chôok-dii","lucky; good luck","幸運；祝你好運"],"meaning":"某件事很幸運，也可直接作祝福。","ex":["โชคดีที่วันนี้ฝนไม่ตก","chôok-dii thîi wan-níi fǒn mâi dtòk","Luckily, it didn’t rain today.","幸運的是，今天沒有下雨。"]},{"term":["ดวงดี","duang dii","have good fortune","祝你好運"],"meaning":"一段時間的整體運勢站在你這邊。","ex":["ช่วงนี้ดวงดี ทำอะไรก็ราบรื่น","chûang níi duang dii tham à-rai gɔ̂ɔ râap-rʉ̂ʉn","My luck has been good lately; everything is going smoothly.","我最近運氣很好；一切都很順利。"]}],"tip":""},{"title":"17. ไม่อยากยุ่ง vs อย่ามายุ่ง vs มาหาเรื่อง｜退出、設界線、挑釁","rows":[{"term":["ไม่อยากยุ่ง","mâi yàak yûng","don’t want to get involved","不想參與"],"meaning":"我選擇不進入這件事。","ex":["เรื่องของเขา ฉันไม่อยากยุ่ง","rʉ̂ang khɔ̌ɔng khǎo chǎn mâi yàak yûng","It’s their business. I don’t want to get involved.","那是他們的事，我不想介入。"]},{"term":["อย่ามายุ่ง","yàa maa yûng","leave me alone; don’t interfere","別管我；不要干涉"],"meaning":"你不要進入我的範圍；明確界線。","ex":["อย่ามายุ่งกับเรื่องนี้","yàa maa yûng gàp rʉ̂ang níi","Stay out of this.","遠離這個。"]},{"term":["มาหาเรื่อง","maa hǎa rʉ̂ang","come looking for trouble","來找麻煩"],"meaning":"對方主動帶著衝突意圖靠近。","ex":["เขาไม่ได้มาคุย เขามาหาเรื่อง","khǎo mâi dâai maa khui khǎo maa hǎa rʉ̂ang","He didn’t come to talk; he came looking for trouble.","他不是來說話的，他是來找麻煩的。"]}],"tip":""},{"title":"18. อะไรกันนักหนา vs อย่าเยอะ vs ตลกละ｜不耐煩三種層次","rows":[{"term":["อะไรกันนักหนา","à-rai gan nák-nǎa","what’s all the fuss?","有什麼大驚小怪的？"],"meaning":"「有完沒完？為什麼要做到這麼多？」","ex":["ถามอะไรกันนักหนา","thǎam à-rai gan nák-nǎa","Why are you asking so many questions?","到底為什麼一直問？"]},{"term":["อย่าเยอะ","yàa yə́","don’t be too much","不要太過分"],"meaning":"判斷對方的要求、反應、情緒「太多了」。","ex":["อย่าเยอะ แค่ไปกินข้าวเอง","yàa yə́ khɛ̂ɛ bpai gin khâaw eeng","Don’t be so extra. We’re just going out to eat.","別那麼多戲，我們只是出去吃個飯。"]},{"term":["ตลกละ","dtà-lòk lá","this is getting ridiculous","這越來越荒謬了。"],"meaning":"事情從「還能笑」跨到「荒謬、太扯」。","ex":["ตอนแรกขำ ตอนนี้เริ่มตลกละ","dtɔɔn rɛ̂ɛk khǎm dtɔɔn níi rə̂əm dtà-lòk lá","It was funny at first, but now it’s getting ridiculous.","一開始很有趣，但現在越來越可笑了。"]}],"tip":"安全提醒：三句都不是中性詞。熟人可以打鬧，但對正在認真表達感受的人說，容易變成否定與不耐煩。"}],"mistakes":[{"title":"1. 把 มึง 當普通「你」","wrong":{"label":"Wrong","th":"มึงเอาอันนี้ไหม","ro":"mʉng ao an níi mái","en":"Do you want this? (rough)","zh":"你要這個嗎？（語氣很粗）"},"better":{"label":"Better","th":"เอาอันนี้ไหม","ro":"ao an níi mái","en":"Do you want this?","zh":"你想要這個嗎？"},"why":"泰文常省略主詞；除非彼此已經有 กู／มึง 的熟人語言習慣，否則不要主動拿 มึง 當一般「你」。"},{"title":"2. 把「先不要」說成全面禁止","wrong":{"label":"Wrong","th":"อย่าไป","ro":"yàa bpai","en":"Don’t go.","zh":"別走。"},"better":{"label":"Better","th":"อย่าเพิ่งไป","ro":"yàa phə̂ng bpai","en":"Don’t go yet.","zh":"先別走。"},"why":"需要「現在先不要、之後可能可以」時，เพิ่ง 是核心。"},{"title":"3. 把 เฉยๆ 只翻成「普通」","wrong":{"label":"Wrong interpretation","th":"ถามเฉยๆ","ro":"thǎam chə̌əy-chə̌əy","en":"ask normally (incorrect interpretation)","zh":"正常提問（錯誤解釋）"},"better":{"label":"Better","th":"ถามเฉยๆ","ro":"thǎam chə̌əy-chə̌əy","en":"I’m just asking.","zh":"我只是問問。"},"why":"เฉยๆ 常把「隱含目的」拿掉；ถามเฉยๆ 是「只是問問，沒有別的意思」。"},{"title":"4. 混淆 สนใจ 與 น่าสนใจ","wrong":{"label":"Wrong","th":"ฉันน่าสนใจคอร์สนี้","ro":"chǎn nâa sǒn-jai khɔ̂ɔt níi","en":"I am interesting this course. (incorrect)","zh":"我對這門課程很感興趣。（不正確）"},"better":{"label":"Better","th":"ฉันสนใจคอร์สนี้","ro":"chǎn sǒn-jai khɔ̂ɔt níi","en":"I’m interested in this course.","zh":"我對這門課程感興趣。"},"why":"สนใจ 是「人對事有興趣」；น่าสนใจ 是「事物本身有意思」。"},{"title":"5. 把 เกรงใจ 當「害怕」","wrong":{"label":"Wrong interpretation","th":"เกรงใจเขา","ro":"greeng-jai khǎo","en":"I’m afraid of him. (incorrect)","zh":"我害怕他。（錯誤）"},"better":{"label":"Better","th":"เกรงใจเขา","ro":"greeng-jai khǎo","en":"I don’t want to impose on him.","zh":"我不想麻煩他／讓他為難。"},"why":"เกรงใจ 是顧慮對方的負擔、時間、金錢與感受；真正「害怕」用 กลัว / gluaa / be afraid。"},{"title":"6. 把 เสียอารมณ์ 與 อารมณ์เสีย 當完全同義","wrong":{"label":"Wrong assumption","th":"เสียอารมณ์ = อารมณ์เสีย","ro":"sǐa aa-rom = aa-rom sǐa","en":"same meaning (not quite)","zh":"同樣的意思（不完全是）"},"better":{"label":"Better","th":"เรื่องนี้ทำให้เสียอารมณ์ ตอนนี้เลยอารมณ์เสีย","ro":"rʉ̂ang níi tham hâi sǐa aa-rom dtɔɔn níi ləəy aa-rom sǐa","en":"This ruined my mood, so now I’m in a bad mood.","zh":"這毀了我的心情，所以現在我心情不好。"},"why":"เสียอารมณ์ 是事件破壞興致；อารมณ์เสีย 是人的當前情緒狀態。"},{"title":"7. 把 สดชื่น 當「心情好」","wrong":{"label":"Wrong interpretation","th":"อาบน้ำแล้วอารมณ์ดี","ro":"àap náam lɛ́ɛw aa-rom dii","en":"I’m in a good mood after showering.","zh":"洗完澡後，我心情很好。"},"better":{"label":"Better for「洗完很清爽」","th":"อาบน้ำแล้วสดชื่นขึ้น","ro":"àap náam lɛ́ɛw sòt-chʉ̂ʉn khʉ̂n","en":"I feel more refreshed after showering.","zh":"洗完澡清爽多了。"},"why":"สดชื่น 是身心清爽、恢復精神；อารมณ์ดี 才是情緒愉快。"},{"title":"8. 把 ง่วง、เหนื่อย、มึน、งง 混成「累」","wrong":{"label":"Wrong","th":"ง่วง = เหนื่อย = มึน = งง","ro":"ngûang = nʉ̀ai = mʉn = ngong","en":"all mean tired (incorrect)","zh":"全部都是『累』（錯誤）"},"better":{"label":"Better","th":"ง่วงแต่ไม่เหนื่อย แค่มึนนิดหน่อย แต่ไม่ได้งง","ro":"ngûang dtɛ̀ɛ mâi nʉ̀ai khɛ̂ɛ mʉn nít-nɔ̀i dtɛ̀ɛ mâi dâai ngong","en":"I’m sleepy but not tired, just a bit foggy, not confused.","zh":"我是想睡，但不是累；只是腦袋有點昏，不是搞不懂。"},"why":"ง่วง=想睡；เหนื่อย=被消耗；มึน=腦袋昏；งง=理解混亂。"},{"title":"9. 把 คิดถึง 當普通「想到」","wrong":{"label":"Wrong assumption","th":"คิดถึง = นึกถึง","ro":"khít-thʉ̌ng = nʉ́k thʉ̌ng","en":"same as think of (not quite)","zh":"和想的一樣（不完全是）"},"better":{"label":"Better","th":"เพลงนี้ทำให้นึกถึงกรุงเทพฯ แล้วก็คิดถึงมาก","ro":"phleeng níi tham hâi nʉ́k thʉ̌ng grung-thêep lɛ́ɛw gɔ̂ɔ khít-thʉ̌ng mâak","en":"This song reminds me of Bangkok, and it makes me miss it a lot.","zh":"這首歌讓我想到曼谷，也讓我好想念曼谷。"},"why":"นึกถึง 是被勾起聯想；คิดถึง 通常包含情感牽引與想念。"},{"title":"10. 把 ไม่เป็นไร 只背成「沒關係」","wrong":{"label":"Too narrow","th":"ไม่เป็นไร","ro":"mâi bpen rai","en":"only “it’s okay” (too narrow)","zh":"只有「沒關係」（太窄了）"},"better":{"label":"Better mental model","th":"ไม่เป็นไรค่ะ ไม่เอาถุง","ro":"mâi bpen rai khâ mâi ao thǔng","en":"No, thank you. I don’t need a bag.","zh":"不用，謝謝，我不需要袋子。"},"why":"核心是「不用把這件事升級成問題」，因此依情境可變成沒關係、不客氣、不用了、沒事。"},{"title":"11. 把 อย่าเยอะ 當無害萬用玩笑","wrong":{"label":"Risky","th":"อย่าเยอะ","ro":"yàa yə́","en":"Don’t be so much.","zh":"別那麼過分。"},"better":{"label":"Safer when emotions are real","th":"ค่อยๆ คุยกันนะ","ro":"khɔ̂i-khɔ̂i khui gan ná","en":"Let’s talk it through calmly.","zh":"讓我們冷靜地談一談。"},"why":"อย่าเยอะ 本質上是在判斷對方「要求、反應或情緒太多」，熟人打鬧可以，但在對方認真表達時可能很刺人。"},{"title":"12. 把 ตลกละ 當「很好笑」","wrong":{"label":"Wrong interpretation","th":"ตลกละ","ro":"dtà-lòk lá","en":"That’s funny. (often incorrect)","zh":"那很有趣。（經常不正確）"},"better":{"label":"Better","th":"ตอนแรกตลกดี แต่ตอนนี้เริ่มตลกละ","ro":"dtɔɔn rɛ̂ɛk dtà-lòk dii dtɛ̀ɛ dtɔɔn níi rə̂əm dtà-lòk lá","en":"It was funny at first, but now it’s getting ridiculous.","zh":"一開始很有趣，但現在越來越可笑了。"},"why":"正面「滿好笑」用 ตลกดี；ตลกละ 常表示事情已開始荒謬、太扯。"},{"title":"13. 正式筆記使用 หรอ","wrong":{"label":"Wrong for standard notes","th":"จริงหรอ","ro":"jing rɔ̌ɔ","en":"Really? (chat spelling)","zh":"真的嗎？（聊天拼法）"},"better":{"label":"Better","th":"จริงเหรอ","ro":"jing rɔ̌ɔ","en":"Really?","zh":"真的嗎？"},"why":"หรอ 在聊天非常常見，閱讀要會；標準學習輸出保留 เหรอ。"}],"dialogues":[{"title":"Dialogue 1｜BTS 月台：先別上車","turns":[{"speaker":"A","side":"left","th":"รถมาแล้ว ขึ้นเลยไหม","ro":"rót maa lɛ́ɛw khʉ̂n ləəy mái","en":"The train’s here. Shall we board?","zh":"車來了，要上車了嗎？"},{"speaker":"B","side":"right","th":"เดี๋ยวๆ อย่าเพิ่งขึ้น รอเพื่อนแป๊บนึง","ro":"dǐaw-dǐaw yàa phə̂ng khʉ̂n rɔɔ phʉ̂an bpɛ́ɛp nʉ̀ng","en":"Wait—don’t board yet. Let’s wait for our friend.","zh":"等等，先別上車，我們等朋友一下。"},{"speaker":"A","side":"left","th":"โอเค งั้นรอก่อน","ro":"oo-khee ngán rɔɔ gɔ̀ɔn","en":"Okay, then we’ll wait first.","zh":"好的，那我們先等。"}]},{"title":"Dialogue 2｜Café：我只是問問","turns":[{"speaker":"朋友","side":"left","th":"ทำไมถามเรื่องเขา สนใจเหรอ","ro":"tham-mai thǎam rʉ̂ang khǎo sǒn-jai rɔ̌ɔ","en":"Why are you asking about him? Are you interested?","zh":"你為什麼要問起他？你有興趣嗎？"},{"speaker":"你","side":"right","th":"ถามเฉยๆ ไม่ได้มีอะไร","ro":"thǎam chə̌əy-chə̌əy mâi dâai mii à-rai","en":"I’m just asking. There’s nothing behind it.","zh":"我只是問問，沒有別的意思。"},{"speaker":"朋友","side":"left","th":"อ๋อ โอเคๆ แค่แซวเล่น","ro":"ɔ̌ɔ oo-khee-oo-khee khɛ̂ɛ sɛɛw lên","en":"Oh, okay. I’m just teasing.","zh":"哦，好的。我只是在開玩笑。"}]},{"title":"Dialogue 3｜工作：先不要回訊息","turns":[{"speaker":"同事","side":"left","th":"ตอบลูกค้าเลยไหม","ro":"dtɔ̀ɔp lûuk-kháa ləəy mái","en":"Should we reply to the client now?","zh":"我們現在應該回覆客戶嗎？"},{"speaker":"你","side":"right","th":"อย่าเพิ่งตอบ รอข้อมูลให้ครบก่อน แล้วค่อยตอบ","ro":"yàa phə̂ng dtɔ̀ɔp rɔɔ khɔ̂ɔ-muun hâi khróp gɔ̀ɔn lɛ́ɛw khɔ̂i dtɔ̀ɔp","en":"Don’t reply yet. Wait until we have all the information, then reply.","zh":"先不要回覆。等到我們掌握所有資訊後，再回覆。"},{"speaker":"同事","side":"left","th":"ได้ เดี๋ยวรอก่อน","ro":"dâai dǐaw rɔɔ gɔ̀ɔn","en":"Okay, I’ll wait first.","zh":"好的，我先等。"}]},{"title":"Dialogue 4｜朋友：掃興還是心情不好？","turns":[{"speaker":"A","side":"left","th":"วันนี้ดูอารมณ์เสีย เป็นอะไร","ro":"wan-níi duu aa-rom sǐa bpen à-rai","en":"You seem to be in a bad mood today. What’s wrong?","zh":"你今天似乎心情不好。怎麼了？"},{"speaker":"B","side":"right","th":"ตอนแรกอารมณ์ดีนะ แต่มีเรื่องนึงทำให้เสียอารมณ์","ro":"dtɔɔn rɛ̂ɛk aa-rom dii ná dtɛ̀ɛ mii rʉ̂ang nʉ̀ng tham hâi sǐa aa-rom","en":"I was in a good mood at first, but something ruined it.","zh":"起初我心情很好，但有什麼東西毀了它。"},{"speaker":"A","side":"left","th":"โอเค ถ้าอยากเล่าก็เล่าได้นะ","ro":"oo-khee thâa yàak lâo gɔ̂ɔ lâo dâai ná","en":"Okay. If you want to talk about it, you can.","zh":"好的。如果你想談論它，你可以。"}]},{"title":"Dialogue 5｜朋友衝突：我不想介入","turns":[{"speaker":"朋友","side":"left","th":"สองคนนั้นทะเลาะกันอีกแล้ว เธอจะไปคุยไหม","ro":"sɔ̌ɔng khon nán thá-lɔ́ gan ìik lɛ́ɛw thəə jà bpai khui mái","en":"Those two are fighting again. Are you going to talk to them?","zh":"那兩個又吵架了，你要去跟他們說嗎？"},{"speaker":"你","side":"right","th":"เรื่องของเขา ฉันไม่อยากยุ่ง","ro":"rʉ̂ang khɔ̌ɔng khǎo chǎn mâi yàak yûng","en":"It’s their business. I don’t want to get involved.","zh":"那是他們的事，我不想介入。"},{"speaker":"朋友","side":"left","th":"นั่นสิ เดี๋ยวกลายเป็นว่าเราไปหาเรื่องเขา","ro":"nân sì dǐaw glaai bpen wâa rao bpai hǎa rʉ̂ang khǎo","en":"Exactly. Otherwise it might look like we’re provoking them.","zh":"沒錯。否則，我們可能看起來像是在挑釁他們。"}]},{"title":"Dialogue 6｜聊天收尾：ไม่กวนแล้ว 的兩種情緒","turns":[{"speaker":"A","side":"left","th":"ง่วงแล้วใช่ไหม","ro":"ngûang lɛ́ɛw châi mái","en":"You’re sleepy now, right?","zh":"你現在困了，對吧？"},{"speaker":"B","side":"right","th":"นิดหน่อย พรุ่งนี้ต้องตื่นเช้า","ro":"nít-nɔ̀i phrûng-níi dtɔ̂ng dtʉ̀ʉn cháo","en":"A little. I have to wake up early tomorrow.","zh":"一點點。我明天必須早起。"},{"speaker":"A","side":"left","th":"โอเค งั้นไม่กวนแล้วนะ ฝันดี","ro":"oo-khee ngán mâi guan lɛ́ɛw ná fǎn dii","en":"Okay, then I’ll let you rest. Sweet dreams.","zh":"好，那我不吵你了，晚安。"}]}],"structures":[{"title":"Pattern 1｜อย่าเพิ่ง + V","meaning":"現在先不要做 V；與直接禁止不同，保留稍後可以做的空間。","ex":["อย่าเพิ่งตอบ","yàa phə̂ng dtɔ̀ɔp","Don’t reply yet.","先不要回覆。"]},{"title":"Pattern 2｜อย่าเพิ่ง A → รอ...ก่อน → แล้วค่อย B","meaning":"先停止 A，等某個條件成立，再做 B；非常適合工作、購物、決策。","ex":["อย่าเพิ่งซื้อ รอดูก่อน แล้วค่อยตัดสินใจ","yàa phə̂ng sʉ́ʉ rɔɔ duu gɔ̀ɔn lɛ́ɛw khɔ̂i dtàt-sǐn-jai","Don’t buy it yet. Wait and see first, then decide.","先別買它。先觀望，然後再決定。"]},{"title":"Pattern 3｜V + หรือยัง","meaning":"已經做 V 了嗎？熟人聊天常省成 V + ยัง。","ex":["อาบน้ำหรือยัง","àap náam rʉ̌ʉ yang","Have you showered yet?","洗澡了嗎？"]},{"title":"Pattern 4｜บางที...ก็...","meaning":"有時候也會……；很自然地描述不固定出現的狀態。","ex":["บางทีฉันก็อยากอยู่คนเดียว","baang-thii chǎn gɔ̂ɔ yàak yùu khon diaao","Sometimes I want to be alone.","有時候我也想一個人待著。"]},{"title":"Pattern 5｜สงสัย + 子句","meaning":"依跡象推測「看來可能……」，不一定帶負面懷疑。","ex":["สงสัยเขาหลับแล้ว","sǒng-sǎi khǎo làp lɛ́ɛw","Looks like he’s probably asleep.","看起來他可能睡著了。"]},{"title":"Pattern 6｜ดูออกว่า + 子句","meaning":"從表面跡象判讀出背後狀態，不只是「看見」。","ex":["ดูออกว่าเธอเหนื่อย","duu ɔ̀ɔk wâa thəə nʉ̀ai","I can tell that you’re tired.","看得出來你很累。"]},{"title":"Pattern 7｜ไม่ยอมให้ + 人 + V","meaning":"不允許某人做某件事，帶明確界線。","ex":["ฉันไม่ยอมให้ใครมาพูดแบบนี้","chǎn mâi yɔɔm hâi khrai maa phûut bɛ̀ɛp níi","I won’t let anyone speak to me like this.","我不會讓任何人這樣跟我說話的。"]},{"title":"Pattern 8｜ทำให้ + เสียอารมณ์","meaning":"某件事把人的興致／心情弄壞。","ex":["บริการช้าทำให้เสียอารมณ์","bɔɔ-rí-gaan cháa tham hâi sǐa aa-rom","The slow service ruins the mood.","緩慢的服務破壞了心情。"]},{"title":"Pattern 9｜น่า + V / 感受詞","meaning":"值得／容易讓人產生某種感受，例如值得看、惹人疼。","ex":["หนังเรื่องนี้น่าดูมาก","nǎng rʉ̂ang níi nâa duu mâak","This movie looks very worth watching.","這部電影看起來非常值得一看。"]},{"title":"Pattern 10｜ไม่เป็นไร + นะ","meaning":"安慰對方「這件事不用升級成問題」，นะ 讓人際語氣更柔和。","ex":["ไม่เป็นไรนะ ค่อยๆ ทำ","mâi bpen rai ná khɔ̂i-khɔ̂i tham","It’s okay. Take your time.","沒關係。慢慢來。"]}],"sentenceBank":[{"scene":"Reaction｜聽懂、驚訝、重新確認","sentences":[{"th":"อ๋อ แบบนี้นี่เอง","ro":"ɔ̌ɔ bɛ̀ɛp níi nîi eeng","en":"Oh, so that’s how it is.","zh":"哦，所以事情就是這樣。"},{"th":"เออ จริงด้วย ลืมไปเลย","ro":"əə jing dûai lʉʉm bpai ləəy","en":"Oh yeah, right. I completely forgot.","zh":"欸對耶，我完全忘了。"},{"th":"เดี๋ยวๆ เมื่อกี้พูดว่าอะไรนะ","ro":"dǐaw-dǐaw mʉ̂a-gîi phûut wâa à-rai ná","en":"Wait—what did you just say?","zh":"等等——你剛才說了什麼？"},{"th":"จริงเหรอ ฉันไม่รู้เลย","ro":"jing rɔ̌ɔ chǎn mâi rúu ləəy","en":"Really? I had no idea.","zh":"真的喔？我完全不知道。"}]},{"scene":"Timing｜先停、等一下、再做","sentences":[{"th":"ยังๆ อย่าเพิ่งส่ง","ro":"yang-yang yàa phə̂ng sòng","en":"Not yet—don’t send it yet.","zh":"還沒有——先不要傳送。"},{"th":"รอแป๊บนึงนะ กำลังลงไป","ro":"rɔɔ bpɛ́ɛp nʉ̀ng ná gam-lang long bpai","en":"Wait a sec, I’m coming down.","zh":"等一下，我要下來了。"},{"th":"อย่าเพิ่งซื้อ รอดูก่อน","ro":"yàa phə̂ng sʉ́ʉ rɔɔ duu gɔ̀ɔn","en":"Don’t buy it yet. Wait and see first.","zh":"先別買它。先等著看。"},{"th":"พร้อมแล้วค่อยไป","ro":"phrɔ́ɔm lɛ́ɛw khɔ̂i bpai","en":"Go when you’re ready.","zh":"你準備好了就去吧。"}]},{"scene":"No hidden meaning｜只是問、只是待著","sentences":[{"th":"ถามเฉยๆ ไม่ได้มีอะไร","ro":"thǎam chə̌əy-chə̌əy mâi dâai mii à-rai","en":"I’m just asking. There’s nothing behind it.","zh":"我只是問問，沒有別的意思。"},{"th":"วันนี้อยู่บ้านเฉยๆ ไม่ได้ไปไหน","ro":"wan-níi yùu bâan chə̌əy-chə̌əy mâi dâai bpai nǎi","en":"I’m just staying home today; I’m not going anywhere.","zh":"我今天就待在家，沒要去哪裡。"},{"th":"แค่แซวเล่นเฉยๆ","ro":"khɛ̂ɛ sɛɛw lên chə̌əy-chə̌əy","en":"I’m only teasing.","zh":"我只是在開玩笑。"},{"th":"ร้านนี้รสชาติเฉยๆ แต่บริการดี","ro":"ráan níi rót-châat chə̌əy-chə̌əy dtɛ̀ɛ bɔɔ-rí-gaan dii","en":"The food here is nothing special, but the service is good.","zh":"這裡的食物沒什麼特別的，但服務很好。"}]},{"scene":"Emotion｜壓力、煩躁、掃興","sentences":[{"th":"ไม่ได้โกรธ แค่หงุดหงิดนิดหน่อย","ro":"mâi dâai gròot khɛ̂ɛ ngùt-ngìt nít-nɔ̀i","en":"I’m not angry, just a little irritated.","zh":"沒有生氣，只是有點煩。"},{"th":"เขาพูดแบบนั้นจนเสียอารมณ์เลย","ro":"khǎo phûut bɛ̀ɛp nán jon sǐa aa-rom ləəy","en":"What he said completely spoiled my mood.","zh":"他說的話完全破壞了我的心情。"},{"th":"ตอนนี้อารมณ์เสีย ขออยู่เงียบๆ ก่อน","ro":"dtɔɔn níi aa-rom sǐa khɔ̌ɔ yùu ngîiap-ngîiap gɔ̀ɔn","en":"I’m in a bad mood. I need some quiet first.","zh":"我心情不好。我首先需要安靜一點。"},{"th":"ช่วงนี้เครียดเรื่องงานมาก","ro":"chûang níi khrîiat rʉ̂ang ngaan mâak","en":"I’m very stressed about work lately.","zh":"我最近因為工作壓力很大。"}]},{"scene":"ใจ｜放心、鬆口氣、有依靠","sentences":[{"th":"รู้ว่าเธอถึงบ้านแล้วก็สบายใจ","ro":"rúu wâa thəə thʉ̌ng bâan lɛ́ɛw gɔ̂ɔ sà-baai-jai","en":"Knowing you got home puts me at ease.","zh":"知道你到家了，這讓我很安心。"},{"th":"ผลออกมาปกติ เลยโล่งใจ","ro":"phǒn ɔ̀ɔk maa bpòk-gà-dtì ləəy lôong-jai","en":"The result was normal, so I felt relieved.","zh":"結果很正常，所以我鬆了一口氣。"},{"th":"มีเพื่อนไปด้วยแล้วอุ่นใจ","ro":"mii phʉ̂an bpai dûai lɛ́ɛw ùn-jai","en":"I feel reassured having a friend come with me.","zh":"有一個朋友和我一起來，我感到很放心。"},{"th":"คุยแล้วสบายใจขึ้นเยอะ","ro":"khui lɛ́ɛw sà-baai-jai khʉ̂n yə́","en":"I feel much more at ease after talking.","zh":"說完後，我感覺更自在了。"}]},{"scene":"Boundary｜不介入、拒絕、別太超過","sentences":[{"th":"เรื่องของเขา ฉันไม่อยากยุ่ง","ro":"rʉ̂ang khɔ̌ɔng khǎo chǎn mâi yàak yûng","en":"It’s their business. I don’t want to get involved.","zh":"那是他們的事，我不想介入。"},{"th":"ฉันไม่ยอมให้ใครพูดแบบนี้","ro":"chǎn mâi yɔɔm hâi khrai phûut bɛ̀ɛp níi","en":"I won’t let anyone speak like this.","zh":"我不會讓任何人這樣說話的。"},{"th":"อย่าเยอะ แค่เรื่องเล็กเอง","ro":"yàa yə́ khɛ̂ɛ rʉ̂ang lék eeng","en":"Don’t be so extra. It’s only a small thing.","zh":"別那麼多戲，只是小事而已。"},{"th":"ตอนแรกตลก แต่ตอนนี้เริ่มตลกละ","ro":"dtɔɔn rɛ̂ɛk dtà-lòk dtɛ̀ɛ dtɔɔn níi rə̂əm dtà-lòk lá","en":"It was funny at first, but now it’s getting ridiculous.","zh":"一開始很有趣，但現在越來越可笑了。"}]}],"bangkok":[{"scene":"BTS / MRT｜趕車、等人、臨時改動","sentences":[{"th":"เดี๋ยวๆ อย่าเพิ่งขึ้น รอเพื่อนแป๊บนึง","ro":"dǐaw-dǐaw yàa phə̂ng khʉ̂n rɔɔ phʉ̂an bpɛ́ɛp nʉ̀ng","en":"Wait—don’t board yet. Let’s wait for our friend.","zh":"等等，先別上車，我們等朋友一下。"},{"th":"วันนี้คนเยอะแยะเลย","ro":"wan-níi khon yə́-yɛ́ ləəy","en":"There are so many people today.","zh":"今天有這麼多人。"},{"th":"ยังๆ รถยังไม่มา","ro":"yang-yang rót yang mâi maa","en":"Not yet—the train still hasn’t come.","zh":"還沒、還沒，車還沒來。"},{"th":"ถ้าไม่ทัน เดี๋ยวค่อยนั่งคันต่อไป","ro":"thâa mâi than dǐaw khɔ̂i nâng khan dtɔ̀ɔ bpai","en":"If we miss it, we’ll just take the next one.","zh":"沒趕上的話，就搭下一班。"}]},{"scene":"Café｜選店、評論、朋友意見","sentences":[{"th":"ร้านนี้น่าสนใจนะ ลองเข้าไปดูไหม","ro":"ráan níi nâa sǒn-jai ná lɔɔng khâo bpai duu mái","en":"This café looks interesting. Want to check it out?","zh":"這家咖啡廳看起來很有趣。想去看看嗎？"},{"th":"กาแฟใช้ได้นะ แต่ขนมเฉยๆ","ro":"kaa-fɛɛ chái dâai ná dtɛ̀ɛ khà-nǒm chə̌əy-chə̌əy","en":"The coffee is pretty decent, but the dessert is nothing special.","zh":"咖啡還不錯，但甜點沒什麼特別的。"},{"th":"อะไรก็ได้ แล้วแต่เธอเลย","ro":"à-rai gɔ̂ɔ dâai lɛ́ɛw dtɛ̀ɛ thəə ləəy","en":"Anything is fine. It’s totally up to you.","zh":"什麼都行。這完全取決於你。"},{"th":"ไม่ต้องเกรงใจ สั่งได้เลย","ro":"mâi dtɔ̂ng greeng-jai sàng dâai ləəy","en":"Don’t worry about imposing. Go ahead and order.","zh":"不用客氣，想點就點吧。"}]},{"scene":"Restaurant｜太甜、太多、太貴","sentences":[{"th":"หวานกันขนาดนี้ มดขึ้นหมดแล้ว","ro":"wǎan gan khà-nàat níi mót khʉ̂n mòt lɛ́ɛw","en":"You two are so sweet that ants are everywhere.","zh":"你們甜成這樣，螞蟻都來了。"},{"th":"ของกินมีเยอะแยะ ไม่ต้องสั่งเพิ่มก็ได้","ro":"khɔ̌ɔng-gin mii yə́-yɛ́ mâi dtɔ̂ng sàng phə̂əm gɔ̂ɔ dâai","en":"There’s plenty of food. We don’t have to order more.","zh":"吃的已經很多了，不用再點也可以。"},{"th":"ร้านนี้ไฮโซนะ ราคาก็ไม่ธรรมดา","ro":"ráan níi hai-soo ná raa-khaa gɔ̂ɔ mâi tham-má-daa","en":"This place is pretty upscale, and the prices are no joke either.","zh":"這間店很高檔，價格也真的不便宜。"},{"th":"พอแล้ว อย่าเยอะ กินไม่หมดแน่","ro":"phɔɔ lɛ́ɛw yàa yə́ gin mâi mòt nɛ̂ɛ","en":"That’s enough—don’t overdo it. We definitely won’t finish it.","zh":"夠了，別點太多，我們一定吃不完。"}]},{"scene":"Condo / Chat｜洗澡、想睡、收尾聊天","sentences":[{"th":"อาบน้ำหรือยัง","ro":"àap náam rʉ̌ʉ yang","en":"Have you showered yet?","zh":"洗澡了嗎？"},{"th":"ง่วงแล้วเหรอ งั้นไม่กวนแล้วนะ","ro":"ngûang lɛ́ɛw rɔ̌ɔ ngán mâi guan lɛ́ɛw ná","en":"You’re sleepy already? Then I’ll let you rest.","zh":"你已經困了嗎？那我就讓你休息。"},{"th":"วันนี้นอนน้อยเลยมึนๆ","ro":"wan-níi nɔɔn nɔ́ɔi ləəy mʉn-mʉn","en":"I didn’t sleep enough, so I feel foggy today.","zh":"我沒睡飽，今天腦袋霧霧的。"},{"th":"คุยกับเธอแล้วสบายใจขึ้น","ro":"khui gàp thəə lɛ́ɛw sà-baai-jai khʉ̂n","en":"I feel more at ease after talking with you.","zh":"和你交談後，我感覺更自在了。"}]},{"scene":"Work / School｜壓力、回訊息、結果","sentences":[{"th":"อย่าเพิ่งตอบข้อความ รอข้อมูลให้ครบก่อน","ro":"yàa phə̂ng dtɔ̀ɔp khɔ̂ɔ-khwaam rɔɔ khɔ̂ɔ-muun hâi khróp gɔ̀ɔn","en":"Don’t reply yet. Wait until we have all the information.","zh":"先不要回覆。等到我們得到所有資訊。"},{"th":"ช่วงนี้งานเยอะแยะจนเครียด","ro":"chûang níi ngaan yə́-yɛ́ jon khrîiat","en":"There’s so much work lately that I’m stressed.","zh":"最近工作太多了，我壓力很大。"},{"th":"ว่าแล้ว ทำไมวันนี้ดูง่วงจัง","ro":"wâa lɛ́ɛw tham-mai wan-níi duu ngûang jang","en":"That explains why you look so sleepy today.","zh":"這就解釋了為什麼你今天看起來這麼困。"},{"th":"ลุ้นผลอยู่ ไม่แน่นะ อาจจะผ่านก็ได้","ro":"lún phǒn yùu mâi nɛ̂ɛ ná àat jà phàan gɔ̂ɔ dâai","en":"I’m waiting nervously for the result. You never know—I might pass.","zh":"我正緊張等結果，搞不好會過也說不定。"}]},{"scene":"Friends｜虧人、捉弄、界線","sentences":[{"th":"อย่าแซวสิ เขินนะ","ro":"yàa sɛɛw sì khə̌ən ná","en":"Don’t tease me. I’m getting shy.","zh":"別戲弄我。我越來越害羞了。"},{"th":"อย่าแกล้ง ฉันขี้จั๊กจี้","ro":"yàa glɛ̂ɛng chǎn khîi-ják-gà-jîi","en":"Don’t prank me. I’m really ticklish.","zh":"別鬧我，我很怕癢。"},{"th":"ล้อเล่นนะ อย่าจริงจัง","ro":"lɔ́ɔ-lên ná yàa jing-jang","en":"I’m joking. Don’t take it seriously.","zh":"我開玩笑的。不要把它當回事。"},{"th":"ตอนแรกขำ ตอนนี้เริ่มตลกละ","ro":"dtɔɔn rɛ̂ɛk khǎm dtɔɔn níi rə̂əm dtà-lòk lá","en":"It was funny at first, but now it’s getting ridiculous.","zh":"一開始很有趣，但現在越來越可笑了。"}]},{"scene":"Conflict｜不介入、挑釁、拒絕","sentences":[{"th":"เรื่องนี้ฉันไม่อยากยุ่ง","ro":"rʉ̂ang níi chǎn mâi yàak yûng","en":"I don’t want to get involved in this.","zh":"我不想參與這個。"},{"th":"อย่าไปหาเรื่องเขา เดี๋ยวมีเรื่องกัน","ro":"yàa bpai hǎa rʉ̂ang khǎo dǐaw mii rʉ̂ang gan","en":"Don’t provoke him, or you’ll end up in a fight.","zh":"別去挑釁他，不然會吵起來。"},{"th":"ฉันไม่ยอมให้ใครมาพูดแบบนี้","ro":"chǎn mâi yɔɔm hâi khrai maa phûut bɛ̀ɛp níi","en":"I won’t let anyone talk to me like this.","zh":"我不會讓任何人這樣和我說話的。"},{"th":"อะไรกันนักหนา ค่อยๆ คุยกันก็ได้","ro":"à-rai gan nák-nǎa khɔ̂i-khɔ̂i khui gan gɔ̂ɔ dâai","en":"Why all the fuss? We can talk it through calmly.","zh":"為什麼這麼大驚小怪？我們可以冷靜地談一談。"}]},{"scene":"Temple / Lottery｜功德與運氣","sentences":[{"th":"พรุ่งนี้เช้าไปตักบาตรกันไหม","ro":"phrûng-níi cháo bpai dtàk-bàat gan mái","en":"Shall we give alms tomorrow morning?","zh":"明天早上要不要一起去托缽供養？"},{"th":"วันเกิดอยากไปทำบุญ","ro":"wan-gə̀ət yàak bpai tham bun","en":"I want to make merit on my birthday.","zh":"生日想去做功德。"},{"th":"ลุ้นหวยอยู่ ขอให้ดวงดี","ro":"lún hǔai yùu khɔ̌ɔ hâi duang dii","en":"I’m waiting for the lottery result. Hope I’m lucky.","zh":"我在等彩券開獎，希望運氣好一點。"},{"th":"ถูกหวยไหม","ro":"thùuk hǔai mái","en":"Did you win the lottery?","zh":"中彩券了嗎？"}]}],"practice":[{"title":"Vocabulary recall 1","prompt":"「只是問問，沒有其他意思」最自然要用哪個核心詞？","ans":["ถามเฉยๆ","thǎam chə̌əy-chə̌əy","I’m just asking.","我只是問問。"]},{"title":"Vocabulary recall 2","prompt":"「我不想被捲進這件事」怎麼說？","ans":["ฉันไม่อยากยุ่งเรื่องนี้","chǎn mâi yàak yûng rʉ̂ang níi","I don’t want to get involved in this.","我不想參與這個。"]},{"title":"Choose the right word 1","prompt":"你只是想問「你要去嗎？」而不是對新資訊反應：ไหม / เหรอ？","ans":["ไปไหม","bpai mái","Are you going?","你要去嗎？"]},{"title":"Choose the right word 2","prompt":"「我睡太少，所以腦袋昏昏的」：งง / มึน？","ans":["นอนน้อยเลยมึนๆ","nɔɔn nɔ́ɔi ləəy mʉn-mʉn","I didn’t sleep enough, so I feel foggy.","我沒睡飽，所以腦袋昏昏的。"]},{"title":"Chinese → Thai 1","prompt":"先不要買，先觀察一下，再決定。","ans":["อย่าเพิ่งซื้อ รอดูก่อน แล้วค่อยตัดสินใจ","yàa phə̂ng sʉ́ʉ rɔɔ duu gɔ̀ɔn lɛ́ɛw khɔ̂i dtàt-sǐn-jai","Don’t buy it yet. Wait and see first, then decide.","先別買它。先觀望，然後再決定。"]},{"title":"Chinese → Thai 2","prompt":"我不是生氣，只是有點煩躁。","ans":["ไม่ได้โกรธ แค่หงุดหงิดนิดหน่อย","mâi dâai gròot khɛ̂ɛ ngùt-ngìt nít-nɔ̀i","I’m not angry, just a little irritated.","沒有生氣，只是有點煩。"]},{"title":"Contrast 1｜เสียอารมณ์ / อารมณ์เสีย","prompt":"把句子完成：「那件事破壞我的心情，所以我現在心情很差。」","ans":["เรื่องนั้นทำให้เสียอารมณ์ ตอนนี้เลยอารมณ์เสีย","rʉ̂ang nán tham hâi sǐa aa-rom dtɔɔn níi ləəy aa-rom sǐa","That ruined my mood, so now I’m in a bad mood.","那毀了我的心情，所以現在我心情不好。"]},{"title":"Contrast 2｜คิดถึง / นึกถึง","prompt":"「這首歌讓我想到曼谷，也讓我很想念曼谷。」","ans":["เพลงนี้ทำให้นึกถึงกรุงเทพฯ แล้วก็คิดถึงมาก","phleeng níi tham hâi nʉ́k thʉ̌ng grung-thêep lɛ́ɛw gɔ̂ɔ khít-thʉ̌ng mâak","This song reminds me of Bangkok and makes me miss it a lot.","這首歌讓我想到曼谷，也讓我好想念曼谷。"]},{"title":"Mini dialogue completion 1","prompt":"A：ทำไมถามเรื่องเขา สนใจเหรอ？ B：____。","ans":["ถามเฉยๆ ไม่ได้มีอะไร","thǎam chə̌əy-chə̌əy mâi dâai mii à-rai","I’m just asking. There’s nothing behind it.","我只是問問，沒有別的意思。"]},{"title":"Mini dialogue completion 2","prompt":"A：ง่วงแล้วใช่ไหม？ B：นิดหน่อย。A 想體貼收尾。","ans":["โอเค งั้นไม่กวนแล้วนะ พักผ่อน","oo-khee ngán mâi guan lɛ́ɛw ná phák-phɔ̀ɔn","Okay, then I’ll let you rest. Get some rest.","好的，那我就讓你休息吧。休息一下。"]},{"title":"Nuance check","prompt":"朋友說「แล้วแต่เธอ」一定代表他在生氣嗎？","ans":["ไม่เสมอไป","mâi sà-mə̌ə bpai","Not necessarily.","不一定。"]}],"g":[{"id":"g-compare","title":"近義比較","tth":"คำใกล้เคียง","em":"⚖️","kind":"compare"},{"id":"g-mistake","title":"常見錯誤","tth":"ข้อผิดพลาดที่พบบ่อย","em":"🚫","kind":"mistake"},{"id":"g-structure","title":"句型結構","tth":"โครงสร้างประโยค","em":"🧩","kind":"structure"},{"id":"g-dialogue","title":"情境短對話","tth":"บทสนทนาสั้นๆ","em":"💬","kind":"dialogue"},{"id":"g-sentence","title":"例句庫","tth":"ประโยคตัวอย่าง","em":"📝","kind":"sentence","src":"sentenceBank"},{"id":"g-bangkok","title":"曼谷生活場景","tth":"ฉากชีวิตกรุงเทพ","em":"🏙️","kind":"sentence","src":"bangkok"},{"id":"g-practice","title":"自我測驗","tth":"แบบฝึกหัด","em":"✅","kind":"practice"}]}</script>
+<script>
+
+let ROM=true,LANG='zh',isMob=window.innerWidth<769,curPl=null,FILTER='all';
+const PROGRESS_KEY='thai_notes_lrn_2026_08_06_v1';
+const FAV_KEY='thai_notes_fav_2026_08_06_v1';
+function loadProgress(){
+ try{const raw=localStorage.getItem(PROGRESS_KEY);const p=raw?JSON.parse(raw):{};return p&&typeof p==='object'&&!Array.isArray(p)?p:{};}catch(e){return{};}
+}
+function saveProgress(){try{localStorage.setItem(PROGRESS_KEY,JSON.stringify(LRN));}catch(e){console.warn('無法儲存學習進度。',e);}}
+function loadFav(){
+ try{const raw=localStorage.getItem(FAV_KEY);const p=raw?JSON.parse(raw):{};return p&&typeof p==='object'&&!Array.isArray(p)?p:{};}catch(e){return{};}
+}
+function saveFav(){try{localStorage.setItem(FAV_KEY,JSON.stringify(FAV));}catch(e){console.warn('無法儲存收藏。',e);}}
+let LRN=loadProgress();
+let FAV=loadFav();
+const D=JSON.parse(document.getElementById('jd').textContent);
+const VOCAB=D.vocab,VSECS=D.vsecs,CMP=D.compare,MIS=D.mistakes,DLG=D.dialogues,STR=D.structures,SENB=D.sentenceBank,BKK=D.bangkok,PRC=D.practice,GRP=D.g;
+
+function speak(t){
+ if(!window.speechSynthesis||!t)return;
+ window.speechSynthesis.cancel();
+ const u=new SpeechSynthesisUtterance(t);
+ u.lang='th-TH';u.rate=0.88;u.pitch=1;
+ window.speechSynthesis.speak(u);
+}
+function playBtn(el,t){
+ if(curPl)curPl.classList.remove('pl');
+ curPl=el;el.classList.add('pl');speak(t);
+ setTimeout(()=>{if(curPl===el)el.classList.remove('pl');},3000);
+}
+function esc(s){return(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;');}
+function ab(t,e=''){return `<button class="abtn${e?' '+e:''}" onclick="event.stopPropagation();playBtn(this,'${esc(t)}')" title="播放">▶</button>`;}
+function ro(cls,t){return `<div class="${cls}${ROM?'':' hid'}">${t||''}</div>`;}
+function enzh(cls,en,zh){return `<div class="${cls} lang-en${LANG==='en'?'':' hid'}">${en||''}</div><div class="${cls} lang-zh${LANG==='zh'?'':' hid'}">${zh||''}</div>`;}
+
+/* ================= Vocabulary card (mirrors QA-50's rQ) ================= */
+function rV(v){
+ const id=v.i,lrn=LRN[id]?'lrn':'',fav=!!FAV[id];
+ const num=parseInt(id.slice(1),10);
+ const exHtml=(v.ex&&v.ex[0])?`<div class="ans"><div class="anl">例</div><div class="ant"><div class="anth">${v.ex[0]}</div>${ro('anro',v.ex[1]||'')}${enzh('anzh',v.ex[2],v.ex[3])}</div>${ab(v.ex[0])}</div>`:'';
+ const note=v.note?`<div class="note ng"><div class="ng-l">📖 語感筆記</div><div class="ng-t">${v.note}</div></div>`:'';
+ const lb=LRN[id]?`<button class="lbtn dn" onclick="event.stopPropagation();tLrn('${id}',this)">↩ 改為未熟悉</button>`
+  :`<button class="lbtn" onclick="event.stopPropagation();tLrn('${id}',this)">✓ 標記為熟悉</button>`;
+ const favBtn=`<button class="favbtn ${fav?'on':''}" onclick="event.stopPropagation();tFav('${id}',this)">${fav?'★ 已收藏':'☆ 收藏'}</button>`;
+ return `<div class="qc ${lrn}" id="${id}">
+  <div class="qch" onclick="tCard('${id}')">
+   <div class="qcn">${num}</div>
+   <div class="qcq"><div class="qcth">${v.th}</div>${ro('qcro',v.ro)}${enzh('qczh',v.en,v.zh)}</div>
+   <div class="qca">${ab(v.th)}<button class="xbtn">▾</button></div>
+  </div>
+  <div class="qcb"><div class="qcbi"><div class="div"></div>
+   <div class="vb-tag" style="margin-bottom:9px;">${v.cat}</div>
+   ${exHtml}
+   <div class="notes">${note}</div>
+   <div class="cft">${favBtn}${lb}</div>
+  </div></div>
+ </div>`;
+}
+function rVSec(s){
+ const vs=VOCAB.slice(s.r[0],s.r[1]);
+ const done=vs.filter(v=>LRN[v.i]).length;
+ const pct=Math.round(done/vs.length*100);
+ return `<div class="sec-blk" id="${s.id}">
+  <div class="sec-hd"><div class="sec-n">${s.n}</div>
+   <div class="sec-tts"><div class="sec-tzh">${s.em} ${s.title}</div><div class="sec-tth">${s.tth}</div></div>
+   <div class="sec-chip" id="chip-${s.id}">${done}/${vs.length} 已熟悉</div>
+  </div>${vs.map(v=>rV(v)).join('')}
+ </div>`;
+}
+
+/* ================= Compare (近義比較) ================= */
+function rCmpRow(row){
+ return `<div class="cmp-row">
+  <div><div class="cmp-pat">${row.term[0]}${ab(row.term[0])}</div>${ro('cmp-ex-ro',row.term[1])}${enzh('cmp-ex-en',row.term[2],row.term[3])}</div>
+  <div class="cmp-mean">${row.meaning}</div>
+  <div class="cmp-ex"><div class="cmp-ex-tx"><div class="cmp-ex-th">${row.ex[0]}</div>${ro('cmp-ex-ro',row.ex[1])}${enzh('cmp-ex-en',row.ex[2],row.ex[3])}</div>${ab(row.ex[0])}</div>
+ </div>`;
+}
+function rCmpCard(c,i){
+ return `<div class="cmp-card" id="CMP-${i}">
+  <div class="cmp-title">${c.title}</div>
+  ${c.rows.map(rCmpRow).join('')}
+  ${c.tip?`<div class="cmp-tip">${c.tip}</div>`:''}
+ </div>`;
+}
+function rCmpSec(){
+ return `<div class="apx" id="g-compare"><div class="apx-hd"><div class="apx-ic">⚖️</div><div class="apx-tit"><div class="apx-tzh">近義比較</div><div class="apx-tth">คำใกล้เคียงที่ต้องแยกให้ออก</div></div></div>
+  ${CMP.map((c,i)=>rCmpCard(c,i)).join('')}
+ </div>`;
+}
+
+/* ================= Mistakes (常見錯誤) ================= */
+function rMisBox(cls,label,box){
+ if(!box)return'';
+ return `<div class="mis-box ${cls}"><div class="mis-lbl">${label}</div><div class="mis-tx"><div class="mis-th">${box.th}</div>${ro('mis-ro',box.ro)}${enzh('mis-en',box.en,box.zh)}</div>${ab(box.th)}</div>`;
+}
+function rMisCard(m,i){
+ return `<div class="mis-card" id="MIS-${i}">
+  <div class="mis-title">${m.title}</div>
+  ${rMisBox('mis-wrong',(m.wrong&&m.wrong.label)?m.wrong.label:'Wrong',m.wrong)}
+  ${rMisBox('mis-better',(m.better&&m.better.label)?m.better.label:'Better',m.better)}
+  ${m.why?`<div class="mis-why">💡 ${m.why}</div>`:''}
+ </div>`;
+}
+function rMisSec(){
+ return `<div class="apx" id="g-mistake"><div class="apx-hd"><div class="apx-ic">🚫</div><div class="apx-tit"><div class="apx-tzh">常見錯誤</div><div class="apx-tth">ข้อผิดพลาดที่พบบ่อย</div></div></div>
+  ${MIS.map((m,i)=>rMisCard(m,i)).join('')}
+ </div>`;
+}
+
+/* ================= Structures (句型結構) ================= */
+function rStrCard(st,i){
+ return `<div class="str-card" id="STR-${i}">
+  <div class="str-title">${st.title}</div>
+  <div class="str-mean">${st.meaning}</div>
+  <div class="str-ex"><div style="display:flex;align-items:flex-start;gap:8px;"><div><div class="str-th">${st.ex[0]}</div>${ro('str-ro',st.ex[1])}${enzh('str-en',st.ex[2],st.ex[3])}</div>${ab(st.ex[0])}</div></div>
+ </div>`;
+}
+function rStrSec(){
+ return `<div class="apx" id="g-structure"><div class="apx-hd"><div class="apx-ic">🧩</div><div class="apx-tit"><div class="apx-tzh">句型結構</div><div class="apx-tth">โครงสร้างประโยคที่ใช้บ่อย</div></div></div>
+  <div class="str-grid">${STR.map((st,i)=>rStrCard(st,i)).join('')}</div>
+ </div>`;
+}
+
+/* ================= Dialogues (情境短對話) ================= */
+function rDlgTurn(t){
+ const side=t.side==='left'?'l':'r';
+ return `<div class="dlg-row ${side}"><div class="dlg-bub"><div class="dlg-spk">${t.speaker}</div><div style="display:flex;align-items:flex-start;gap:8px;"><div><div class="dlg-th">${t.th}</div>${ro('dlg-ro',t.ro)}${enzh('dlg-en',t.en,t.zh)}</div>${ab(t.th)}</div></div></div>`;
+}
+function rDlgCard(d,i){
+ return `<div class="dlg-card" id="DLG-${i}">
+  <div class="dlg-title">${d.title}</div>
+  <div class="dlg-thread">${d.turns.map(rDlgTurn).join('')}</div>
+ </div>`;
+}
+function rDlgSec(){
+ return `<div class="apx" id="g-dialogue"><div class="apx-hd"><div class="apx-ic">💬</div><div class="apx-tit"><div class="apx-tzh">情境短對話</div><div class="apx-tth">บทสนทนาสั้นๆ</div></div></div>
+  ${DLG.map((d,i)=>rDlgCard(d,i)).join('')}
+ </div>`;
+}
+
+/* ================= Sentence groups (例句庫 / 曼谷場景) ================= */
+function rSenItem(s){
+ return `<div class="sen-item"><div><div class="sen-th">${s.th}</div>${ro('sen-ro',s.ro)}${enzh('sen-en',s.en,s.zh)}</div>${ab(s.th)}</div>`;
+}
+function rSenGroup(grp,gi,idPrefix){
+ return `<div class="sen-group" id="${idPrefix}-${gi}">
+  <div class="sen-scene">${grp.scene}</div>
+  <div class="sen-grid">${grp.sentences.map(rSenItem).join('')}</div>
+ </div>`;
+}
+function rSenSec(list,secId,title,tth,em,idPrefix){
+ return `<div class="apx" id="${secId}"><div class="apx-hd"><div class="apx-ic">${em}</div><div class="apx-tit"><div class="apx-tzh">${title}</div><div class="apx-tth">${tth}</div></div></div>
+  ${list.map((g,gi)=>rSenGroup(g,gi,idPrefix)).join('')}
+ </div>`;
+}
+
+/* ================= Practice (自我測驗) ================= */
+function rPrcCard(p,i){
+ return `<div class="prc-card" id="PRC-${i}">
+  <div class="prc-title">Q${i+1}｜${p.title||''}</div>
+  <div class="prc-prompt">${p.prompt}</div>
+  <div class="prc-ans-wrap">
+   <button class="prc-ans-btn" onclick="tPrc(${i})" id="prc-btn-${i}">👁 顯示答案</button>
+   <div class="prc-ans" id="prc-ans-${i}">
+    <div style="display:flex;align-items:flex-start;gap:8px;"><div><div class="str-th">${p.ans[0]}</div>${ro('str-ro',p.ans[1])}${enzh('str-en',p.ans[2],p.ans[3])}</div>${ab(p.ans[0])}</div>
+   </div>
+  </div>
+ </div>`;
+}
+function rPrcSec(){
+ return `<div class="apx" id="g-practice"><div class="apx-hd"><div class="apx-ic">✅</div><div class="apx-tit"><div class="apx-tzh">自我測驗</div><div class="apx-tth">แบบฝึกหัดทบทวนตัวเอง</div></div></div>
+  ${PRC.map((p,i)=>rPrcCard(p,i)).join('')}
+ </div>`;
+}
+function tPrc(i){
+ const el=document.getElementById('prc-ans-'+i);
+ const btn=document.getElementById('prc-btn-'+i);
+ const show=el.classList.toggle('show');
+ btn.textContent=show?'🙈 隱藏答案':'👁 顯示答案';
+}
+
+function rGroups(){
+ return GRP.map(g=>{
+  if(g.kind==='compare')return rCmpSec();
+  if(g.kind==='mistake')return rMisSec();
+  if(g.kind==='structure')return rStrSec();
+  if(g.kind==='dialogue')return rDlgSec();
+  if(g.kind==='practice')return rPrcSec();
+  if(g.kind==='sentence'&&g.src==='sentenceBank')return rSenSec(SENB,g.id,g.title,g.tth,g.em,'SB');
+  if(g.kind==='sentence'&&g.src==='bangkok')return rSenSec(BKK,g.id,g.title,g.tth,g.em,'BK');
+  return '';
+ }).join('');
+}
+
+/* ================= 我的收藏 ================= */
+function renderFavSec(){
+ const el=document.getElementById('favSec');
+ if(!el)return;
+ const ids=Object.keys(FAV).filter(k=>FAV[k]);
+ if(!ids.length){
+  el.innerHTML=`<div class="sec-hd"><div class="sec-n">⭐</div><div class="sec-tts"><div class="sec-tzh">我的收藏</div><div class="sec-tth">รายการโปรดของฉัน</div></div></div><div class="empty-fav">還沒有收藏，點單字卡上的「☆ 收藏」把它加進這裡，方便之後複習。</div>`;
+  return;
+ }
+ const cards=ids.map(id=>{
+  const v=VOCAB.find(x=>x.i===id);
+  if(!v)return '';
+  return `<div class="sres-item" onclick="jumpTo('${id}')"><span class="sres-tag">詞彙</span><div class="sres-b"><div class="sres-th">${v.th}</div>${ro('sres-ro',v.ro)}${enzh('sres-zh',v.en,v.zh)}</div>${ab(v.th)}</div>`;
+ }).join('');
+ el.innerHTML=`<div class="sec-hd"><div class="sec-n">⭐</div><div class="sec-tts"><div class="sec-tzh">我的收藏</div><div class="sec-tth">รายการโปรดของฉัน</div></div><div class="sec-chip">${ids.length} 筆</div></div><div class="sres-list">${cards}</div>`;
+}
+function tFav(id,btn){
+ FAV[id]=!FAV[id];
+ if(!FAV[id])delete FAV[id];
+ saveFav();
+ if(btn){btn.classList.toggle('on',!!FAV[id]);btn.textContent=FAV[id]?'★ 已收藏':'☆ 收藏';}
+ renderFavSec();
+ const navB=document.getElementById('nav-favSec-badge');
+ if(navB)navB.textContent=Object.keys(FAV).filter(k=>FAV[k]).length;
+}
+
+/* ================= Sidebar / Content shell ================= */
+function getDoneCount(){return VOCAB.filter(v=>LRN[v.i]).length;}
+
+function rSB(){
+ const done=getDoneCount();
+ const total=VOCAB.length;
+ const totalPct=Math.round(done/total*100);
+ const favCount=Object.keys(FAV).filter(k=>FAV[k]).length;
+ let h=`<div class="sb-book"><div class="sb-th">Thai Daily Notes</div><div class="sb-zh">ค่ะ・ครับ・นะ｜104 筆生活語感</div><div class="sb-ct" id="sb-total">✓ ${done}/${total} 已熟悉</div><div class="sb-track" aria-label="學習進度"><div class="sb-track-fill" id="sb-track-fill" style="width:${totalPct}%"></div></div><div class="sb-filter" aria-label="熟悉狀態篩選"><button class="filter-btn ${FILTER==='all'?'on':''}" data-filter="all" onclick="setFilter('all')">全部</button><button class="filter-btn ${FILTER==='learned'?'on':''}" data-filter="learned" onclick="setFilter('learned')">已熟悉</button><button class="filter-btn ${FILTER==='unlearned'?'on':''}" data-filter="unlearned" onclick="setFilter('unlearned')">未熟悉</button></div><div class="sb-actions"><button class="sb-btn" onclick="resetProgress()">重設進度</button></div><div class="sb-save-note">進度與收藏會記在目前這台裝置的瀏覽器中。</div></div>
+  <div class="nav-grp"><div class="nit" id="nav-favSec" onclick="goto('favSec')"><div class="nit-em">⭐</div><div class="nit-tx"><div class="nit-t">我的收藏</div></div><div class="nit-b" id="nav-favSec-badge">${favCount}</div></div></div>
+  <div class="nav-grp"><div class="nav-lbl">詞彙分類（六大主題）</div>`;
+ VSECS.forEach(s=>{
+  const vs=VOCAB.slice(s.r[0],s.r[1]);
+  const sdone=vs.filter(v=>LRN[v.i]).length;
+  const pct=Math.round(sdone/vs.length*100);
+  h+=`<div class="nit" id="nav-${s.id}" onclick="goto('${s.id}')"><div class="nit-em">${s.em}</div>
+   <div class="nit-tx"><div class="nit-t">${s.title}</div><div class="nit-s">${s.tth}</div></div>
+   <div class="nit-b" id="nav-count-${s.id}">${sdone}/${vs.length}</div></div>
+   <div class="nprog"><div class="nprog-b" id="nav-prog-${s.id}" style="width:${pct}%"></div></div>`;
+ });
+ h+=`</div><div class="nav-grp"><div class="nav-lbl">延伸內容</div>`;
+ GRP.forEach(g=>{
+  h+=`<div class="nit" id="nav-${g.id}" onclick="goto('${g.id}')"><div class="nit-em">${g.em}</div><div class="nit-tx"><div class="nit-t">${g.title}</div><div class="nit-s">${g.tth}</div></div></div>`;
+ });
+ h+=`</div>`;
+ document.getElementById('sb').innerHTML=h;
+}
+
+function rCnt(){
+ document.getElementById('cnt').innerHTML=`<div id="normalView">
+   <div class="sec-blk" id="favSec"></div>
+   ${VSECS.map(s=>rVSec(s)).join('')}
+   ${rGroups()}
+  </div>
+  <div id="searchView" class="hid-view"></div>`;
+ renderFavSec();
+}
+
+function tCard(id){document.getElementById(id).classList.toggle('exp');}
+function updateKnownCard(id){
+ const known=!!LRN[id];
+ const c=document.getElementById(id);
+ if(!c)return;
+ c.classList.toggle('lrn',known);
+ const n=c.querySelector('.qcn');
+ if(n)n.style.background=known?'var(--gl)':'var(--gd)';
+ const btn=c.querySelector('.lbtn');
+ if(btn){
+  btn.textContent=known?'↩ 改為未熟悉':'✓ 標記為熟悉';
+  btn.classList.toggle('dn',known);
+  btn.setAttribute('aria-pressed',String(known));
+ }
+}
+function refreshProgress(){
+ const done=getDoneCount(),total=VOCAB.length,pct=Math.round(done/total*100);
+ const totalEl=document.getElementById('sb-total');
+ const trackEl=document.getElementById('sb-track-fill');
+ if(totalEl)totalEl.textContent=`✓ ${done}/${total} 已熟悉`;
+ if(trackEl)trackEl.style.width=`${pct}%`;
+ VSECS.forEach(s=>{
+  const vs=VOCAB.slice(s.r[0],s.r[1]);
+  const sdone=vs.filter(v=>LRN[v.i]).length;
+  const spct=Math.round(sdone/vs.length*100);
+  const chip=document.getElementById('chip-'+s.id);
+  const count=document.getElementById('nav-count-'+s.id);
+  const bar=document.getElementById('nav-prog-'+s.id);
+  if(chip)chip.textContent=`${sdone}/${vs.length} 已熟悉`;
+  if(count)count.textContent=`${sdone}/${vs.length}`;
+  if(bar)bar.style.width=`${spct}%`;
+ });
+}
+function applyFilter(){
+ VOCAB.forEach(v=>{
+  const c=document.getElementById(v.i);
+  if(!c)return;
+  const known=!!LRN[v.i];
+  const hide=(FILTER==='learned'&&!known)||(FILTER==='unlearned'&&known);
+  c.classList.toggle('filtered-out',hide);
+ });
+ VSECS.forEach(s=>{
+  const sec=document.getElementById(s.id);
+  if(!sec)return;
+  const visible=[...sec.querySelectorAll('.qc')].some(c=>!c.classList.contains('filtered-out'));
+  sec.classList.toggle('filtered-out',!visible);
+ });
+ document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('on',b.dataset.filter===FILTER));
+}
+function setFilter(mode){FILTER=mode;applyFilter();}
+function tLrn(id,btn){
+ LRN[id]=!LRN[id];
+ if(!LRN[id])delete LRN[id];
+ updateKnownCard(id);
+ saveProgress();
+ refreshProgress();
+ applyFilter();
+}
+function resetProgress(){
+ if(!getDoneCount())return;
+ if(!window.confirm('確定要把所有單字改回未熟悉嗎？'))return;
+ LRN={};
+ VOCAB.forEach(v=>updateKnownCard(v.i));
+ saveProgress();
+ refreshProgress();
+ applyFilter();
+}
+function syncProgressFromStorage(){
+ LRN=loadProgress();
+ VOCAB.forEach(v=>updateKnownCard(v.i));
+ refreshProgress();
+ applyFilter();
+}
+function goto(id){
+ const el=document.getElementById(id);
+ if(el){el.scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>setAct(id),400);}
+ if(isMob)document.getElementById('sb').classList.remove('mob-open');
+}
+function setAct(id){
+ document.querySelectorAll('.nit').forEach(n=>n.classList.remove('act'));
+ const nav=document.getElementById('nav-'+id);if(nav)nav.classList.add('act');
+}
+function toggleSB(){
+ const sb=document.getElementById('sb');
+ if(isMob)sb.classList.toggle('mob-open');else sb.classList.toggle('col');
+}
+function toggleLang(){
+ LANG=LANG==='zh'?'en':'zh';
+ document.querySelectorAll('.lang-en').forEach(e=>e.classList.toggle('hid',LANG!=='en'));
+ document.querySelectorAll('.lang-zh').forEach(e=>e.classList.toggle('hid',LANG!=='zh'));
+ const b=document.getElementById('btnL');
+ b.classList.toggle('on',LANG==='en');
+ b.setAttribute('aria-pressed',String(LANG==='en'));
+ b.textContent=LANG==='zh'?'中文':'EN';
+}
+function toggleRom(){
+ ROM=!ROM;
+ document.querySelectorAll('.qcro,.anro,.furo,.prom,.vro,.fro,.ptro,.par-ro,.sro,.cmp-ex-ro,.mis-ro,.str-ro,.dlg-ro,.sen-ro,.sres-ro').forEach(e=>e.classList.toggle('hid',!ROM));
+ const b=document.getElementById('btnR');
+ b.classList.toggle('on',ROM);
+ b.setAttribute('aria-pressed',String(ROM));
+ b.textContent=ROM?'拼音 ✓':'拼音 ✗';
+}
+function syncViewportMode(){
+ const nextMob=window.innerWidth<769;
+ const sb=document.getElementById('sb');
+ if(nextMob!==isMob){isMob=nextMob;sb.classList.remove('col','mob-open');}
+}
+function initSpy(){
+ const ids=['favSec',...VSECS.map(s=>s.id),...GRP.map(g=>g.id)];
+ const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)setAct(e.target.id);});},{threshold:0.15,rootMargin:'-52px 0px -70% 0px'});
+ ids.forEach(id=>{const el=document.getElementById(id);if(el)obs.observe(el);});
+}
+
+/* ================= 全域搜尋 ================= */
+let SEARCH_INDEX=[];
+function buildIndex(){
+ const idx=[];
+ VSECS.forEach(s=>VOCAB.slice(s.r[0],s.r[1]).forEach(v=>idx.push({id:v.i,tag:'詞彙・'+s.title,th:v.th,ro:v.ro,en:v.en,zh:v.zh,blob:[v.th,v.ro,v.en,v.zh,v.note||'',...(v.ex||[])].join(' ')})));
+ CMP.forEach((c,i)=>{(c.rows||[]).forEach(row=>idx.push({id:'CMP-'+i,tag:'近義比較・'+c.title,th:row.term[0],ro:row.term[1],en:row.ex[2],zh:(row.ex[3]||'')+'　'+row.meaning,blob:[c.title,row.term.join(' '),row.meaning,row.ex.join(' ')].join(' ')}));});
+ MIS.forEach((m,i)=>{const w=m.wrong||{},b=m.better||{};idx.push({id:'MIS-'+i,tag:'常見錯誤',th:(w.th||'')+' → '+(b.th||''),ro:b.ro||'',en:b.en||'',zh:(b.zh||'')+'　'+m.title+'：'+(m.why||''),blob:[m.title,w.th||'',w.ro||'',w.en||'',w.zh||'',b.th||'',b.ro||'',b.en||'',b.zh||'',m.why||''].join(' ')});});
+ STR.forEach((st,i)=>idx.push({id:'STR-'+i,tag:'句型結構',th:st.ex[0],ro:st.ex[1],en:st.ex[2],zh:(st.ex[3]||'')+'　'+st.title+'　'+st.meaning,blob:[st.title,st.meaning,st.ex.join(' ')].join(' ')}));
+ DLG.forEach((d,i)=>d.turns.forEach(t=>idx.push({id:'DLG-'+i,tag:'情境對話・'+d.title,th:t.th,ro:t.ro,en:t.en,zh:t.zh,blob:[d.title,t.speaker,t.th,t.ro,t.en,t.zh].join(' ')})));
+ SENB.forEach((g,gi)=>g.sentences.forEach(s=>idx.push({id:'SB-'+gi,tag:'例句庫・'+g.scene,th:s.th,ro:s.ro,en:s.en,zh:s.zh,blob:[g.scene,s.th,s.ro,s.en,s.zh].join(' ')})));
+ BKK.forEach((g,gi)=>g.sentences.forEach(s=>idx.push({id:'BK-'+gi,tag:'曼谷場景・'+g.scene,th:s.th,ro:s.ro,en:s.en,zh:s.zh,blob:[g.scene,s.th,s.ro,s.en,s.zh].join(' ')})));
+ PRC.forEach((p,i)=>idx.push({id:'PRC-'+i,tag:'自我測驗',th:p.prompt,ro:'',en:p.ans[2],zh:p.ans[3],blob:[p.title||'',p.prompt,p.ans.join(' ')].join(' ')}));
+ SEARCH_INDEX=idx;
+}
+function doSearch(qstr){
+ const q=(qstr||'').trim().toLowerCase();
+ const nv=document.getElementById('normalView'),sv=document.getElementById('searchView'),clearBtn=document.getElementById('searchClear');
+ if(clearBtn)clearBtn.classList.toggle('show',q.length>0);
+ if(!q){nv.classList.remove('hid-view');sv.classList.add('hid-view');sv.innerHTML='';return;}
+ nv.classList.add('hid-view');sv.classList.remove('hid-view');
+ const matches=SEARCH_INDEX.filter(it=>it.blob.toLowerCase().includes(q));
+ const seen=new Set(),uniq=[];
+ for(const m of matches){const key=m.id+'|'+m.th;if(seen.has(key))continue;seen.add(key);uniq.push(m);if(uniq.length>=60)break;}
+ if(!uniq.length){sv.innerHTML=`<div class="sres-hd">沒有找到符合的內容，換個關鍵字試試。</div>`;return;}
+ sv.innerHTML=`<div class="sres-hd">找到 ${uniq.length} 筆符合的內容</div><div class="sres-list">${uniq.map(m=>
+  `<div class="sres-item" onclick="jumpTo('${m.id}')"><span class="sres-tag">${m.tag}</span><div class="sres-b"><div class="sres-th">${m.th}</div>${m.ro?ro('sres-ro',m.ro):''}${enzh('sres-zh',m.en,m.zh)}</div>${ab(m.th)}</div>`
+ ).join('')}</div>`;
+}
+function clearSearch(){
+ const input=document.getElementById('searchInput');
+ if(input)input.value='';
+ doSearch('');
+}
+function jumpTo(id){
+ clearSearch();
+ setTimeout(()=>{
+  const el=document.getElementById(id);
+  if(!el)return;
+  if(id[0]==='V')el.classList.add('exp');
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+  el.classList.add('flash');
+  setTimeout(()=>el.classList.remove('flash'),1500);
+  const parentSec=el.closest('.sec-blk')||el.closest('.apx');
+  setAct(parentSec?parentSec.id:id);
+  if(isMob)document.getElementById('sb').classList.remove('mob-open');
+ },60);
+}
+
+rSB();rCnt();refreshProgress();applyFilter();initSpy();buildIndex();
+window.addEventListener('resize',syncViewportMode);
+window.addEventListener('storage',e=>{
+ if(e.key===PROGRESS_KEY)syncProgressFromStorage();
+ if(e.key===FAV_KEY){FAV=loadFav();rCnt();initSpy();}
+});
+
+</script>
+</body>
+</html>
