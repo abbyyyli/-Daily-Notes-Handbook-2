@@ -7,7 +7,7 @@
 <title>Daily Notes Handbook</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&amp;family=Noto+Sans+Thai:wght@400;500;600&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Noto+Sans+TC:wght@400;500;600;700&amp;family=Noto+Sans+Thai:wght@400;500;600&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <style>
 :root{
   --night:#101725;
@@ -29,7 +29,7 @@ html{scroll-behavior:smooth}
 body{
   margin:0;
   color:var(--paper);
-  font-family:'Noto Sans TC',-apple-system,BlinkMacSystemFont,sans-serif;
+  font-family:'Inter','Noto Sans TC',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   line-height:1.65;
   background:
     radial-gradient(circle at 12% 0%, rgba(99,183,174,.13), transparent 28rem),
@@ -43,13 +43,10 @@ button,input{font:inherit}
   position:relative;
   padding:12px 0 18px;
 }
-.eyebrow{margin:0 0 10px;color:var(--gold);font:700 11px/1.2 'DM Mono',monospace;letter-spacing:.16em;text-transform:uppercase}
+.eyebrow{margin:0 0 10px;color:var(--gold);font:800 12px/1.2 'Inter','Noto Sans TC',sans-serif;letter-spacing:.16em;text-transform:uppercase}
 .eyebrow::before{display:none}
-h1{max-width:760px;margin:0;font-size:clamp(36px,5vw,52px);line-height:1.08;letter-spacing:-.035em;font-weight:700}
+h1{max-width:760px;margin:0;font-family:'Inter','Noto Sans TC',sans-serif;font-size:46px;line-height:1.05;letter-spacing:-.035em;font-weight:800}
 .hero-copy{max-width:700px;margin:15px 0 0;color:#b9c1cf;font-size:15px;line-height:1.85}
-.stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
-.stat{display:flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid rgba(255,255,255,.12);border-radius:999px;color:#d8dde6;font:500 12px/1.2 'DM Mono','Noto Sans TC',monospace;background:rgba(6,10,18,.22)}
-.stat i{display:block;width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal)}
 .toolbar{display:flex;align-items:center;gap:14px;margin:30px 0 40px}
 .search-wrap{position:relative;flex:1}
 .search-wrap::before{content:"⌕";position:absolute;left:18px;top:50%;transform:translateY(-54%);color:#798398;font-size:23px;pointer-events:none}
@@ -57,11 +54,12 @@ h1{max-width:760px;margin:0;font-size:clamp(36px,5vw,52px);line-height:1.08;lett
   width:100%;height:50px;padding:0 48px;
   color:#e9edf4;background:rgba(255,255,255,.065);
   border:1px solid rgba(255,255,255,.14);border-radius:999px;outline:none;
+  font-family:'Inter','Noto Sans TC',sans-serif;font-size:14px;font-weight:400;
   transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;
 }
 .search::placeholder{color:#7f899c}
 .search:focus{border-color:rgba(227,180,90,.72);background:rgba(255,255,255,.085);box-shadow:0 0 0 4px rgba(227,180,90,.08)}
-.result-count{flex:none;color:#929caf;font:500 12px 'DM Mono',monospace;white-space:nowrap}
+.result-count{flex:none;color:#929caf;font:800 12px/1.2 'Inter','Noto Sans TC',sans-serif;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
 .month{display:grid;grid-template-columns:112px 1fr;gap:28px;margin-top:42px}
 .month-head{position:sticky;top:22px;align-self:start;padding-top:5px}
 .month-number{color:var(--gold);font:500 38px/1 'DM Mono',monospace;letter-spacing:-.06em}
@@ -113,6 +111,8 @@ footer{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
   footer{display:block;text-align:center}.footer-copy span{margin-top:5px}
   .footer-links{justify-content:center;margin-top:16px}
 }
+@media(max-width:1023px){h1{font-size:42px}}
+@media(max-width:640px){h1{font-size:36px;line-height:1.12}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
@@ -122,11 +122,6 @@ footer{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
     <p class="eyebrow">Abby's Thai Learning System</p>
     <h1>Thai Notes Handbook</h1>
     <p class="hero-copy">從生活用語、句型到曼谷口語情境，依日期慢慢累積。每一本都能搜尋、收藏並標記學習進度。</p>
-    <div class="stats" aria-label="手冊摘要">
-      <span class="stat"><i></i>15 本筆記</span>
-      <span class="stat"><i></i>2026.05—08</span>
-      <span class="stat"><i></i>四語對照</span>
-    </div>
   </header>
 
   <div class="toolbar">
