@@ -135,7 +135,6 @@ html,body{height:100%;}body{font-family:var(--fu);background:var(--bg);color:var
 .cmp-ex-ro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:2px;overflow-wrap:anywhere;}
 .cmp-ex-en,.cmp-ex-zh{font-family:var(--fz);font-size:11.5px;color:var(--mu);margin-top:3px;line-height:1.5;}
 .cmp-body{min-width:0;}
-.cmp-mean{font-family:var(--fz);font-size:12.5px;color:var(--tm);line-height:1.65;}
 .cmp-ex{margin-top:7px;padding:8px 10px;border-radius:8px;background:rgba(65,40,47,.045);}
 .cmp-ex-line{display:flex;align-items:flex-start;gap:8px;}
 .cmp-ex-tx{flex:1;min-width:0;}
@@ -411,7 +410,7 @@ function rCmpRow(row){
  const termCell=row.term&&row.term[0]
   ?`<div class="cmp-term"><div class="cmp-pat">${row.term[0]}${ab(row.term[0])}</div>${ro('cmp-ex-ro',row.term[1])}${enzh('cmp-ex-en',row.term[2],row.term[3])}</div>`
   :`<div class="cmp-term"><div class="cmp-pat">—</div></div>`;
- return `<div class="cmp-row">${termCell}<div class="cmp-body"><div class="cmp-mean">${row.meaning||''}</div><div class="cmp-ex"><div class="cmp-ex-line"><div class="cmp-ex-tx"><div class="cmp-ex-th">${row.ex[0]}</div>${ro('cmp-ex-ro',row.ex[1])}${enzh('cmp-ex-en',row.ex[2],row.ex[3])}</div>${ab(row.ex[0])}</div></div></div></div>`;
+ return `<div class="cmp-row">${termCell}<div class="cmp-body"><div class="cmp-ex"><div class="cmp-ex-line"><div class="cmp-ex-tx"><div class="cmp-ex-th">${row.ex[0]}</div>${ro('cmp-ex-ro',row.ex[1])}${enzh('cmp-ex-en',row.ex[2],row.ex[3])}</div>${ab(row.ex[0])}</div></div></div></div>`;
 }
 function rCmpCard(c,i){
  return `<div class="cmp-card" id="CMP-${i}"><div class="cmp-title">${c.title}</div>${c.intro?`<div class="cmp-intro">${c.intro}</div>`:''}<div class="cmp-list">${c.rows.map(rCmpRow).join('')}</div>${c.tip?`<div class="cmp-tip">${c.tip}</div>`:''}</div>`;
@@ -709,7 +708,7 @@ let SEARCH_INDEX=[];
 function buildIndex(){
  const idx=[];
  VSECS.forEach(s=>VOCAB.slice(s.r[0],s.r[1]).forEach(v=>idx.push({id:v.i,tag:'詞彙・'+s.title,th:v.th,ro:v.ro,en:v.en,zh:v.zh,blob:[v.th,v.ro,v.en,v.zh,v.note||'',...(v.ex||[])].join(' ')})));
- CMP.forEach((c,i)=>{(c.rows||[]).forEach(row=>idx.push({id:'CMP-'+i,tag:'近義比較・'+c.title,th:row.term[0],ro:row.term[1],en:row.ex[2],zh:(row.ex[3]||'')+'　'+row.meaning,blob:[c.title,row.term.join(' '),row.meaning,row.ex.join(' ')].join(' ')}));});
+ CMP.forEach((c,i)=>{(c.rows||[]).forEach(row=>idx.push({id:'CMP-'+i,tag:'近義比較・'+c.title,th:row.term[0],ro:row.term[1],en:(row.term[2]||'')+'　'+(row.ex[2]||''),zh:(row.term[3]||row.meaning||'')+'　'+(row.ex[3]||''),blob:[c.title,row.term.join(' '),row.meaning,row.ex.join(' ')].join(' ')}));});
  MIS.forEach((m,i)=>{const w=m.wrong||{},b=m.better||{};idx.push({id:'MIS-'+i,tag:'常見錯誤',th:(w.th||'')+' → '+(b.th||''),ro:b.ro||'',en:b.en||'',zh:(b.zh||'')+'　'+m.title+'：'+(m.why||''),blob:[m.title,w.th||'',w.ro||'',w.en||'',w.zh||'',b.th||'',b.ro||'',b.en||'',b.zh||'',m.why||''].join(' ')});});
  STR.forEach((st,i)=>idx.push({id:'STR-'+i,tag:'句型結構',th:st.ex[0],ro:st.ex[1],en:st.ex[2],zh:(st.ex[3]||'')+'　'+st.title+'　'+st.meaning,blob:[st.title,st.meaning,st.ex.join(' ')].join(' ')}));
  DLG.forEach((d,i)=>d.turns.forEach(t=>idx.push({id:'DLG-'+i,tag:'情境對話・'+d.title,th:t.th,ro:t.ro,en:t.en,zh:t.zh,blob:[d.title,t.speaker,t.th,t.ro,t.en,t.zh].join(' ')})));
