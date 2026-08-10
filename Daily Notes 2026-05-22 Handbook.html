@@ -619,9 +619,12 @@ function buildIndex(){
  });
  STR.forEach((st,i)=>{
   const examples=(st.examples&&st.examples.length)?st.examples:(st.ex?[st.ex]:[]);
-  const first=examples[0]||['','',''];
-  idx.push({id:'STR-'+i,tag:'句型結構',th:first[0]||st.title,ro:first[1]||'',en:first[2]||'',zh:(first[3]||'')+'　'+st.title+'　'+(st.meaning||''),
-   blob:[st.title,st.meaning||'',examples.map(e=>e.join(' ')).join(' ')].join(' ')});
+  const normalized=examples.map(e=>Array.isArray(e)
+   ?{th:e[0]||'',ro:e[1]||'',en:e[2]||'',zh:e[3]||''}
+   :{th:e.th||'',ro:e.ro||'',en:e.en||'',zh:e.zh||''});
+  const first=normalized[0]||{th:'',ro:'',en:'',zh:''};
+  idx.push({id:'STR-'+i,tag:'句型結構',th:first.th||st.title,ro:first.ro,en:first.en,zh:first.zh+'　'+st.title+'　'+(st.meaning||''),
+   blob:[st.title,st.meaning||'',normalized.map(e=>[e.th,e.ro,e.en,e.zh].join(' ')).join(' ')].join(' ')});
  });
  DLG.forEach((d,i)=>{
   d.turns.forEach(t=>{
