@@ -123,18 +123,25 @@ html,body{height:100%;}body{font-family:var(--fu);background:var(--bg);color:var
 .hid-view{display:none!important;}
 
 /* compare */
-.cmp-card{background:var(--bgc);border:1px solid var(--bdl);border-radius:10px;padding:15px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
-.cmp-title{font-family:var(--fz);font-size:15px;font-weight:700;color:var(--t);margin-bottom:10px;}
-.cmp-row{display:grid;grid-template-columns:minmax(90px,140px) minmax(110px,180px) 1fr;gap:11px;padding:9px 0;border-top:1px dashed var(--bdl);align-items:start;}
-.cmp-row:first-of-type{border-top:none;}
-.cmp-pat{font-family:var(--ft);font-size:14.5px;color:var(--acc);font-weight:700;}
-.cmp-mean{font-family:var(--fz);font-size:12px;color:var(--tm);line-height:1.5;}
-.cmp-ex{display:flex;align-items:flex-start;gap:8px;}
-.cmp-ex-tx{flex:1;}
-.cmp-ex-th{font-family:var(--ft);font-size:15px;color:var(--thai);}
-.cmp-ex-ro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:1px;}
-.cmp-ex-en{font-family:var(--fz);font-size:11.5px;color:var(--mu);margin-top:2px;}
-.cmp-tip{margin-top:11px;padding:9px 11px;border-radius:8px;background:rgba(200,154,58,.08);border-left:3px solid var(--acc);font-family:var(--fz);font-size:12px;color:var(--tm);line-height:1.6;}
+.cmp-card{background:var(--bgc);border:1px solid var(--bdl);border-radius:10px;padding:15px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+.cmp-title{font-family:var(--fz);font-size:14.5px;font-weight:700;color:var(--t);margin:0 0 5px;line-height:1.55;}
+.cmp-intro{font-family:var(--fz);font-size:12px;color:var(--mu);line-height:1.6;margin-bottom:4px;}
+.cmp-list{display:block;}
+.cmp-row{display:grid;grid-template-columns:minmax(125px,175px) minmax(0,1fr);gap:14px;padding:12px 0;border-top:1px solid var(--bdl);align-items:start;}
+.cmp-list .cmp-row:first-child{border-top:none;}
+.cmp-term{min-width:0;}
+.cmp-pat{display:flex;align-items:flex-start;gap:5px;font-family:var(--ft);font-size:16px;line-height:1.4;color:var(--acc);font-weight:700;}
+.cmp-pat .abtn{margin-top:0;}
+.cmp-ex-ro{font-family:var(--ft);font-size:11px;color:var(--rom);font-style:italic;margin-top:2px;overflow-wrap:anywhere;}
+.cmp-ex-en,.cmp-ex-zh{font-family:var(--fz);font-size:11.5px;color:var(--mu);margin-top:3px;line-height:1.5;}
+.cmp-body{min-width:0;}
+.cmp-mean{font-family:var(--fz);font-size:12.5px;color:var(--tm);line-height:1.65;}
+.cmp-ex{margin-top:7px;padding:8px 10px;border-radius:8px;background:rgba(65,40,47,.045);}
+.cmp-ex-line{display:flex;align-items:flex-start;gap:8px;}
+.cmp-ex-tx{flex:1;min-width:0;}
+.cmp-ex-th{font-family:var(--ft);font-size:15px;color:var(--thai);line-height:1.45;}
+.cmp-tip{margin-top:10px;padding:9px 11px;border-radius:8px;background:var(--bgh);border:1px solid var(--bdl);font-family:var(--fz);font-size:12px;color:var(--tm);line-height:1.65;}
+@media(max-width:640px){.cmp-row{grid-template-columns:1fr;gap:7px;padding:11px 0}.cmp-pat{font-size:16px}.cmp-ex{margin-top:6px}}
 
 /* mistakes */
 .mis-card{background:var(--bgc);border:1px solid var(--bdl);border-radius:10px;padding:15px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
@@ -401,18 +408,13 @@ function rVSec(s){
 
 /* ================= Compare (近義比較) ================= */
 function rCmpRow(row){
- return `<div class="cmp-row">
-  <div><div class="cmp-pat">${row.term[0]}${ab(row.term[0])}</div>${ro('cmp-ex-ro',row.term[1])}${enzh('cmp-ex-en',row.term[2],row.term[3])}</div>
-  <div class="cmp-mean">${row.meaning}</div>
-  <div class="cmp-ex"><div class="cmp-ex-tx"><div class="cmp-ex-th">${row.ex[0]}</div>${ro('cmp-ex-ro',row.ex[1])}${enzh('cmp-ex-en',row.ex[2],row.ex[3])}</div>${ab(row.ex[0])}</div>
- </div>`;
+ const termCell=row.term&&row.term[0]
+  ?`<div class="cmp-term"><div class="cmp-pat">${row.term[0]}${ab(row.term[0])}</div>${ro('cmp-ex-ro',row.term[1])}${enzh('cmp-ex-en',row.term[2],row.term[3])}</div>`
+  :`<div class="cmp-term"><div class="cmp-pat">—</div></div>`;
+ return `<div class="cmp-row">${termCell}<div class="cmp-body"><div class="cmp-mean">${row.meaning||''}</div><div class="cmp-ex"><div class="cmp-ex-line"><div class="cmp-ex-tx"><div class="cmp-ex-th">${row.ex[0]}</div>${ro('cmp-ex-ro',row.ex[1])}${enzh('cmp-ex-en',row.ex[2],row.ex[3])}</div>${ab(row.ex[0])}</div></div></div></div>`;
 }
 function rCmpCard(c,i){
- return `<div class="cmp-card" id="CMP-${i}">
-  <div class="cmp-title">${c.title}</div>
-  ${c.rows.map(rCmpRow).join('')}
-  ${c.tip?`<div class="cmp-tip">${c.tip}</div>`:''}
- </div>`;
+ return `<div class="cmp-card" id="CMP-${i}"><div class="cmp-title">${c.title}</div>${c.intro?`<div class="cmp-intro">${c.intro}</div>`:''}<div class="cmp-list">${c.rows.map(rCmpRow).join('')}</div>${c.tip?`<div class="cmp-tip">${c.tip}</div>`:''}</div>`;
 }
 function rCmpSec(){
  return `<div class="apx" id="g-compare"><div class="apx-hd"><div class="apx-ic">⚖️</div><div class="apx-tit"><div class="apx-tzh">近義比較</div><div class="apx-tth">คำใกล้เคียงที่ต้องแยกให้ออก</div></div></div>
